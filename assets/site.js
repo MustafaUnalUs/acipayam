@@ -29,12 +29,42 @@
   });
 
   // Kapak çevirme
-  $$("[data-flip]").forEach((b) => b.addEventListener("click", () => {
-    const c = b.closest(".cover");
-    const on = c.classList.toggle("flipped");
-    b.textContent = on ? "Ön kapak" : "Arka kapak";
-    b.setAttribute("aria-label", on ? "Ön kapağı göster" : "Arka kapağı göster");
-  }));
+  $$("[data-flip]").forEach((fig) => {
+    const btn = $("[data-flip-btn]", fig);
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const on = fig.classList.toggle("flipped");
+      btn.textContent = on ? "Ön kapağa dön" : "Arka kapağı çevir";
+    });
+  });
+
+  // Ana sayfa vitrini: kapağın üstüne gelince kitabı öne çıkar
+  const vitrin = $("[data-vitrin]");
+  const raw = $("#raf-veri");
+  if (vitrin && raw) {
+    const books = JSON.parse(raw.textContent);
+    const feat = $(".vitrin-feature", vitrin);
+    let current = ($(".spine.is-on", vitrin) || {}).dataset?.book;
+    const show = (slug) => {
+      if (!slug || slug === current || !books[slug]) return;
+      current = slug;
+      const b = books[slug];
+      vitrin.style.setProperty("--book", b.color);
+      $$(".spine", vitrin).forEach((s) => s.classList.toggle("is-on", s.dataset.book === slug));
+      const set = (k, v) => { const el = $(`[data-f="${k}"]`, feat); if (el) el.textContent = v; };
+      set("series", b.series); set("title", b.title); set("author", b.author); set("summary", b.summary);
+      $('[data-f="read"]', feat).href = b.read;
+      $('[data-f="href"]', feat).href = b.href;
+      const au = $('[data-f="audio"]', feat);
+      if (au) { au.hidden = !b.audio; if (b.audio) au.href = b.audio; }
+      feat.classList.remove("swap");
+      requestAnimationFrame(() => feat.classList.add("swap"));
+    };
+    $$(".spine", vitrin).forEach((s) => {
+      s.addEventListener("mouseenter", () => show(s.dataset.book));
+      s.addEventListener("focus", () => show(s.dataset.book));
+    });
+  }
 
   // Okuma: yazı boyutu, ilerleme, kaldığın yer
   const reader = $(".reader");
