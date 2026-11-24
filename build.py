@@ -515,7 +515,7 @@ def build_home():
   <div class="vitrin-in">
     <div class="vitrin-head">
       <p class="kicker">ACIPAYAM.com Kültür Yayınları</p>
-      <h1>Bir memleketin hafızası, yedi kitapta.</h1>
+      <h1 class="sr-only">ACIPAYAM.com Kültür Yayınları</h1>
       <p class="vitrin-lead">Köylerin anlattıkları, bir ömrün hatıraları, Kelekçi’den mektuplar. Hepsi ücretsiz; internette okuyun, PDF olarak indirin, kimini dinleyin.</p>
     </div>
     <div class="vitrin-feature" aria-live="polite">
