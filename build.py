@@ -561,13 +561,13 @@ def build_home():
     hist = h["history"]
     body = f"""
 <section class="giris">
-  <img class="giris-img" src="/img/photo-01.webp" alt="Köy hayrında ateşte kaynayan kazanlar" width="1536" height="1024">
+  <img class="giris-img" src="/img/photo-01.webp" alt="Acıpayam Alaaddin Mahallesi’ndeki Taşkın Dede hayrında ateşte kaynayan kazanlar" width="1536" height="1024">
   <div class="giris-in">
     <p class="giris-kicker">ACIPAYAM.com · 2004’ten beri</p>
     <h1>Memleket kokusu.</h1>
     <p class="giris-lead">Acıpayam’ın ortak hafızası: köylerin anlattıkları, şehitlerin adları, radyonun sesleri ve memleket kitapları. Hepsi ücretsiz, hepsi burada.</p>
   </div>
-  <p class="giris-credit">Bir köy hayrı, kazanlar ateşte</p>
+  <p class="giris-credit">Taşkın Dede hayrı, 700 yıllık gelenek · Alaaddin Mahallesi, Acıpayam · Fotoğraf: Mustafa Ünal</p>
 </section>
 
 <nav class="signs-wrap" aria-label="Bölümler">
