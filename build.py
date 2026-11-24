@@ -104,6 +104,17 @@ for b in BOOKS:
     b["pdf_size"] = (ROOT / "static" / "indir" / f"{b['slug']}.pdf").stat().st_size
     b["words"] = sum(c["words"] for c in b["data"]["chapters"])
 
+_soon = next(u for u in HOME["upcoming"] if u["title"].startswith("Adı Konmamış"))
+SOON = {
+    "slug": "adi-konmamis-islere-don-bicen-adam", "base": "/adi-konmamis-islere-don-bicen-adam/",
+    "title": "Adı Konmamış İşlere Don Biçen Adam", "author": "Mustafa Ünal",
+    "series": "Hazırlanıyor · Henüz yayında değil", "status": _soon["status"],
+    "summary": _soon["tagline"], "intro": " ".join(_soon["paragraphs"]),
+    "cover": "/img/kapak/adi-konmamis-islere-don-bicen-adam.webp",
+    "back": "/img/kapak/adi-konmamis-islere-don-bicen-adam-arka.webp",
+    "color": COLORS["adi-konmamis-islere-don-bicen-adam"], "soon": True,
+}
+
 INTERVIEWS = {int(i["no"]): i for i in SABIT["interviews"]}
 bana = next(b for b in BOOKS if b["slug"] == "bana-koyunu-anlat")
 for c in bana["data"]["chapters"]:
@@ -302,19 +313,26 @@ def toc(book):
     return "\n".join(rows)
 
 
+def cover_pair(book):
+    """Ön ve arka kapak yan yana; dokununca büyük hâli açılır."""
+    items = []
+    for side, src, label in (("", book["cover"], "Ön kapak"), ("-arka", book["back"], "Arka kapak")):
+        full = f"/img/kapak/{book['slug']}{side}-buyuk.webp"
+        items.append(
+            f'<button type="button" class="zoom" data-full="{full}" data-label="{E(book["title"])} · {label}" '
+            f'aria-label="{E(book["title"])}, {label.lower()}: büyüt">'
+            f'<img src="{src}" alt="{E(book["title"])} {label.lower()}" width="400" height="620"><span>{label}</span></button>')
+    return (f'<figure class="covers" data-zoom-group>{"".join(items)}'
+            f'<figcaption>Büyütmek ve okumak için kapağa dokunun</figcaption></figure>')
+
+
 def book_hero(book, extra_meta=""):
     sub = f'<p class="hero-sub">{E(book["subtitle"])}</p>' if book.get("subtitle") else ""
     by = E(book["author"]) + (f' <span>· Editör: {E(book["editor"])}</span>' if book.get("editor") else "")
     hours = book["words"] / 200 / 60
     return f"""<header class="book-hero">
   <div class="book-hero-in">
-    <figure class="flip" data-flip>
-      <div class="flip-in">
-        <img class="flip-front" src="{book['cover']}" alt="{E(book['title'])} ön kapağı" width="400" height="620">
-        <img class="flip-back" src="{book['back']}" alt="{E(book['title'])} arka kapağı" width="400" height="620" loading="lazy">
-      </div>
-      <figcaption><button type="button" data-flip-btn>Arka kapağı çevir</button></figcaption>
-    </figure>
+    {cover_pair(book)}
     <div class="book-hero-copy">
       <p class="kicker">{E(book['series'])}</p>
       <h1>{E(book['title'])}</h1>
@@ -432,15 +450,18 @@ def build_home():
         "summary": b["summary"], "color": b["color"], "href": b["base"], "read": first_url(b), "pdf": b["pdf"],
         "audio": (b["base"] + "#dinle") if b.get("audio") else "", "chapters": len(b["data"]["chapters"]),
         "new": bool(b.get("new"))} for b in BOOKS}, ensure_ascii=False)
+    shelf_data = shelf_data[:-1] + ", " + json.dumps({SOON["slug"]: {
+        "title": SOON["title"], "author": SOON["author"], "series": SOON["series"],
+        "summary": SOON["summary"] + " " + SOON["status"] + ".", "color": SOON["color"], "href": SOON["base"],
+        "read": "", "audio": "", "soon": True}}, ensure_ascii=False)[1:]
     shelf = "".join(
         f'<li><a class="spine{" is-on" if b is feat else ""}" href="{b["base"]}" data-book="{b["slug"]}" style="--book:{b["color"]}">'
         f'{cover(b, lazy=False)}<span class="spine-label">{E(b["title"])}</span></a></li>' for b in BOOKS)
+    shelf += (f'<li><a class="spine spine-soon" href="{SOON["base"]}" data-book="{SOON["slug"]}" style="--book:{SOON["color"]}">'
+              f'<span class="ribbon">Yakında</span>{cover(SOON, lazy=False)}<span class="spine-label">{E(SOON["title"])}</span></a></li>')
     listen = f'<a href="{feat["base"]}#dinle" data-f="audio"{"" if feat.get("audio") else " hidden"}>Sesli kitap</a>'
-    soon = [u for u in h["upcoming"] if not u["title"].startswith(("Gönül", "US’lu Dimağ"))]
-    soon_html = "".join(
-        f'<div class="soon"><img src="{u["images"][0]}" alt="{E(u["title"])} kapak taslağı" loading="lazy" width="200" height="300">'
-        f'<div><p class="kicker">{E(u["status"])}</p><h3>{E(u["title"])}</h3><p>{E(u["tagline"])}</p></div></div>'
-        for u in soon if u["images"])
+    soon_html = (f'<a class="soon" href="{SOON["base"]}"><img src="{SOON["cover"]}" alt="{E(SOON["title"])} kapağı" loading="lazy" width="200" height="310">'
+                 f'<div><p class="kicker">Henüz yayında değil · {E(SOON["status"])}</p><h3>{E(SOON["title"])}</h3><p>{E(SOON["summary"])}</p></div></a>')
     hist = h["history"]
     dunu = J("acipayam-dunu-bugunu.json")
     radyo = J("radyo.json")
@@ -664,6 +685,27 @@ def build_sehit():
                                          desc=m["lead"], cls="page-martyrs", style="--book:#1b2438"))
 
 
+def build_soon():
+    b = SOON
+    others = "".join(
+        f'<li><a href="{o["base"]}" style="--book:{o["color"]}">{cover(o)}<span>{E(o["title"])}</span></a></li>' for o in BOOKS)
+    body = f"""<header class="book-hero">
+  <div class="book-hero-in">
+    {cover_pair(b)}
+    <div class="book-hero-copy">
+      <p class="kicker">GAMEKS · 1999–2026</p>
+      <h1>{E(b['title'])}</h1>
+      <p class="hero-by">{E(b['author'])}</p>
+      <p class="hero-intro">{E(b['summary'])}</p>
+      <p class="hero-intro">{E(b['intro'])}</p>
+      <div class="status-box"><b>Henüz yayında değil</b><span>{E(b['status'])}. Kitap yayımlandığında burada okunabilecek, PDF olarak indirilebilecek.</span></div>
+    </div>
+  </div>
+</header>
+<section class="more-books" style="padding-top:4rem"><h2>Yayımlanan kitaplar</h2><ul class="mini-shelf">{others}</ul></section>"""
+    write(b["base"], layout(b["base"], b["title"], body, desc=b["summary"], cls="page-book", style=f"--book:{b['color']}"))
+
+
 def redirects():
     uslu = next(b for b in BOOKS if b["slug"] == "uslu-dusler")
     for src, dst in {"/uslu-dusler/dinle/": "/uslu-dusler/#dinle", "/uslu-dusler/giris/": first_url(uslu)}.items():
@@ -694,6 +736,7 @@ def main():
         for i in range(len(b["data"]["chapters"])):
             write(chapter_url(b, i, b["data"]["chapters"][i]), build_chapter(b, i))
     build_sabit()
+    build_soon()
     build_dunu()
     build_radyo()
     build_sehit()

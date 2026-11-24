@@ -53,7 +53,8 @@
       $$(".spine", vitrin).forEach((s) => s.classList.toggle("is-on", s.dataset.book === slug));
       const set = (k, v) => { const el = $(`[data-f="${k}"]`, feat); if (el) el.textContent = v; };
       set("series", b.series); set("title", b.title); set("author", b.author); set("summary", b.summary);
-      $('[data-f="read"]', feat).href = b.read;
+      const rd = $('[data-f="read"]', feat);
+      rd.hidden = !b.read; if (b.read) rd.href = b.read;
       $('[data-f="href"]', feat).href = b.href;
       const au = $('[data-f="audio"]', feat);
       if (au) { au.hidden = !b.audio; if (b.audio) au.href = b.audio; }
@@ -63,6 +64,48 @@
     $$(".spine", vitrin).forEach((s) => {
       s.addEventListener("mouseenter", () => show(s.dataset.book));
       s.addEventListener("focus", () => show(s.dataset.book));
+    });
+  }
+
+
+  // Kapak büyütme
+  const groups = $$("[data-zoom-group]");
+  if (groups.length) {
+    const dlg = document.createElement("dialog");
+    dlg.className = "lightbox";
+    dlg.setAttribute("aria-label", "Kapak");
+    dlg.innerHTML = '<div class="lb-top"><p></p><button type="button" class="lb-close" aria-label="Kapat">×</button></div>' +
+      '<div class="lb-stage"><img alt=""></div><div class="lb-bottom"></div>';
+    document.body.append(dlg);
+    const img = $(".lb-stage img", dlg), title = $(".lb-top p", dlg), bottom = $(".lb-bottom", dlg);
+    let items = [], idx = 0;
+    const show = (i) => {
+      idx = (i + items.length) % items.length;
+      const it = items[idx];
+      dlg.classList.remove("zoomed");
+      img.src = it.dataset.full; img.alt = it.dataset.label; title.textContent = it.dataset.label;
+      $$("button", bottom).forEach((b, j) => b.setAttribute("aria-pressed", String(j === idx)));
+    };
+    groups.forEach((g) => $$(".zoom", g).forEach((btn, i) => btn.addEventListener("click", () => {
+      items = $$(".zoom", g);
+      bottom.innerHTML = items.map((it) => `<button type="button">${it.querySelector("span").textContent}</button>`).join("") +
+        '<button type="button" data-zoomtoggle>Yakınlaştır</button>';
+      $$("button", bottom).forEach((b, j) => b.addEventListener("click", () => {
+        if (b.hasAttribute("data-zoomtoggle")) { dlg.classList.toggle("zoomed"); b.textContent = dlg.classList.contains("zoomed") ? "Sığdır" : "Yakınlaştır"; }
+        else show(j);
+      }));
+      show(i);
+      dlg.showModal();
+    })));
+    img.addEventListener("click", () => {
+      dlg.classList.toggle("zoomed");
+      const t = $("[data-zoomtoggle]", bottom); if (t) t.textContent = dlg.classList.contains("zoomed") ? "Sığdır" : "Yakınlaştır";
+    });
+    $(".lb-close", dlg).addEventListener("click", () => dlg.close());
+    dlg.addEventListener("click", (e) => { if (e.target === dlg || e.target.classList.contains("lb-stage")) dlg.close(); });
+    dlg.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") show(idx + 1);
+      if (e.key === "ArrowLeft") show(idx - 1);
     });
   }
 
