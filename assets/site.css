@@ -438,3 +438,23 @@ body.has-dock .foot { padding-bottom: 5rem; }
 .text .bro::before { color: var(--vurgu); }
 .martyr-list summary .war { color: var(--vurgu); }
 a { text-decoration-color: var(--bugday); }
+
+/* kitap sayfası: açık zemin, kapak öne çıksın */
+.book-hero { background: var(--kagit-2); color: var(--murekkep); border-bottom: 1px solid var(--cizgi); }
+.book-hero h1 { color: var(--murekkep); }
+.book-hero .kicker { color: var(--vurgu); }
+.book-hero .hero-sub { color: var(--soluk); }
+.book-hero .hero-by { color: var(--soluk); }
+.book-hero .hero-intro { color: var(--murekkep); }
+.book-hero .facts { border-top-color: var(--cizgi); }
+.book-hero .facts dt { color: var(--vurgu); }
+.book-hero .status-box { border-color: var(--tabela); }
+.book-hero .status-box b { color: var(--tabela); }
+.book-hero .status-box span { color: var(--soluk); }
+.book-hero .zoom span, .book-hero .covers figcaption { color: var(--soluk); }
+.book-hero .zoom img { box-shadow: 0 2px 4px rgba(0,0,0,.12), 0 26px 40px -20px rgba(40,10,60,.55); }
+.book-hero .btn-gold { background: var(--tabela); border-color: var(--tabela); color: #fff; }
+.book-hero .btn-gold:hover { background: var(--tabela-koyu); border-color: var(--tabela-koyu); }
+.book-hero .btn-ghost { color: var(--tabela); border-color: var(--tabela); }
+.book-hero .btn-ghost:hover { background: var(--tabela); color: #fff; }
+.chap-band { background: var(--tabela); }
