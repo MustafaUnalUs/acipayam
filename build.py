@@ -66,7 +66,7 @@ COLORS = J("kapak-renkleri.json")
 
 BOOKS = [
     {"slug": "uslu-dimag", "base": "/uslu-dimag/", "title": "US’lu Dimağ", "author": "Mustafa Ünal",
-     "series": "US’lu Anlatılar · Dördüncü kitap", "new": True,
+     "series": "US’lu Anlatılar · Beşinci kitap · Final", "new": True,
      "summary": "Doksan öğretide ölçüsü oturmuş bir zihin. Her öğretinin sonunda okura dönüp bakması için bir soru.",
      "intro": "Bu kitap öğretmek ya da ikna etmek için yazılmadı. Bir insanın hayatın içinde düşe kalka, zamanla oluşmuş us izlerinin kaydı; davranıştan zamana, güvenden vedaya doksan kısa öğreti."},
     {"slug": "gonul-dostu", "base": "/gonul-dostu/", "title": "Gönül Dostu", "subtitle": "Sabit Kızılhan ile Yol Yürümek",
@@ -108,7 +108,7 @@ _soon = next(u for u in HOME["upcoming"] if u["title"].startswith("Adı Konmamı
 SOON = {
     "slug": "adi-konmamis-islere-don-bicen-adam", "base": "/adi-konmamis-islere-don-bicen-adam/",
     "title": "Adı Konmamış İşlere Don Biçen Adam", "author": "Mustafa Ünal",
-    "series": "Hazırlanıyor · Henüz yayında değil", "status": _soon["status"],
+    "series": "US’lu Anlatılar · Dördüncü kitap · Henüz yayında değil", "status": _soon["status"],
     "summary": _soon["tagline"], "intro": " ".join(_soon["paragraphs"]),
     "cover": "/img/kapak/adi-konmamis-islere-don-bicen-adam.webp",
     "back": "/img/kapak/adi-konmamis-islere-don-bicen-adam-arka.webp",
@@ -116,11 +116,12 @@ SOON = {
 }
 
 SERI = {"icimde-kalan-cocuk": (1, "Kitap I"), "karanlik-odada-yedi-ay": (2, "Kitap II"),
-        "uslu-dusler": (3, "Kitap III · Bonus"), "uslu-dimag": (4, "Kitap IV · Final")}
-for b in BOOKS:
+        "uslu-dusler": (3, "Kitap III · Bonus"), "adi-konmamis-islere-don-bicen-adam": (4, "Kitap IV · Hazırlanıyor"),
+        "uslu-dimag": (5, "Kitap V · Final")}
+for b in BOOKS + [SOON]:
     if b["slug"] in SERI:
         b["seri"], b["seri_ad"] = SERI[b["slug"]]
-SERI_BOOKS = sorted((b for b in BOOKS if b.get("seri")), key=lambda b: b["seri"])
+SERI_BOOKS = sorted((b for b in BOOKS + [SOON] if b.get("seri")), key=lambda b: b["seri"])
 OTHER_BOOKS = [b for b in BOOKS if not b.get("seri")]
 
 INTERVIEWS = {int(i["no"]): i for i in SABIT["interviews"]}
@@ -383,7 +384,7 @@ def series_strip(book):
     return f"""<section class="seri" aria-label="US’lu Anlatılar serisi">
   <div class="seri-in">
     <div class="seri-head"><p class="kicker">Seri</p><h2>US’lu Anlatılar</h2>
-      <p>Mustafa Ünal’ın dört kitaplık serisi: çocukluktan bugüne bir hayatın hatıraları ve süzgeçten geçmiş düşünceleri. Her kitap tek başına da okunabilir.</p></div>
+      <p>Mustafa Ünal’ın beş kitaplık serisi: çocukluktan bugüne bir hayatın hatıraları ve süzgeçten geçmiş düşünceleri. Her kitap tek başına da okunabilir.</p></div>
     <ol class="seri-list">{items}</ol>
   </div>
 </section>"""
@@ -481,13 +482,13 @@ def build_home():
         "read": "", "audio": "", "soon": True}}, ensure_ascii=False)[1:]
     def spine(b):
         no = f'<span class="spine-no">{E(b["seri_ad"])}</span>' if b.get("seri") else ""
-        return (f'<li><a class="spine{" is-on" if b is feat else ""}" href="{b["base"]}" data-book="{b["slug"]}" style="--book:{b["color"]}">'
-                f'{cover(b, lazy=False)}{no}<span class="spine-label">{E(b["title"])}</span></a></li>')
+        soon = b.get("soon")
+        cls = "spine" + (" is-on" if b is feat else "") + (" spine-soon" if soon else "")
+        ribbon = '<span class="ribbon">Yakında</span>' if soon else ""
+        return (f'<li><a class="{cls}" href="{b["base"]}" data-book="{b["slug"]}" style="--book:{b["color"]}">'
+                f'{ribbon}{cover(b, lazy=False)}{no}<span class="spine-label">{E(b["title"])}</span></a></li>')
     seri_shelf = "".join(spine(b) for b in SERI_BOOKS)
     other_shelf = "".join(spine(b) for b in OTHER_BOOKS)
-    other_shelf += (f'<li><a class="spine spine-soon" href="{SOON["base"]}" data-book="{SOON["slug"]}" style="--book:{SOON["color"]}">'
-                    f'<span class="ribbon">Yakında</span>{cover(SOON, lazy=False)}<span class="spine-no">Hazırlanıyor</span>'
-                    f'<span class="spine-label">{E(SOON["title"])}</span></a></li>')
     listen = f'<a href="{feat["base"]}#dinle" data-f="audio"{"" if feat.get("audio") else " hidden"}>Sesli kitap</a>'
     soon_html = (f'<a class="soon" href="{SOON["base"]}"><img src="{SOON["cover"]}" alt="{E(SOON["title"])} kapağı" loading="lazy" width="200" height="310">'
                  f'<div><p class="kicker">Henüz yayında değil · {E(SOON["status"])}</p><h3>{E(SOON["title"])}</h3><p>{E(SOON["summary"])}</p></div></a>')
@@ -529,7 +530,7 @@ def build_home():
   <div class="raf-wrap" id="kitaplar">
     <div class="raf-gruplar">
       <section class="raf-grup raf-seri" aria-label="US’lu Anlatılar serisi">
-        <header><p class="grup-ad">US’lu Anlatılar</p><p class="grup-alt">Mustafa Ünal’ın dört kitaplık serisi</p></header>
+        <header><p class="grup-ad">US’lu Anlatılar</p><p class="grup-alt">Mustafa Ünal’ın beş kitaplık serisi</p></header>
         <ul class="raf">{seri_shelf}</ul>
       </section>
       <section class="raf-grup" aria-label="Acıpayam kitaplığı">
@@ -731,7 +732,7 @@ def build_soon():
   <div class="book-hero-in">
     {cover_pair(b)}
     <div class="book-hero-copy">
-      <p class="kicker">GAMEKS · 1999–2026</p>
+      <p class="kicker">US’lu Anlatılar · Dördüncü kitap · GAMEKS 1999–2026</p>
       <h1>{E(b['title'])}</h1>
       <p class="hero-by">{E(b['author'])}</p>
       <p class="hero-intro">{E(b['summary'])}</p>
@@ -740,6 +741,7 @@ def build_soon():
     </div>
   </div>
 </header>
+{series_strip(b)}
 <section class="more-books" style="padding-top:4rem"><h2>Yayımlanan kitaplar</h2><ul class="mini-shelf">{others}</ul></section>"""
     write(b["base"], layout(b["base"], b["title"], body, desc=b["summary"], cls="page-book", style=f"--book:{b['color']}"))
 
