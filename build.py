@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "5"
+ASSET_V = "7"
 
 
 def J(name):
@@ -570,9 +570,12 @@ def build_home():
   <p class="giris-credit">Taşkın Dede hayrı, 700 yıllık gelenek · Alaaddin Mahallesi, Acıpayam · Fotoğraf: Mustafa Ünal</p>
 </section>
 
-<nav class="signs-wrap" aria-label="Bölümler">
-  <ul class="signs">{signs}</ul>
-</nav>
+<div class="signs-wrap">
+  <div class="signs-in">
+    <figure class="afis"><img src="{h['banner']}" alt="ACIPAYAM.com, Memleketimin Kokusu, 2004’ten beri: yöresel kıyafetli kız çocuğu, çiçekler, eski Acıpayam ovası, Türk bayrağı ve Atatürk" width="1600" height="671"><figcaption>Eski afişimizden esinlenen yeni tasarım</figcaption></figure>
+    <nav aria-label="Bölümler"><ul class="signs">{signs}</ul></nav>
+  </div>
+</div>
 
 <section class="blok" id="koyler" aria-labelledby="koyler-b">
   <header class="blok-head"><h2 id="koyler-b">Köy köy Acıpayam</h2>
@@ -618,7 +621,6 @@ def build_home():
     <div class="hikaye-side">
       <h2>{E(story['title'])}</h2>
       <p class="hikaye-motto">Ortak paydamız memleketimiz.</p>
-      <figure><img src="{h['banner']}" alt="ACIPAYAM.com Memleketimin Kokusu afişi" loading="lazy" width="1600" height="672"><figcaption>Eski ACIPAYAM.com afişi</figcaption></figure>
     </div>
     <div class="hikaye-text">{story_html}<p class="imza">{E(story['signature'][0])}<small>ACIPAYAM.com kurucusu</small></p></div>
   </div>
