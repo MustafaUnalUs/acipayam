@@ -428,3 +428,30 @@ a.soon:hover h3 { color: var(--altin); }
   .raf li { flex: 1 1 0; max-width: 150px; }
   .spine { width: 100%; }
 }
+
+/* ---- vitrin dengesi ---- */
+@media (min-width: 960px) { .vitrin-in { grid-template-columns: 1.25fr 1fr; align-items: center; } }
+.vitrin h1 { font-size: clamp(2.6rem, 4.6vw, 4.1rem); }
+.vitrin-feature { min-height: 0; padding-top: .2rem; padding-bottom: .2rem; }
+.vitrin-feature h2 { font-size: clamp(1.7rem, 2.4vw, 2.2rem); line-height: 1.12; }
+.vitrin-feature .vf-sum { font-size: 1rem; }
+.vf-links { gap: 1.1rem; }
+
+.raf { --w: clamp(104px, 12vw, 132px); align-items: flex-start; gap: clamp(.8rem, 1.6vw, 1.4rem); padding-top: 1.4rem;
+  background: linear-gradient(90deg, transparent, rgba(216, 184, 116, .55) 6%, rgba(216, 184, 116, .55) 94%, transparent) no-repeat;
+  background-size: 100% 1px; background-position: 0 calc(1.4rem + var(--w) * 1.55 + 1px); }
+.raf li { flex: 0 0 var(--w); max-width: none; }
+.spine { width: var(--w); }
+.spine .cover-img { height: calc(var(--w) * 1.55); }
+.spine:hover, .spine:focus-visible { transform: translateY(-6px); }
+.spine.is-on { transform: none; }
+.spine-label { position: relative; min-height: 2.6em; margin-top: 1rem; font-size: .82rem; line-height: 1.3; }
+.spine.is-on .spine-label::before { content: ""; position: absolute; left: 0; top: -.62rem; width: 18px; height: 1px; background: var(--altin-acik); }
+.raf-line { display: none; }
+.raf-hint { margin-top: 1.4rem; }
+.ribbon { top: .5rem; font-size: .66rem; padding: .38rem .6rem; }
+@media (min-width: 1100px) {
+  .raf { justify-content: space-between; overflow: visible; }
+  .raf li { flex: 0 0 var(--w); max-width: none; }
+  .spine { width: var(--w); }
+}
