@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "2"
+ASSET_V = "3"
 
 
 def J(name):
@@ -194,11 +194,11 @@ def layout(path, title, body, desc="", cls="", style=""):
 {"" if CANLI else NOINDEX}<link rel="canonical" href="{ORIGIN}{path}">
 <meta property="og:title" content="{E(full)}">
 <meta property="og:locale" content="tr_TR">
-<meta name="theme-color" content="#0f1a2e">
+<meta name="theme-color" content="#4a2d1c">
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Literata:ital,opsz,wght@0,7..72,400..650;1,7..72,400..500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&display=swap">
 <link rel="stylesheet" href="/assets/site.css?v={ASSET_V}">
 </head>
 <body class="{cls}"{f' style="{style}"' if style else ''}>
@@ -498,36 +498,52 @@ LIVE_CHAT = """<ul class="chat" id="chat-list" aria-live="polite"><li><p>Mesajla
 </form>"""
 
 
+SIGN_ICONS = {
+    # basit, tabela piktogramları (beyaz çizgi)
+    "koy": '<path d="M4 20V10l8-6 8 6v10"/><path d="M10 20v-6h4v6"/>',
+    "kitap": '<path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4z"/><path d="M20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6z"/>',
+    "tarih": '<path d="M4 20h16"/><path d="M6 20V9M10 20V9M14 20V9M18 20V9"/><path d="M3 9l9-5 9 5z"/>',
+    "sehit": '<path d="M12 3l2.6 5.6 6 .6-4.5 4 1.3 6-5.4-3.1-5.4 3.1 1.3-6-4.5-4 6-.6z"/>',
+    "radyo": '<rect x="3" y="8" width="18" height="12" rx="2"/><circle cx="8" cy="14" r="3"/><path d="M14 12h4M14 16h4M7 8l9-5"/>',
+    "sohbet": '<path d="M4 5h16v10H9l-5 4z"/>',
+}
+
+
+def sign(href, icon, title, sub):
+    return (f'<li><a class="sign" href="{href}"><svg viewBox="0 0 24 24" aria-hidden="true">{SIGN_ICONS[icon]}</svg>'
+            f'<span class="sign-t">{E(title)}</span><span class="sign-s">{E(sub)}</span>'
+            f'<span class="sign-arrow" aria-hidden="true">→</span></a></li>')
+
+
 def build_home():
     h = HOME
-    feat = BOOKS[0]
-    shelf_data = json.dumps({b["slug"]: {
-        "title": b["title"], "subtitle": b.get("subtitle", ""), "author": b["author"], "series": b["series"],
-        "summary": b["summary"], "color": b["color"], "href": b["base"], "read": first_url(b), "pdf": b["pdf"],
-        "audio": (b["base"] + "#dinle") if b.get("audio") else "", "chapters": len(b["data"]["chapters"]),
-        "new": bool(b.get("new"))} for b in BOOKS}, ensure_ascii=False)
-    shelf_data = shelf_data[:-1] + ", " + json.dumps({x["slug"]: {
-        "title": x["title"], "author": x["author"], "series": x["series"],
-        "summary": x["summary"] + " " + x["status"] + ".", "color": x["color"], "href": x["base"],
-        "read": "", "audio": "", "soon": True} for x in SOONS}, ensure_ascii=False)[1:]
-    def spine(b):
-        no = f'<span class="spine-no">{E(b["seri_ad"])}</span>' if b.get("seri") else ""
-        soon = b.get("soon")
-        cls = "spine" + (" is-on" if b is feat else "") + (" spine-soon" if soon else "")
-        ribbon = '<span class="ribbon">Yakında</span>' if soon else ""
-        return (f'<li><a class="{cls}" href="{b["base"]}" data-book="{b["slug"]}" style="--book:{b["color"]}">'
-                f'{ribbon}{cover(b, lazy=False)}{no}<span class="spine-label">{E(b["title"])}</span></a></li>')
-    seri_shelf = "".join(spine(b) for b in SERI_BOOKS)
-    other_shelf = "".join(spine(b) for b in OTHER_BOOKS)
-    listen = f'<a href="{feat["base"]}#dinle" data-f="audio"{"" if feat.get("audio") else " hidden"}>Sesli kitap</a>'
-    soon_html = "".join(
-        f'<a class="soon" href="{x["base"]}"><img src="{x["cover"]}" alt="{E(x["title"])} kapağı" loading="lazy" width="200" height="310">'
-        f'<div><p class="kicker">Henüz yayında değil · {E(x["status"])}</p><h3>{E(x["title"])}</h3><p>{E(x["summary"])}</p></div></a>'
-        for x in SOONS)
-    hist = h["history"]
     dunu = J("acipayam-dunu-bugunu.json")
     radyo = J("radyo.json")
     mem = h["memorial"]
+    signs = "".join([
+        sign("#koyler", "koy", "Köyler", f"{len(SABIT['interviews'])} görüşme, köy haritası"),
+        sign("#kitaplar", "kitap", "Kitaplar", f"{len(BOOKS)} kitap okunabilir"),
+        sign("/acipayam-dunu-bugunu/", "tarih", "Acıpayam Tarihi", f"{len(dunu['episodes'])} söyleşi, Hikmet Başaran"),
+        sign("/sehit-bilgi-kapisi/", "sehit", "Şehitler", f"{mem['stat']} şehit kaydı"),
+        sign("/radyo-arsivi/", "radyo", "Radyo ACIPAYAM.com", f"{len(radyo['records'])} eski yayın kaydı"),
+        sign("#sohbet", "sohbet", "Mini Sohbet", "Memlekete selam bırakın"),
+    ])
+    pins = "".join(
+        f'<a class="pin" href="{p["href"]}" style="left:{p["left"]};top:{p["top"]}"><span>{E(p["name"])}</span></a>'
+        for p in SABIT["pins"] if p["href"])
+    # kitaplar: 8 kitap, 4'lü dengeli ızgara
+    order = ["bana-koyunu-anlat", "kelekcide-yasamak", "gonul-dostu", "icimde-kalan-cocuk",
+             "karanlik-odada-yedi-ay", "uslu-dusler", "adi-konmamis-islere-don-bicen-adam", "uslu-dimag"]
+    allb = {b["slug"]: b for b in BOOKS + SOONS}
+    cards = ""
+    for slug in order:
+        b = allb[slug]
+        tag = b.get("seri_ad") or ("Sözlü tarih" if slug == "bana-koyunu-anlat" else "Bağımsız eser" if slug == "gonul-dostu" else "Hatıra kitabı")
+        soon = b.get("soon")
+        cards += (f'<li class="bk{" is-soon" if soon else ""}"><a href="{b["base"]}">'
+                  f'<span class="bk-cover">{cover(b)}{"<span class=bk-ribbon>Yakında</span>" if soon else ""}</span>'
+                  f'<span class="bk-tag">{E(tag)}</span><span class="bk-t">{E(b["title"])}</span>'
+                  f'<span class="bk-a">{E(b["author"])}</span></a></li>')
     april = "".join(f'<li><time>{E(a["year"])}</time><div><b>{E(a["title"])}</b><p>{E(a["text"])}</p></div></li>'
                     for a in h["april"]["items"])
     videos = "".join(f"<li>{yt(v['id'], v['title'])}</li>" for v in h["videos"])
@@ -542,95 +558,75 @@ def build_home():
     story_html = story["body"] if cut < 0 else (
         story["body"][:cut] + '<details class="story-more"><summary>Hikâyenin devamını okuyun</summary>'
         + story["body"][cut:] + "</details>")
-    total_words = sum(b["words"] for b in BOOKS)
+    hist = h["history"]
     body = f"""
-<section class="vitrin" style="--book:{feat['color']}" data-vitrin>
-  <script type="application/json" id="raf-veri">{shelf_data}</script>
-  <div class="vitrin-in">
-    <div class="vitrin-head">
-      <p class="kicker">ACIPAYAM.com Kültür Yayınları</p>
-      <h1 class="sr-only">ACIPAYAM.com Kültür Yayınları</h1>
-      <p class="vitrin-lead">Köylerin anlattıkları, bir ömrün hatıraları, Kelekçi’den mektuplar. Hepsi ücretsiz; internette okuyun, PDF olarak indirin, kimini dinleyin.</p>
-    </div>
-    <div class="vitrin-feature" aria-live="polite">
-      <p class="kicker" data-f="series">{E(feat['series'])}</p>
-      <h2 data-f="title">{E(feat['title'])}</h2>
-      <p class="vf-by" data-f="author">{E(feat['author'])}</p>
-      <p class="vf-sum" data-f="summary">{E(feat['summary'])}</p>
-      <p class="vf-links"><a class="btn btn-gold" href="{first_url(feat)}" data-f="read">Okumaya başla</a>
-        <a href="{feat['base']}" data-f="href">Kitabın sayfası</a>{listen}</p>
-    </div>
+<section class="giris">
+  <img class="giris-img" src="/img/photo-01.webp" alt="Köy hayrında ateşte kaynayan kazanlar" width="1536" height="1024">
+  <div class="giris-in">
+    <p class="giris-kicker">ACIPAYAM.com · 2004’ten beri</p>
+    <h1>Memleket kokusu.</h1>
+    <p class="giris-lead">Acıpayam’ın ortak hafızası: köylerin anlattıkları, şehitlerin adları, radyonun sesleri ve memleket kitapları. Hepsi ücretsiz, hepsi burada.</p>
   </div>
-  <div class="raf-wrap" id="kitaplar">
-    <div class="raf-gruplar">
-      <section class="raf-grup" aria-label="Acıpayam kitaplığı">
-        <header><p class="grup-ad">Acıpayam kitaplığı</p><p class="grup-alt">Sözlü tarih, tanıklık ve hatıra</p></header>
-        <ul class="raf">{other_shelf}</ul>
-      </section>
-      <section class="raf-grup raf-seri" aria-label="US’lu Anlatılar serisi">
-        <header><p class="grup-ad">US’lu Anlatılar</p><p class="grup-alt">Mustafa Ünal’ın beş kitaplık serisi</p></header>
-        <ul class="raf">{seri_shelf}</ul>
-      </section>
-    </div>
-    <div class="raf-line" aria-hidden="true"></div>
-    <p class="raf-hint">{len(BOOKS)} kitap · {sum(len(b['data']['chapters']) for b in BOOKS)} bölüm · yaklaşık {round(total_words / 200 / 60)} saatlik okuma</p>
-  </div>
+  <p class="giris-credit">Bir köy hayrı, kazanlar ateşte</p>
 </section>
 
-<section class="sheet">
-  <div class="sheet-in">
-    <header class="sec-head"><h2>Arşivler</h2><p>Kitapların yanında, memleketin sesi ve kayıtları.</p></header>
-    <div class="tiles">
-      <a class="tile tile-wide" href="/sabit/">
-        <img src="/img/acipayam-map.webp" alt="" loading="lazy" width="1600" height="1000">
-        <div><p class="kicker">Sözlü tarih · {len(SABIT['interviews'])} görüşme</p><h3>Bana Köyünü Anlat</h3><p>Sabit Kızılhan’ın köy köy kaydettiği anlatılar. Haritadan bir köy seçin; videosu ve metni açılsın.</p></div>
-      </a>
-      <a class="tile" href="/acipayam-dunu-bugunu/">
-        <img src="{hist['image']}" alt="" loading="lazy" width="800" height="800">
-        <div><p class="kicker">{len(dunu['episodes'])} söyleşi</p><h3>{E(hist['title'])}</h3><p>{E(hist['by'])}: belediyecilik hafızası, kaybolan değerler, Millî Mücadele.</p></div>
-      </a>
-      <a class="tile tile-num" href="/sehit-bilgi-kapisi/">
-        <p class="big-num">{E(mem['stat'])}</p>
-        <div><p class="kicker">1853–1928</p><h3>Denizli Şehit Bilgi Kapısı</h3><p>İsim, köy ya da savaşa göre aranabilen kalıcı anma arşivi.</p></div>
-      </a>
-      <a class="tile tile-radio" href="/radyo-arsivi/">
-        <svg class="wave" viewBox="0 0 240 60" aria-hidden="true"><path d="M0 30 Q10 5 20 30 T40 30 T60 30 Q70 10 80 30 T100 30 Q110 0 120 30 T140 30 Q150 15 160 30 T180 30 Q190 8 200 30 T220 30 T240 30" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-        <div><p class="kicker">{len(radyo['records'])} kayıt</p><h3>Radyo ACIPAYAM.com</h3><p>2000’li yıllardan şiirler, türküler ve canlı yayınlar.</p></div>
-      </a>
-    </div>
-  </div>
+<nav class="signs-wrap" aria-label="Bölümler">
+  <ul class="signs">{signs}</ul>
+</nav>
+
+<section class="blok" id="koyler" aria-labelledby="koyler-b">
+  <header class="blok-head"><h2 id="koyler-b">Köy köy Acıpayam</h2>
+    <p>Sabit Kızılhan’ın kaydettiği {len(SABIT['interviews'])} sözlü tarih görüşmesi. Haritada bir köye dokunun; anlatının metni ve videosu açılır.</p></header>
+  <div class="map"><img src="{SABIT['map']}" alt="Acıpayam ve köylerinin haritası" width="1600" height="1000" loading="lazy">{pins}</div>
+  <p class="blok-links"><a class="btn" href="/sabit/">Bana Köyünü Anlat</a><a class="btn btn-line" href="/sabit/kizilhan/">Bütün görüşmeler</a><a class="btn btn-line" href="/sabit/sozluk/">Yerel ağız sözlüğü</a></p>
 </section>
 
-<section class="story" id="hikaye">
-  <div class="story-in">
-    <div class="story-side">
-      <p class="kicker">{E(story['lead'])}</p>
-      <h2>{E(story['title'])}</h2>
-      <p class="motto">Ortak paydamız memleketimiz.</p>
-      <figure class="relic"><img src="{h['banner']}" alt="ACIPAYAM.com Memleketimin Kokusu afişi" loading="lazy" width="1600" height="672"><figcaption>ACIPAYAM.com afişi</figcaption></figure>
-    </div>
-    <div class="story-text">{story_html}<p class="sign">{E(story['signature'][0])}<small>ACIPAYAM.com kurucusu</small></p></div>
-  </div>
+<section class="blok blok-alt" id="kitaplar" aria-labelledby="kitaplar-b">
+  <header class="blok-head"><h2 id="kitaplar-b">Memleket kitapları</h2>
+    <p>İnternette bölüm bölüm okunur, PDF olarak indirilir, kimi sesli dinlenir. US’lu Anlatılar beş kitaplık bir seridir.</p></header>
+  <ul class="bks">{cards}</ul>
 </section>
 
-<section class="sheet sheet-alt">
-  <div class="sheet-in notes">
-    <div class="note-col">
-      <h2>{E(h['april']['title'])}</h2>
-      <p>{E(h['april']['intro'])}</p>
-      <ol class="years">{april}</ol>
-    </div>
-    <div class="note-col">
-      <h2>Mini Sohbet</h2>
-      <p>2004 ruhuyla, yine aynı memleket meydanı.</p>
+<section class="blok ikili" aria-label="Tarih ve anma">
+  <a class="kart" href="/acipayam-dunu-bugunu/">
+    <img src="{hist['image']}" alt="Hikmet Başaran" loading="lazy" width="800" height="800">
+    <span class="kart-body"><span class="kart-k">Sözlü tarih · {len(dunu['episodes'])} söyleşi</span><b>{E(hist['title'])}</b>
+      <span>{E(hist['by'])}: belediyecilik hafızası, kaybolan değerler, Millî Mücadele.</span></span>
+  </a>
+  <a class="kart kart-anma" href="/sehit-bilgi-kapisi/">
+    <span class="anma-sayi">{E(mem['stat'])}</span>
+    <span class="kart-body"><span class="kart-k">1853–1928 · Kalıcı anma arşivi</span><b>Denizli Şehit Bilgi Kapısı</b>
+      <span>İsim, köy ya da savaşa göre aranabilir.</span></span>
+  </a>
+</section>
+
+<section class="blok" id="sohbet" aria-labelledby="sohbet-b">
+  <div class="sohbet-grid">
+    <div>
+      <header class="blok-head"><h2 id="sohbet-b">Mini Sohbet</h2><p>2004 ruhuyla, yine aynı memleket meydanı.</p></header>
       {LIVE_CHAT if CANLI else chat_static}
     </div>
+    <div>
+      <header class="blok-head"><h2>1 Nisan geleneği</h2><p>{E(h['april']['intro'])}</p></header>
+      <ol class="years">{april}</ol>
+    </div>
   </div>
-  <div class="sheet-in">
-    <header class="sec-head"><h2>Videolar</h2><p>Acıpayam’ın hafızasından seçkiler.</p></header>
-    <ul class="videos">{videos}</ul>
-    <div class="soon-row"><h2 class="small-h">Hazırlanıyor</h2>{soon_html}</div>
+</section>
+
+<section class="hikaye" id="hikaye">
+  <div class="hikaye-in">
+    <div class="hikaye-side">
+      <h2>{E(story['title'])}</h2>
+      <p class="hikaye-motto">Ortak paydamız memleketimiz.</p>
+      <figure><img src="{h['banner']}" alt="ACIPAYAM.com Memleketimin Kokusu afişi" loading="lazy" width="1600" height="672"><figcaption>Eski ACIPAYAM.com afişi</figcaption></figure>
+    </div>
+    <div class="hikaye-text">{story_html}<p class="imza">{E(story['signature'][0])}<small>ACIPAYAM.com kurucusu</small></p></div>
   </div>
+</section>
+
+<section class="blok" aria-labelledby="video-b">
+  <header class="blok-head"><h2 id="video-b">Videolar</h2><p>Acıpayam’ın hafızasından seçkiler.</p></header>
+  <ul class="videos">{videos}</ul>
 </section>
 """
     write("/", layout("/", "ACIPAYAM.com — Memleket Kokusu", body, cls="page-home"))
