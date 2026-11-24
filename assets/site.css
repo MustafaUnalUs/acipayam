@@ -517,3 +517,34 @@ body { font-size: 1.125rem; }
 .foot { font-size: 1.05rem; }
 .sisters ul { font-size: 1rem; }
 .foot-note { font-size: .95rem; }
+
+/* ---- raf grupları ve US'lu Anlatılar serisi ---- */
+.raf-gruplar { display: flex; gap: clamp(1.6rem, 3vw, 3.2rem); overflow-x: auto; scrollbar-width: none; padding-bottom: .4rem;
+  --w: clamp(120px, calc((min(100vw - 2 * var(--gutter), var(--wide)) - 6 * 1.3rem - clamp(1.6rem, 3vw, 3.2rem)) / 8), 160px); }
+.raf-gruplar::-webkit-scrollbar { display: none; }
+.raf-grup { flex: none; }
+.raf-grup header { border-top: 1px solid rgba(216, 184, 116, .55); padding-top: .8rem; margin-bottom: .2rem; }
+.grup-ad { font: 500 1.6rem/1.1 var(--display); color: #f4efe5; margin: 0; }
+.raf-seri .grup-ad { color: var(--altin-acik); }
+.grup-alt { font-size: .92rem; color: rgba(241, 236, 226, .6); margin: .25rem 0 0; }
+.raf-gruplar .raf { --w: inherit; overflow: visible; justify-content: flex-start; gap: 1.3rem; }
+.raf-gruplar .raf li { flex: 0 0 var(--w); }
+.spine-no { display: block; margin-top: .95rem; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--altin-acik); }
+.spine-no + .spine-label { margin-top: .25rem; }
+.spine.is-on .spine-no + .spine-label::before { display: none; }
+.spine.is-on .spine-no { text-decoration: underline; text-underline-offset: 4px; }
+
+.seri { background: color-mix(in srgb, var(--book) 30%, var(--gece)); color: #f1ece2; border-top: 1px solid rgba(216, 184, 116, .25); }
+.seri-in { max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto; padding: clamp(2.4rem, 5vw, 3.6rem) var(--gutter); display: grid; gap: 2rem; align-items: center; }
+@media (min-width: 960px) { .seri-in { grid-template-columns: minmax(260px, 1fr) 2fr; gap: 4rem; } }
+.seri-head h2 { color: var(--altin-acik); margin-bottom: .6rem; }
+.seri-head p:last-child { color: rgba(241, 236, 226, .78); font-size: 1.05rem; margin: 0; }
+.seri-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(.8rem, 2vw, 1.6rem); counter-reset: none; }
+.seri-list a { display: block; text-decoration: none; color: #f1ece2; }
+.seri-list img { width: 100%; aspect-ratio: 400/620; object-fit: cover; box-shadow: 0 22px 30px -18px rgba(0, 0, 0, .8); opacity: .72; transition: opacity .3s, transform .35s var(--ease); }
+.seri-list a:hover img { opacity: 1; transform: translateY(-5px); }
+.seri-list a[aria-current] img { opacity: 1; outline: 2px solid var(--altin-acik); outline-offset: 4px; }
+.seri-no { display: block; margin-top: .9rem; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--altin-acik); }
+.seri-t { display: block; margin-top: .2rem; font-size: 1rem; line-height: 1.3; }
+.seri-list a[aria-current] .seri-t { color: var(--altin-acik); }
+@media (max-width: 600px) { .seri-t { font-size: .85rem; } .seri-no { font-size: .62rem; letter-spacing: .08em; } }

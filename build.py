@@ -115,6 +115,14 @@ SOON = {
     "color": COLORS["adi-konmamis-islere-don-bicen-adam"], "soon": True,
 }
 
+SERI = {"icimde-kalan-cocuk": (1, "Kitap I"), "karanlik-odada-yedi-ay": (2, "Kitap II"),
+        "uslu-dusler": (3, "Kitap III · Bonus"), "uslu-dimag": (4, "Kitap IV · Final")}
+for b in BOOKS:
+    if b["slug"] in SERI:
+        b["seri"], b["seri_ad"] = SERI[b["slug"]]
+SERI_BOOKS = sorted((b for b in BOOKS if b.get("seri")), key=lambda b: b["seri"])
+OTHER_BOOKS = [b for b in BOOKS if not b.get("seri")]
+
 INTERVIEWS = {int(i["no"]): i for i in SABIT["interviews"]}
 bana = next(b for b in BOOKS if b["slug"] == "bana-koyunu-anlat")
 for c in bana["data"]["chapters"]:
@@ -365,6 +373,22 @@ def listen_section(book):
             f'{audio(book["audio"], label)}{tracks}</section>')
 
 
+def series_strip(book):
+    if not book.get("seri"):
+        return ""
+    items = "".join(
+        f'<li><a href="{b["base"]}"{" aria-current=" + chr(34) + "page" + chr(34) if b is book else ""} style="--book:{b["color"]}">'
+        f'{cover(b)}<span class="seri-no">{E(b["seri_ad"])}</span><span class="seri-t">{E(b["title"])}</span></a></li>'
+        for b in SERI_BOOKS)
+    return f"""<section class="seri" aria-label="US’lu Anlatılar serisi">
+  <div class="seri-in">
+    <div class="seri-head"><p class="kicker">Seri</p><h2>US’lu Anlatılar</h2>
+      <p>Mustafa Ünal’ın dört kitaplık serisi: çocukluktan bugüne bir hayatın hatıraları ve süzgeçten geçmiş düşünceleri. Her kitap tek başına da okunabilir.</p></div>
+    <ol class="seri-list">{items}</ol>
+  </div>
+</section>"""
+
+
 def build_book(book):
     side = []
     if book.get("overview"):
@@ -378,6 +402,7 @@ def build_book(book):
         f'<li><a href="{o["base"]}" style="--book:{o["color"]}">{cover(o)}<span>{E(o["title"])}</span></a></li>'
         for o in BOOKS if o is not book)
     body = f"""{book_hero(book)}
+{series_strip(book)}
 <div class="book-body">
   <section class="contents" id="icindekiler"><h2>İçindekiler</h2>{toc(book)}</section>
   <aside class="book-side">{''.join(side)}</aside>
@@ -454,11 +479,15 @@ def build_home():
         "title": SOON["title"], "author": SOON["author"], "series": SOON["series"],
         "summary": SOON["summary"] + " " + SOON["status"] + ".", "color": SOON["color"], "href": SOON["base"],
         "read": "", "audio": "", "soon": True}}, ensure_ascii=False)[1:]
-    shelf = "".join(
-        f'<li><a class="spine{" is-on" if b is feat else ""}" href="{b["base"]}" data-book="{b["slug"]}" style="--book:{b["color"]}">'
-        f'{cover(b, lazy=False)}<span class="spine-label">{E(b["title"])}</span></a></li>' for b in BOOKS)
-    shelf += (f'<li><a class="spine spine-soon" href="{SOON["base"]}" data-book="{SOON["slug"]}" style="--book:{SOON["color"]}">'
-              f'<span class="ribbon">Yakında</span>{cover(SOON, lazy=False)}<span class="spine-label">{E(SOON["title"])}</span></a></li>')
+    def spine(b):
+        no = f'<span class="spine-no">{E(b["seri_ad"])}</span>' if b.get("seri") else ""
+        return (f'<li><a class="spine{" is-on" if b is feat else ""}" href="{b["base"]}" data-book="{b["slug"]}" style="--book:{b["color"]}">'
+                f'{cover(b, lazy=False)}{no}<span class="spine-label">{E(b["title"])}</span></a></li>')
+    seri_shelf = "".join(spine(b) for b in SERI_BOOKS)
+    other_shelf = "".join(spine(b) for b in OTHER_BOOKS)
+    other_shelf += (f'<li><a class="spine spine-soon" href="{SOON["base"]}" data-book="{SOON["slug"]}" style="--book:{SOON["color"]}">'
+                    f'<span class="ribbon">Yakında</span>{cover(SOON, lazy=False)}<span class="spine-no">Hazırlanıyor</span>'
+                    f'<span class="spine-label">{E(SOON["title"])}</span></a></li>')
     listen = f'<a href="{feat["base"]}#dinle" data-f="audio"{"" if feat.get("audio") else " hidden"}>Sesli kitap</a>'
     soon_html = (f'<a class="soon" href="{SOON["base"]}"><img src="{SOON["cover"]}" alt="{E(SOON["title"])} kapağı" loading="lazy" width="200" height="310">'
                  f'<div><p class="kicker">Henüz yayında değil · {E(SOON["status"])}</p><h3>{E(SOON["title"])}</h3><p>{E(SOON["summary"])}</p></div></a>')
@@ -498,7 +527,16 @@ def build_home():
     </div>
   </div>
   <div class="raf-wrap" id="kitaplar">
-    <ul class="raf" aria-label="Kitaplar">{shelf}</ul>
+    <div class="raf-gruplar">
+      <section class="raf-grup raf-seri" aria-label="US’lu Anlatılar serisi">
+        <header><p class="grup-ad">US’lu Anlatılar</p><p class="grup-alt">Mustafa Ünal’ın dört kitaplık serisi</p></header>
+        <ul class="raf">{seri_shelf}</ul>
+      </section>
+      <section class="raf-grup" aria-label="Acıpayam kitaplığı">
+        <header><p class="grup-ad">Acıpayam kitaplığı</p><p class="grup-alt">Sözlü tarih, tanıklık ve hatıra</p></header>
+        <ul class="raf">{other_shelf}</ul>
+      </section>
+    </div>
     <div class="raf-line" aria-hidden="true"></div>
     <p class="raf-hint">{len(BOOKS)} kitap · {sum(len(b['data']['chapters']) for b in BOOKS)} bölüm · yaklaşık {round(total_words / 200 / 60)} saatlik okuma</p>
   </div>
