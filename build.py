@@ -8,6 +8,7 @@ import html
 import json
 import math
 import re
+import os
 import shutil
 from pathlib import Path
 
@@ -15,6 +16,11 @@ ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 OUT = ROOT / "docs"
 ORIGIN = "https://acipayam.com"
+# SITE_MODE=canli: acipayam.com için (arama motorlarına açık, test notu yok, Mini Sohbet canlı).
+CANLI = os.environ.get("SITE_MODE", "test") == "canli"
+# Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
+MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
+MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
 ASSET_V = "2"
 
 
@@ -160,6 +166,11 @@ MARK = ('<svg class="mark-sign" viewBox="0 0 24 24" aria-hidden="true"><path d="
         'stroke="currentColor" stroke-width="1.2"/><path d="M12 8 16 12 12 16 8 12Z" fill="currentColor"/></svg>')
 
 
+NOINDEX = '<meta name="robots" content="noindex">\n'
+TEST_NOTE = ('<p class="foot-note">Bu adres, acipayam.com içeriğiyle hazırlanmış yeni tasarımın test sürümüdür. '
+             f'Asıl site: <a href="{ORIGIN}/">acipayam.com</a></p>')
+
+
 def layout(path, title, body, desc="", cls="", style=""):
     full = title if "ACIPAYAM" in title else f"{title} · ACIPAYAM.com"
     nav = "".join(
@@ -172,8 +183,7 @@ def layout(path, title, body, desc="", cls="", style=""):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{E(full)}</title>
 <meta name="description" content="{E(desc or 'Acıpayam’ın kitapları, sözlü tarihi ve ortak hafızası. 2004’ten beri memleket kokusu.')}">
-<meta name="robots" content="noindex">
-<link rel="canonical" href="{ORIGIN}{path}">
+{"" if CANLI else NOINDEX}<link rel="canonical" href="{ORIGIN}{path}">
 <meta property="og:title" content="{E(full)}">
 <meta property="og:locale" content="tr_TR">
 <meta name="theme-color" content="#0f1a2e">
@@ -226,7 +236,7 @@ def footer():
     <div><h3>İletişim</h3><ul>{contacts}</ul></div>
   </div>
   <details class="foot-sisters"><summary>Kardeş bağlantılar</summary><div class="sisters">{sisters}</div></details>
-  <p class="foot-note">Bu adres, acipayam.com içeriğiyle hazırlanmış yeni tasarımın test sürümüdür. Asıl site: <a href="{ORIGIN}/">acipayam.com</a></p>
+  {"" if CANLI else TEST_NOTE}
 </footer>"""
 
 
@@ -303,6 +313,7 @@ def write(path, content):
     if path.endswith("/"):
         p = p / "index.html"
     p.parent.mkdir(parents=True, exist_ok=True)
+    content = MEDIA_RE.sub(lambda m: MEDIA_BASE + m.group(1), content)
     p.write_text(content, encoding="utf-8")
     written.append(path)
 
@@ -468,6 +479,17 @@ def build_chapter(book, i):
 
 
 # ------------------------------------------------------------------ ana sayfa
+LIVE_CHAT = """<ul class="chat" id="chat-list" aria-live="polite"><li><p>Mesajlar getiriliyor…</p></li></ul>
+<form class="chat-form" id="chat-form" autocomplete="off">
+  <div class="chat-row"><label>Ad veya rumuz<input name="name" maxlength="32" required autocomplete="nickname"></label>
+  <label>Memleket / köy<input name="hometown" maxlength="40"></label></div>
+  <label>Mesajınız<textarea name="message" maxlength="250" required rows="3" placeholder="Selamınızı yazın"></textarea></label>
+  <label class="hp" aria-hidden="true">Web sitesi<input name="website" tabindex="-1" autocomplete="off"></label>
+  <p class="chat-foot"><button class="btn btn-gold" type="submit">Selamı gönder</button><span id="chat-status" role="status"></span></p>
+  <p class="muted">Mesajlar herkese açık görünür. Telefon numarası ve kişisel bilgi paylaşmayın.</p>
+</form>"""
+
+
 def build_home():
     h = HOME
     feat = BOOKS[0]
@@ -503,6 +525,8 @@ def build_home():
     chat = "".join(
         f'<li><blockquote>{E(m["message"])}</blockquote><p><b>{E(m["name"])}</b>{" · " + E(m["hometown"]) if m.get("hometown") else ""}</p></li>'
         for m in msgs)
+    chat_static = (f'<ul class="chat">{chat}</ul>'
+                   f'<a class="btn btn-line" href="{ORIGIN}/#mini-sohbet">acipayam.com’da selam bırakın</a>')
     story = h["story"]
     cut = story["body"].find("<h3>")
     story_html = story["body"] if cut < 0 else (
@@ -589,8 +613,7 @@ def build_home():
     <div class="note-col">
       <h2>Mini Sohbet</h2>
       <p>2004 ruhuyla, yine aynı memleket meydanı.</p>
-      <ul class="chat">{chat}</ul>
-      <a class="btn btn-line" href="{ORIGIN}/#mini-sohbet">acipayam.com’da selam bırakın</a>
+      {LIVE_CHAT if CANLI else chat_static}
     </div>
   </div>
   <div class="sheet-in">
@@ -766,9 +789,10 @@ def main():
     (OUT / "veri").mkdir()
     shutil.copytree(ROOT / "static", OUT, dirs_exist_ok=True)
     shutil.copytree(ROOT / "assets", OUT / "assets", dirs_exist_ok=True)
-    (OUT / "CNAME").write_text("acipayam.gunerunal.com.tr\n")
+    if not CANLI:
+        (OUT / "CNAME").write_text("acipayam.gunerunal.com.tr\n")
     (OUT / ".nojekyll").write_text("")
-    (OUT / "robots.txt").write_text("User-agent: *\nDisallow: /\n")
+    (OUT / "robots.txt").write_text("User-agent: *\n" + ("Allow: /\n" if CANLI else "Disallow: /\n"))
     build_home()
     for b in BOOKS:
         if b["slug"] != "bana-koyunu-anlat":

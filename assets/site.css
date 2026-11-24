@@ -571,3 +571,16 @@ body { font-size: 1.125rem; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .vitrin-head .kicker + .sr-only + .vitrin-lead { margin-top: .4rem; }
 .vitrin-lead { font-size: 1.35rem; line-height: 1.6; }
+
+/* ---- canlı Mini Sohbet ---- */
+.chat-form { display: grid; gap: .8rem; margin-top: 1.2rem; }
+.chat-form label { display: grid; gap: .3rem; font-size: .9rem; color: var(--soluk); }
+.chat-form input, .chat-form textarea { font: inherit; font-size: 1.05rem; padding: .7rem .9rem; border: 1px solid var(--cizgi); background: var(--kagit); color: var(--murekkep); border-radius: 0; }
+.chat-form input:focus, .chat-form textarea:focus { outline: none; border-color: var(--altin); }
+.chat-row { display: grid; gap: .8rem; }
+@media (min-width: 600px) { .chat-row { grid-template-columns: 1fr 1fr; } }
+.chat-form .hp { position: absolute; left: -9999px; }
+.chat-foot { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin: 0; }
+.chat-foot .btn { border: 0; cursor: pointer; }
+#chat-status { color: var(--soluk); font-size: .95rem; }
+#chat-list { max-height: 26rem; overflow: auto; }

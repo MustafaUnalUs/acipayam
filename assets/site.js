@@ -212,3 +212,44 @@
     more.addEventListener("click", () => { shown += PAGE; render(); });
   }
 })();
+
+// Canlı Mini Sohbet (acipayam.com/api/mini-sohbet, eski Worker)
+(() => {
+  const list = document.getElementById("chat-list");
+  const form = document.getElementById("chat-form");
+  if (!list || !form) return;
+  const status = document.getElementById("chat-status");
+  const fmt = (v) => { try { return new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "short", year: "numeric" }).format(new Date(v)); } catch { return ""; } };
+  const render = (msgs) => {
+    list.replaceChildren();
+    if (!msgs.length) { const li = document.createElement("li"); li.textContent = "İlk selamı siz bırakın."; list.append(li); return; }
+    msgs.forEach((m) => {
+      const li = document.createElement("li");
+      const q = document.createElement("blockquote"); q.textContent = m.message;
+      const p = document.createElement("p"); const b = document.createElement("b"); b.textContent = m.name;
+      p.append(b, document.createTextNode([m.hometown, fmt(m.created_at)].filter(Boolean).map((x) => " · " + x).join("")));
+      li.append(q, p); list.append(li);
+    });
+  };
+  const load = async () => {
+    try {
+      const r = await fetch("/api/mini-sohbet", { cache: "no-store" });
+      if (!r.ok) throw new Error();
+      render(((await r.json()).messages) || []);
+    } catch { list.innerHTML = "<li><p>Mini Sohbet şu an yüklenemedi. Biraz sonra yeniden deneyin.</p></li>"; }
+  };
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector("button"); btn.disabled = true; status.textContent = "Gönderiliyor…";
+    try {
+      const r = await fetch("/api/mini-sohbet", { method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))) });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(d.error || "Mesaj gönderilemedi.");
+      form.reset(); status.textContent = "Selamınız eklendi."; await load();
+    } catch (err) { status.textContent = err.message || "Mesaj gönderilemedi; yeniden deneyin."; }
+    finally { btn.disabled = false; }
+  });
+  load();
+  setInterval(load, 60000);
+})();
