@@ -1,0 +1,78 @@
+{
+ "https://acipayam.com/img/acipayam-cicekli-hatirasi-opt.jpg": {
+  "out": "/img/acipayam-cicekli-hatirasi-opt.webp",
+  "alt": "2004'ten beri ACIPAYAM.com — Memleketimin Kokusu; Acıpayam'ın çiçekli hatırası, Türk bayrağı ve Atatürk"
+ },
+ "https://acipayam.com/img/kapak-uslu-dusler.webp": {
+  "out": "/img/kapak-uslu-dusler.webp",
+  "alt": "US’lu Düşler — Olmuş Zekâ kitap kapağı"
+ },
+ "https://acipayam.com/img/kapak-bana-koyunu-anlat.jpg": {
+  "out": "/img/kapak-bana-koyunu-anlat.webp",
+  "alt": "Bana Köyünü Anlat kitap kapağı"
+ },
+ "https://acipayam.com/img/karanlik-odada-yedi-ay-kapak.webp": {
+  "out": "/img/karanlik-odada-yedi-ay-kapak.webp",
+  "alt": "Karanlık Odada Yedi Ay ön kapağı"
+ },
+ "https://acipayam.com/img/kapak-icimde-kalan-cocuk.jpg": {
+  "out": "/img/kapak-icimde-kalan-cocuk.webp",
+  "alt": "İçimde Kalan Çocuk kitap kapağı"
+ },
+ "https://acipayam.com/img/kapak-kelekcide-yasamak.jpg": {
+  "out": "/img/kapak-kelekcide-yasamak.webp",
+  "alt": ""
+ },
+ "https://acipayam.com/uslu-dusler/assets/back.webp": {
+  "out": "/img/back.webp",
+  "alt": "US’LU DÜŞLER arka kapağı"
+ },
+ "https://acipayam.com/img/gonul-dostu-sabit-kizilhan-ile-yol-yurumek.jpg": {
+  "out": "/img/gonul-dostu-sabit-kizilhan-ile-yol-yurumek.webp",
+  "alt": "Gönül Dostu — Sabit Kızılhan ile Yol Yürümek kitap kapağı"
+ },
+ "https://acipayam.com/img/gonul-dostu-sabit-kizilhan-ile-yol-yurumek-arka.jpg": {
+  "out": "/img/gonul-dostu-sabit-kizilhan-ile-yol-yurumek-arka.webp",
+  "alt": "Gönül Dostu — Sabit Kızılhan ile Yol Yürümek arka kapağı"
+ },
+ "https://acipayam.com/img/adi-konmamis-islere-don-bicen-adam-on.png": {
+  "out": "/img/adi-konmamis-islere-don-bicen-adam-on.webp",
+  "alt": "Adı Konmamış İşlere Don Biçen Adam ön kapağı"
+ },
+ "https://acipayam.com/img/adi-konmamis-islere-don-bicen-adam-arka.png": {
+  "out": "/img/adi-konmamis-islere-don-bicen-adam-arka.webp",
+  "alt": "Adı Konmamış İşlere Don Biçen Adam arka kapağı"
+ },
+ "https://acipayam.com/img/hikmet-basaran.jpg": {
+  "out": "/img/hikmet-basaran.webp",
+  "alt": "Hikmet Başaran"
+ },
+ "https://acipayam.com/icimde-kalan-cocuk/assets/icimde-kalan-cocuk-on.png": {
+  "out": "/img/icimde-kalan-cocuk-on.webp",
+  "alt": "İçimde Kalan Çocuk ön kapağı"
+ },
+ "https://acipayam.com/icimde-kalan-cocuk/assets/icimde-kalan-cocuk-arka.png": {
+  "out": "/img/icimde-kalan-cocuk-arka.webp",
+  "alt": "İçimde Kalan Çocuk arka kapağı"
+ },
+ "https://acipayam.com/img/karanlik-odada-yedi-ay-arka.jpg": {
+  "out": "/img/karanlik-odada-yedi-ay-arka.webp",
+  "alt": "Karanlık Odada Yedi Ay arka kapağı"
+ },
+ "https://acipayam.com/uslu-dusler/assets/front.webp": {
+  "out": "/img/front.webp",
+  "alt": "US’LU DÜŞLER – OLMUŞ ZEKÂ ön kapağı"
+ },
+ "https://acipayam.com/uslu-dusler/assets/facit.jpg": {
+  "out": "/img/facit.webp",
+  "alt": "Kitapta yer alan FACIT mekanik hesap makinesi"
+ },
+ "https://acipayam.com/sabit/img/cover.jpg": {
+  "out": "/img/cover.webp",
+  "alt": "Bana Köyünü Anlat — kitap kapağı, Sabit Kızılhan"
+ },
+ "https://acipayam.com/sabit/img/acipayam-map.jpg": {
+  "out": "/img/acipayam-map.webp",
+  "alt": "Acıpayam haritası"
+ }
+}

@@ -1,0 +1,32 @@
+{
+ "messages": [
+  {
+   "id": 4,
+   "name": "Bekir Nadir TUZCU",
+   "hometown": "Alaattin/Yeşilyuva/Acıpayam",
+   "message": "1983 yılında çıktığım hayat mücadelesinde hep içim sızlayarak tekrar dönüşlerde geri dönüp dönüp bakakaldığım güzel memleketimin tüm insanlarına ve tüm akrabalarıma selamlar sağlıklar",
+   "created_at": "2026-11-01T18:36:57.463Z"
+  },
+  {
+   "id": 3,
+   "name": "denem",
+   "hometown": "",
+   "message": "denem",
+   "created_at": "2026-09-07T19:44:08.375Z"
+  },
+  {
+   "id": 2,
+   "name": "MustafaUnal",
+   "hometown": "KELEKÇİ",
+   "message": "7 EYLÜL 2026 22.42 DEN MERHABA TÜM GÖNÜL DOSTLARINA. GERİ DÖNDÜK.",
+   "created_at": "2026-09-07T19:43:02.907Z"
+  },
+  {
+   "id": 1,
+   "name": "ACIPAYAM.com",
+   "hometown": "Memleket Kokusu",
+   "message": "Hoş geldiniz gönül dostları. Yıllar sonra Mini Sohbet yeniden açık; bir selam bırakın, memleketin sesi yine burada buluşsun.",
+   "created_at": "2026-09-07 19:39:54"
+  }
+ ]
+}

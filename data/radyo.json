@@ -1,0 +1,94 @@
+{
+ "title": "Radyo ACIPAYAM.com",
+ "eyebrow": "2000’li yıllardan sesli hatıralar",
+ "intro": [
+  "Eski yayınlardan seçilen 12 ses kaydı, özgün dosyalara dokunulmadan bu arşivde bir araya getirildi.",
+  "Program, eser ve seslendiren bilgileri Mustafa Ünal'ın verdiği arşiv künyelerine göre düzenlenmiştir. Yayın ve telif izinleri ayrıca kontrol edilecektir."
+ ],
+ "records": [
+  {
+   "title": "Ben Sana Mecburum",
+   "person": "Okuyan: Mustafa Ünal",
+   "duration": "03:30",
+   "source": "ben_sana_mecburum_mustafa.mp3",
+   "file": "https://acipayam.com/radyo-arsivi/media/ben-sana-mecburum.mp3"
+  },
+  {
+   "title": "Birhanım Gülüm",
+   "person": "Şiir: Sabit Kızılhan · Seslendiren: Mustafa Ünal",
+   "duration": "04:02",
+   "source": "birhanım_gülüm_sabit_mustafa.mp3",
+   "file": "https://acipayam.com/radyo-arsivi/media/birhanim-gulum-sabit-mustafa.mp3"
+  },
+  {
+   "title": "Cemilem",
+   "person": "Program: Toprağın Sesi · Sunucu: Nuri Gökgöz · Türküyü söyleyen: Ayşe Çakır · Yayın yeri: Selçuk, İzmir",
+   "duration": "02:02",
+   "source": "cemilem Ayşe Çakırmp3.mp3",
+   "file": "https://acipayam.com/radyo-arsivi/media/cemilem-ayse-cakir.mp3"
+  },
+  {
+   "title": "Çocukken",
+   "person": "Program: Toprağın Sesi · Sunucu: Nuri Gökgöz · Şiir ve şiiri okuyan: Nuri Gökgöz · Şarkıyı söyleyen: Gülenay Gökgöz",
+   "duration": "02:25",
+   "source": "cocukken gülenay.mp3",
+   "file": "https://acipayam.com/radyo-arsivi/media/cocukken-gulenay.mp3"
+  },
+  {
+   "title": "Hatma",
+   "person": "Program: Toprağın Sesi · Emin Okkaya'nın köşe yazısı · Seslendiren: Nuri Gökgöz",
+   "duration": "06:29",
+   "source": "Emin Okkaya hatca mp3.mp3",
+   "file": "https://acipayam.com/radyo-arsivi/media/emin-okkaya-hatca.mp3"
+  },
+  {
+   "title": "İki Şiir",
+   "person": "Şiirler: Levent Suna · Program: Toprağın Sesi · Seslendiren: Nuri Gökgöz",
+   "duration": "06:29",
+   "source": "Levent Suna  iki şiir.mp3",
+   "file": "https://acipayam.com/radyo-arsivi/media/levent-suna-iki-siir.mp3"
+  },
+  {
+   "title": "Kırmızı Gül",
+   "person": "Türküyü söyleyen: Ayşe Çakır",
+   "duration": "03:43",
+   "source": "kırmızı gül Ayşe Çakır mp3.mp3",
+   "file": "https://acipayam.com/radyo-arsivi/media/kirmizi-gul-ayse-cakir.mp3"
+  },
+  {
+   "title": "Çağdaş",
+   "person": "Yazı: Mehmet Çağdaş · Okuyan: Nuri Gökgöz",
+   "duration": "02:07",
+   "source": "mp3 çağdaş.mp3",
+   "file": "https://acipayam.com/radyo-arsivi/media/cagdas.mp3"
+  },
+  {
+   "title": "Mustafa Oğlu Salih",
+   "person": "Yazı: Salih Erdem · Okuyan: Nuri Gökgöz",
+   "duration": "08:53",
+   "source": "salih mp3.mp3",
+   "file": "https://acipayam.com/radyo-arsivi/media/salih.mp3"
+  },
+  {
+   "title": "Sevda",
+   "person": "Şiir ve okuyan: Nuri Gökgöz",
+   "duration": "02:59",
+   "source": "sevda mp 3.mp3",
+   "file": "https://acipayam.com/radyo-arsivi/media/sevda.mp3"
+  },
+  {
+   "title": "Sende Ben",
+   "person": "Yazı: Ümran Songun · Okuyan: Nuri Gökgöz",
+   "duration": "07:43",
+   "source": "ümran  sende ben mp3.mp3",
+   "file": "https://acipayam.com/radyo-arsivi/media/umran-sende-ben.mp3"
+  },
+  {
+   "title": "Pes Etmedim",
+   "person": "Şiir: Sabit Kızılhan · Okuyan: Muharrem Karaoğlan",
+   "duration": "03:13",
+   "source": "pes etmedim.mp3",
+   "file": "https://acipayam.com/radyo-arsivi/media/pes-etmedim.mp3"
+  }
+ ]
+}

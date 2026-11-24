@@ -1,0 +1,15 @@
+{
+ "slogan": [
+  "\"Kim bu cennet vatanın uğruna olmaz ki fedâ?",
+  "Şühedâ fışkıracak toprağı sıksan, şühedâ!\""
+ ],
+ "title": "3.290 şehit, tek bir hafıza.",
+ "lead": "1853-1928 yılları arasında savaş ve muharebelerde şehit olan askerlerimizin listesi.",
+ "intro_title": "Bir ismi, bir köyü, bir hatırayı bulun.",
+ "intro": "Adı, baba adını, ilçeyi, köyü veya şehadet yerini yazarak arayın. Bir kayda dokunduğunuzda arşivdeki bütün ayrıntılar açılır.",
+ "source": {
+  "label": "MSB Şehit Bilgi Kapısı",
+  "href": "https://www.msb.gov.tr/SehitBilgiKapisi/SehitListesi"
+ },
+ "count": 3290
+}
