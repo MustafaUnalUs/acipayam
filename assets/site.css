@@ -455,3 +455,66 @@ a.soon:hover h3 { color: var(--altin); }
   .raf li { flex: 0 0 var(--w); max-width: none; }
   .spine { width: var(--w); }
 }
+
+/* ---- ölçek: daha sakin, insan boyunda ---- */
+body { font-size: 1rem; }
+h1 { font-size: clamp(2rem, 3.6vw, 2.9rem); }
+h2 { font-size: clamp(1.5rem, 2.4vw, 2rem); }
+h3 { font-size: 1.3rem; }
+.kicker { font-size: .7rem; margin-bottom: .7rem; }
+.bar-in { padding-top: .55rem; padding-bottom: .55rem; }
+.mark { font-size: 1.25rem; }
+.menu nav a { font-size: .9rem; }
+.btn { font-size: .92rem; padding: .75rem 1.15rem; }
+
+.vitrin-in { padding-top: clamp(2rem, 4vw, 3.2rem); gap: clamp(1.5rem, 4vw, 3.5rem); }
+.vitrin h1 { font-size: clamp(2rem, 3.4vw, 2.9rem); margin-bottom: 1rem; }
+.vitrin-lead { font-size: 1rem; max-width: 30rem; }
+.vitrin-feature h2 { font-size: clamp(1.4rem, 2vw, 1.75rem); }
+.vf-by { margin-bottom: .6rem; font-size: .95rem; }
+.vitrin-feature .vf-sum { font-size: .95rem; }
+.vf-links { margin-top: 1rem; }
+.raf-hint { font-size: .8rem; }
+
+.sheet-in { padding-top: clamp(2.8rem, 6vw, 4.5rem); padding-bottom: clamp(2.8rem, 6vw, 4.5rem); }
+.sec-head { margin-bottom: 1.8rem; }
+.tile { min-height: 240px; padding: 1.4rem; }
+.tile-wide { min-height: 340px; }
+.tile h3 { font-size: clamp(1.4rem, 2vw, 1.75rem); }
+.tile p:last-child { font-size: .9rem; }
+.big-num { font-size: clamp(3rem, 5vw, 4rem); }
+@media (min-width: 820px) { .tiles { grid-template-rows: minmax(240px, auto) minmax(220px, auto); } }
+
+.story-in { padding-top: clamp(3rem, 7vw, 5rem); padding-bottom: clamp(3rem, 7vw, 5rem); }
+.motto { font-size: clamp(1.4rem, 2.2vw, 1.8rem); margin: 1rem 0 1.8rem; }
+.story-text { font-size: 1rem; }
+.story-text h3 { font-size: 1.5rem; }
+.sign { font-size: 1.25rem; }
+.notes h2 { font-size: 1.7rem; }
+.years time { font-size: 1.35rem; }
+.chat blockquote { font-size: 1.15rem; }
+
+.book-hero-in { padding-top: clamp(2.5rem, 5vw, 4rem); padding-bottom: clamp(2.5rem, 5vw, 4rem); }
+.covers { width: min(100%, 360px); }
+.hero-sub { font-size: 1.3rem; }
+.hero-by { margin-bottom: 1.1rem; }
+.hero-intro { font-size: 1rem; }
+.facts dd { font-size: 1.2rem; }
+.contents h2, .panel h2 { font-size: 1.6rem; }
+.pull { font-size: 1.45rem; }
+.status-box b { font-size: 1.2rem; }
+
+.chap-num { font-size: clamp(2.6rem, 5vw, 3.4rem); margin-bottom: .3rem; }
+.chap-head h1 { font-size: clamp(1.8rem, 3.6vw, 2.4rem); }
+.chap-lead { font-size: 1.2rem; }
+:root { --read: 1.125rem; }
+.text .sub { font-size: 1.5rem; }
+.text .lead-p::first-letter { font-size: 3.4em; }
+.pager a { font-size: 1.15rem; }
+
+.page-hero-in { padding-top: clamp(2.5rem, 5vw, 3.8rem); padding-bottom: clamp(2.5rem, 5vw, 3.8rem); }
+.memorial-hero blockquote { font-size: 1.3rem; }
+.rec h2 { font-size: 1.35rem; }
+.episode .chap-num { font-size: 3rem; }
+.martyr-list summary b { font-size: 1.15rem; }
+.foot-motto { font-size: 1.25rem; }

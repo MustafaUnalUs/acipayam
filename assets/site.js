@@ -114,7 +114,7 @@
   if (reader) {
     const root = document.documentElement;
     let size = Number(store.get("size")) || 0;
-    const apply = () => root.style.setProperty("--read", `${1.1875 + size * 0.0625}rem`);
+    const apply = () => root.style.setProperty("--read", `${1.125 + size * 0.0625}rem`);
     apply();
     $$("[data-size]").forEach((b) => b.addEventListener("click", () => {
       size = Math.max(-2, Math.min(5, size + Number(b.dataset.size)));
