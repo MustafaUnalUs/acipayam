@@ -529,13 +529,13 @@ def build_home():
   </div>
   <div class="raf-wrap" id="kitaplar">
     <div class="raf-gruplar">
-      <section class="raf-grup raf-seri" aria-label="US’lu Anlatılar serisi">
-        <header><p class="grup-ad">US’lu Anlatılar</p><p class="grup-alt">Mustafa Ünal’ın beş kitaplık serisi</p></header>
-        <ul class="raf">{seri_shelf}</ul>
-      </section>
       <section class="raf-grup" aria-label="Acıpayam kitaplığı">
         <header><p class="grup-ad">Acıpayam kitaplığı</p><p class="grup-alt">Sözlü tarih, tanıklık ve hatıra</p></header>
         <ul class="raf">{other_shelf}</ul>
+      </section>
+      <section class="raf-grup raf-seri" aria-label="US’lu Anlatılar serisi">
+        <header><p class="grup-ad">US’lu Anlatılar</p><p class="grup-alt">Mustafa Ünal’ın beş kitaplık serisi</p></header>
+        <ul class="raf">{seri_shelf}</ul>
       </section>
     </div>
     <div class="raf-line" aria-hidden="true"></div>
