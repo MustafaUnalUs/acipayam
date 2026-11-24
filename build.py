@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "3"
+ASSET_V = "4"
 
 
 def J(name):
@@ -194,7 +194,7 @@ def layout(path, title, body, desc="", cls="", style=""):
 {"" if CANLI else NOINDEX}<link rel="canonical" href="{ORIGIN}{path}">
 <meta property="og:title" content="{E(full)}">
 <meta property="og:locale" content="tr_TR">
-<meta name="theme-color" content="#4a2d1c">
+<meta name="theme-color" content="#4f1f75">
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -716,7 +716,7 @@ def build_dunu():
     note = f'<p class="note-box">{E(d["editor_note"])}</p>' if d["editor_note"] else ""
     body = page_hero("Sözlü tarih · Hikmet Başaran’ın anlatımıyla", d["title"], d["intro"][0] if d["intro"] else "", d["image"]) + \
         f'<div class="page-body narrow">{note}{eps}</div>'
-    write("/acipayam-dunu-bugunu/", layout("/acipayam-dunu-bugunu/", d["title"], body, style="--book:#3b2a1f"))
+    write("/acipayam-dunu-bugunu/", layout("/acipayam-dunu-bugunu/", d["title"], body, style="--book:#4f1f75"))
 
 
 def build_radyo():
@@ -728,7 +728,7 @@ def build_radyo():
     body = page_hero(r["eyebrow"], r["title"], " ".join(r["intro"])) + f"""<div class="page-body narrow">
   <label class="search"><span>Kayıtlarda ara</span><input type="search" data-filter-list="#kayitlar" placeholder="Şiir, türkü, isim…"></label>
   <ol class="records" id="kayitlar">{items}</ol></div>"""
-    write("/radyo-arsivi/", layout("/radyo-arsivi/", r["title"], body, style="--book:#2a1d3a"))
+    write("/radyo-arsivi/", layout("/radyo-arsivi/", r["title"], body, style="--book:#3d1760"))
 
 
 def build_sehit():
@@ -750,7 +750,7 @@ def build_sehit():
   <p class="muted">Kaynak: <a href="{m['source']['href']}" rel="noopener">{E(m['source']['label'])}</a>. Tarihî kayıtlar özgün yazımıyla korunmuştur.</p>
 </div>"""
     write("/sehit-bilgi-kapisi/", layout("/sehit-bilgi-kapisi/", "Denizli Şehit Bilgi Kapısı", body,
-                                         desc=m["lead"], cls="page-martyrs", style="--book:#1b2438"))
+                                         desc=m["lead"], cls="page-martyrs", style="--book:#2b1240"))
 
 
 def build_soon():

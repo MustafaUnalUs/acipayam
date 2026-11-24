@@ -2,17 +2,18 @@
    Kahverengi kültür tabelaları, buğday sarısı, zeytin yeşili, beyaz kâğıt.
    Başlık ve tabela: Overpass (yol levhası harfi). Metin: Newsreader. */
 :root {
-  --kagit: #fbfaf6;
-  --kagit-2: #f1efe7;
-  --murekkep: #1f1d1a;
-  --soluk: #5e5a52;
-  --cizgi: #dedad0;
-  --tabela: #5a3620;
-  --tabela-koyu: #3f2617;
-  --bugday: #d9a43a;
-  --zeytin: #4b5a2e;
-  --gok: #2d5b78;
-  --book: #5a3620;
+  --kagit: #ffffff;
+  --kagit-2: #f5f1f9;
+  --murekkep: #1e1726;
+  --soluk: #5c5466;
+  --cizgi: #e3dbec;
+  --tabela: #4f1f75;
+  --tabela-koyu: #36124f;
+  --bugday: #cfa6f0;
+  --vurgu: #7a3daa;
+  --zeytin: #6b4a8a;
+  --gok: #2b1240;
+  --book: #4f1f75;
   --sans: "Overpass", "Helvetica Neue", Arial, sans-serif;
   --serif: "Newsreader", Georgia, serif;
   --read: 1.25rem;
@@ -68,7 +69,7 @@ p { margin: 0 0 1em; }
 .btn:hover { background: var(--tabela-koyu); border-color: var(--tabela-koyu); color: #fff; }
 .btn small { font-weight: 500; opacity: .8; font-size: .82rem; }
 .btn-gold { background: var(--bugday); border-color: var(--bugday); color: #1f1d1a; }
-.btn-gold:hover { background: #e7b552; border-color: #e7b552; color: #1f1d1a; }
+.btn-gold:hover { background: #e0c4f7; border-color: #e0c4f7; color: #1f1d1a; }
 .btn-ghost { background: transparent; border-color: rgba(255,255,255,.7); color: #fff; }
 .btn-ghost:hover { background: rgba(255,255,255,.12); border-color: #fff; color: #fff; }
 .btn-line { background: transparent; color: var(--murekkep); border-color: var(--cizgi); }
@@ -77,7 +78,7 @@ p { margin: 0 0 1em; }
 /* ===== ANA SAYFA ===== */
 .giris { position: relative; min-height: min(78vh, 760px); display: flex; align-items: flex-end; color: #fff; isolation: isolate; overflow: hidden; }
 .giris-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
-.giris::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(20,14,8,.72) 100%); }
+.giris::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(30,8,48,.78) 100%); }
 .giris-in { width: 100%; max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto; padding: 0 var(--gutter) clamp(2.5rem, 6vw, 4.5rem); }
 .giris-kicker { font: 800 .95rem var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--bugday); margin-bottom: .8rem; }
 .giris h1 { font-size: clamp(2.8rem, 6.5vw, 5.4rem); line-height: 1; margin-bottom: 1rem; text-shadow: 0 2px 24px rgba(0,0,0,.35); }
@@ -141,7 +142,7 @@ p { margin: 0 0 1em; }
 .kart:hover b { color: var(--tabela); }
 .kart-anma { background: var(--gok); color: #fff; box-shadow: none; }
 .kart-anma:hover, .kart-anma:hover b { color: #fff; }
-.kart-anma .kart-k { color: #b9d3e4; }
+.kart-anma .kart-k { color: var(--bugday); }
 .kart-anma .kart-body > span:last-child { color: rgba(255,255,255,.85); }
 .kart-anma { grid-template-columns: auto 1fr; }
 .anma-sayi { font: 800 clamp(2.4rem, 3.6vw, 3.2rem)/1 var(--sans); color: #fff; white-space: nowrap; min-width: 140px; text-align: center; }
@@ -171,7 +172,7 @@ p { margin: 0 0 1em; }
 #chat-list { max-height: 28rem; overflow: auto; }
 
 /* hikâye */
-.hikaye { background: var(--zeytin); color: #f4f2ea; }
+.hikaye { background: var(--tabela-koyu); color: #f4f2ea; }
 .hikaye-in { max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto; padding: clamp(3.5rem, 8vw, 6rem) var(--gutter); display: grid; gap: 3rem; }
 @media (min-width: 960px) { .hikaye-in { grid-template-columns: 1fr 1.3fr; gap: 5rem; } .hikaye-side { position: sticky; top: 6rem; align-self: start; } }
 .hikaye h2 { color: #fff; }
@@ -376,7 +377,7 @@ input[type="search"]:focus, select:focus { outline: none; border-color: var(--bu
 .player-dock button { background: none; border: 0; color: var(--bugday); font-size: 1.5rem; cursor: pointer; }
 
 /* büyütme penceresi */
-.lightbox { border: 0; padding: 0; margin: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; background: rgba(20,14,8,.95); color: #fff; }
+.lightbox { border: 0; padding: 0; margin: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; background: rgba(26,8,40,.96); color: #fff; }
 .lightbox::backdrop { background: rgba(0,0,0,.8); }
 .lb-stage { position: absolute; inset: 3.6rem 0 4.2rem; overflow: auto; display: grid; place-items: center; }
 .lb-stage img { max-width: calc(100vw - 2rem); max-height: calc(100dvh - 8.4rem); width: auto; height: auto; cursor: zoom-in; }
@@ -429,3 +430,11 @@ body.has-dock .foot { padding-bottom: 5rem; }
   .sign-s { grid-column: 1; font-size: .85rem; }
   .sign-arrow { display: none; }
 }
+
+/* mor-beyaz: açık zeminde koyu mor vurgu */
+.kicker, .toc-n, .chap-num, .rec-n, .pager small { color: var(--vurgu); }
+.giris-kicker, .book-hero .kicker, .page-hero .kicker, .memorial-hero cite { color: var(--bugday); }
+.text .bro { border-left-color: var(--vurgu); }
+.text .bro::before { color: var(--vurgu); }
+.martyr-list summary .war { color: var(--vurgu); }
+a { text-decoration-color: var(--bugday); }
