@@ -71,14 +71,6 @@ SABIT = J("sabit.json")
 COLORS = J("kapak-renkleri.json")
 
 BOOKS = [
-    {"slug": "uslu-dimag", "base": "/uslu-dimag/", "title": "US’lu Dimağ", "author": "Mustafa Ünal",
-     "series": "US’lu Anlatılar · Beşinci kitap · Final", "new": True,
-     "summary": "Doksan öğretide ölçüsü oturmuş bir zihin. Her öğretinin sonunda okura dönüp bakması için bir soru.",
-     "intro": "Bu kitap öğretmek ya da ikna etmek için yazılmadı. Bir insanın hayatın içinde düşe kalka, zamanla oluşmuş us izlerinin kaydı; davranıştan zamana, güvenden vedaya doksan kısa öğreti."},
-    {"slug": "gonul-dostu", "base": "/gonul-dostu/", "title": "Gönül Dostu", "subtitle": "Sabit Kızılhan ile Yol Yürümek",
-     "author": "Mustafa Ünal", "series": "Bağımsız eser", "new": True,
-     "summary": "2005–2026 arasındaki yol arkadaşlığından; dostluğun, memleketin ve hak mücadelesinin canlı tanıklığı.",
-     "intro": next(u for u in HOME["upcoming"] if u["title"].startswith("Gönül"))["paragraphs"][0]},
     {"slug": "uslu-dusler", "base": "/uslu-dusler/", "title": "US’lu Düşler", "subtitle": "Olmuş Zekâ",
      "author": "Mustafa Ünal", "series": "US’lu Anlatılar · Üçüncü kitap",
      "summary": HOME["books"][0]["summary"], "intro": USLU["intro"],
@@ -111,6 +103,7 @@ for b in BOOKS:
     b["words"] = sum(c["words"] for c in b["data"]["chapters"])
 
 _soon = next(u for u in HOME["upcoming"] if u["title"].startswith("Adı Konmamış"))
+_gonul = next(u for u in HOME["upcoming"] if u["title"].startswith("Gönül"))
 SOON = {
     "slug": "adi-konmamis-islere-don-bicen-adam", "base": "/adi-konmamis-islere-don-bicen-adam/",
     "title": "Adı Konmamış İşlere Don Biçen Adam", "author": "Mustafa Ünal",
@@ -119,16 +112,31 @@ SOON = {
     "cover": "/img/kapak/adi-konmamis-islere-don-bicen-adam.webp",
     "back": "/img/kapak/adi-konmamis-islere-don-bicen-adam-arka.webp",
     "color": COLORS["adi-konmamis-islere-don-bicen-adam"], "soon": True,
+    "kicker": "US’lu Anlatılar · Dördüncü kitap · GAMEKS 1999–2026",
 }
+SOONS = [SOON]
+for _b in [
+    {"slug": "uslu-dimag", "title": "US’lu Dimağ", "author": "Mustafa Ünal",
+     "series": "US’lu Anlatılar · Beşinci kitap · Henüz yayında değil", "kicker": "US’lu Anlatılar · Beşinci kitap · Final",
+     "summary": "Doksan öğretide ölçüsü oturmuş bir zihin.", "status": "2027’de yayımlanması planlanıyor",
+     "intro": "Bu kitap öğretmek ya da ikna etmek için yazılmadı. Bir insanın hayatın içinde düşe kalka, zamanla oluşmuş us izlerinin kaydı; davranıştan zamana, güvenden vedaya doksan kısa öğreti."},
+    {"slug": "gonul-dostu", "title": "Gönül Dostu", "author": "Mustafa Ünal",
+     "series": "Bağımsız eser · Henüz yayında değil", "kicker": "Bağımsız eser · Sabit Kızılhan ile Yol Yürümek",
+     "summary": "2005–2026 arasındaki yol arkadaşlığından; dostluğun, memleketin ve hak mücadelesinin canlı tanıklığı.",
+     "status": "2027’de yayımlanması planlanıyor", "intro": _gonul["paragraphs"][0]},
+]:
+    _b.update({"base": f"/{_b['slug']}/", "cover": f"/img/kapak/{_b['slug']}.webp",
+               "back": f"/img/kapak/{_b['slug']}-arka.webp", "color": COLORS[_b["slug"]], "soon": True})
+    SOONS.append(_b)
 
 SERI = {"icimde-kalan-cocuk": (1, "Kitap I"), "karanlik-odada-yedi-ay": (2, "Kitap II"),
         "uslu-dusler": (3, "Kitap III · Bonus"), "adi-konmamis-islere-don-bicen-adam": (4, "Kitap IV · Hazırlanıyor"),
-        "uslu-dimag": (5, "Kitap V · Final")}
-for b in BOOKS + [SOON]:
+        "uslu-dimag": (5, "Kitap V · Final · Hazırlanıyor")}
+for b in BOOKS + SOONS:
     if b["slug"] in SERI:
         b["seri"], b["seri_ad"] = SERI[b["slug"]]
-SERI_BOOKS = sorted((b for b in BOOKS + [SOON] if b.get("seri")), key=lambda b: b["seri"])
-OTHER_BOOKS = [b for b in BOOKS if not b.get("seri")]
+SERI_BOOKS = sorted((b for b in BOOKS + SOONS if b.get("seri")), key=lambda b: b["seri"])
+OTHER_BOOKS = [b for b in BOOKS + SOONS if not b.get("seri")]
 
 INTERVIEWS = {int(i["no"]): i for i in SABIT["interviews"]}
 bana = next(b for b in BOOKS if b["slug"] == "bana-koyunu-anlat")
@@ -498,10 +506,10 @@ def build_home():
         "summary": b["summary"], "color": b["color"], "href": b["base"], "read": first_url(b), "pdf": b["pdf"],
         "audio": (b["base"] + "#dinle") if b.get("audio") else "", "chapters": len(b["data"]["chapters"]),
         "new": bool(b.get("new"))} for b in BOOKS}, ensure_ascii=False)
-    shelf_data = shelf_data[:-1] + ", " + json.dumps({SOON["slug"]: {
-        "title": SOON["title"], "author": SOON["author"], "series": SOON["series"],
-        "summary": SOON["summary"] + " " + SOON["status"] + ".", "color": SOON["color"], "href": SOON["base"],
-        "read": "", "audio": "", "soon": True}}, ensure_ascii=False)[1:]
+    shelf_data = shelf_data[:-1] + ", " + json.dumps({x["slug"]: {
+        "title": x["title"], "author": x["author"], "series": x["series"],
+        "summary": x["summary"] + " " + x["status"] + ".", "color": x["color"], "href": x["base"],
+        "read": "", "audio": "", "soon": True} for x in SOONS}, ensure_ascii=False)[1:]
     def spine(b):
         no = f'<span class="spine-no">{E(b["seri_ad"])}</span>' if b.get("seri") else ""
         soon = b.get("soon")
@@ -512,8 +520,10 @@ def build_home():
     seri_shelf = "".join(spine(b) for b in SERI_BOOKS)
     other_shelf = "".join(spine(b) for b in OTHER_BOOKS)
     listen = f'<a href="{feat["base"]}#dinle" data-f="audio"{"" if feat.get("audio") else " hidden"}>Sesli kitap</a>'
-    soon_html = (f'<a class="soon" href="{SOON["base"]}"><img src="{SOON["cover"]}" alt="{E(SOON["title"])} kapağı" loading="lazy" width="200" height="310">'
-                 f'<div><p class="kicker">Henüz yayında değil · {E(SOON["status"])}</p><h3>{E(SOON["title"])}</h3><p>{E(SOON["summary"])}</p></div></a>')
+    soon_html = "".join(
+        f'<a class="soon" href="{x["base"]}"><img src="{x["cover"]}" alt="{E(x["title"])} kapağı" loading="lazy" width="200" height="310">'
+        f'<div><p class="kicker">Henüz yayında değil · {E(x["status"])}</p><h3>{E(x["title"])}</h3><p>{E(x["summary"])}</p></div></a>'
+        for x in SOONS)
     hist = h["history"]
     dunu = J("acipayam-dunu-bugunu.json")
     radyo = J("radyo.json")
@@ -748,14 +758,18 @@ def build_sehit():
 
 
 def build_soon():
-    b = SOON
+    for b in SOONS:
+        build_soon_one(b)
+
+
+def build_soon_one(b):
     others = "".join(
         f'<li><a href="{o["base"]}" style="--book:{o["color"]}">{cover(o)}<span>{E(o["title"])}</span></a></li>' for o in BOOKS)
     body = f"""<header class="book-hero">
   <div class="book-hero-in">
     {cover_pair(b)}
     <div class="book-hero-copy">
-      <p class="kicker">US’lu Anlatılar · Dördüncü kitap · GAMEKS 1999–2026</p>
+      <p class="kicker">{E(b['kicker'])}</p>
       <h1>{E(b['title'])}</h1>
       <p class="hero-by">{E(b['author'])}</p>
       <p class="hero-intro">{E(b['summary'])}</p>
