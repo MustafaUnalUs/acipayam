@@ -548,3 +548,23 @@ body { font-size: 1.125rem; }
 .seri-t { display: block; margin-top: .2rem; font-size: 1rem; line-height: 1.3; }
 .seri-list a[aria-current] .seri-t { color: var(--altin-acik); }
 @media (max-width: 600px) { .seri-t { font-size: .85rem; } .seri-no { font-size: .62rem; letter-spacing: .08em; } }
+
+/* ---- daha büyük kapaklar ---- */
+.raf-gruplar { flex-direction: column; gap: clamp(2rem, 4vw, 3rem); overflow: visible;
+  --w: clamp(150px, calc((min(100vw - 2 * var(--gutter), var(--wide)) - 4 * 1.8rem) / 5), 236px); }
+.raf-gruplar .raf { gap: 1.8rem; }
+.raf-grup header { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem 1.2rem; }
+.raf-grup header .grup-alt { margin: 0; }
+.grup-ad { font-size: 1.9rem; }
+.spine-label { font-size: 1.1rem; }
+.spine-no { font-size: .8rem; }
+@media (max-width: 899px) {
+  .raf-gruplar { --w: 168px; }
+  .raf-gruplar .raf { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; gap: 1.1rem; }
+}
+.covers { width: min(100%, 600px); gap: 1.4rem; }
+@media (min-width: 860px) { .book-hero-in { grid-template-columns: minmax(320px, 600px) 1fr; } }
+@media (min-width: 960px) { .seri-in { grid-template-columns: minmax(240px, .8fr) 3fr; } }
+.seri-t { font-size: 1.1rem; }
+.mini-shelf { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1.6rem; }
+.mini-shelf a { font-size: 1rem; }
