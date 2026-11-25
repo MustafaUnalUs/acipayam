@@ -553,3 +553,15 @@ a { text-decoration-color: var(--bugday); }
 .foto-meta { margin: .2rem 0 0; font: 500 .9rem/1.4 var(--sans); color: var(--soluk); }
 .foto-cta { margin-top: 3.5rem; padding: 1.8rem; border-radius: 12px; background: var(--kagit-2); }
 .foto-cta h2 { font-size: 1.6rem; }
+
+/* görünür paylaş satırı */
+.share-mini { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: 1.2rem; }
+.share-mini > span { font: 800 .9rem var(--sans); color: var(--soluk); margin-right: .2rem; }
+.share-mini .sh { padding: .5rem .9rem; font-size: .88rem; }
+.share-mini .sh svg { width: 1.05rem; height: 1.05rem; }
+.page-hero .share-mini > span, .memorial-hero .share-mini > span { color: rgba(255,255,255,.8); }
+.page-hero .sh-x { background: #000; box-shadow: inset 0 0 0 1px rgba(255,255,255,.35); }
+.chap-head .share-mini { margin-top: .9rem; }
+.giris .share-mini > span { color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+.memorial-hero .share-mini { justify-content: center; }
+@media (max-width: 520px) { .share-mini > span { flex-basis: 100%; margin: 0; } .share-mini { gap: .45rem; } .share-mini .sh { padding: .5rem .8rem; } .memorial-hero .share-mini > span { text-align: center; } }

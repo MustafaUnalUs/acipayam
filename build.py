@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "13"
+ASSET_V = "15"
 
 
 def J(name):
@@ -224,6 +224,22 @@ def layout(path, title, body, desc="", cls="", style=""):
 """
 
 
+SHARE_IC = {
+    "wa": '<path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.6-2-1-1 1c-1.2-.5-2.4-1.7-2.9-2.9l1-1-1-2z"/>',
+    "fb": '<path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/>',
+    "x": '<path d="M4 4l16 16M20 4 4 20"/>',
+}
+
+
+def share_mini():
+    def a(cls, href, label):
+        return (f'<a class="sh sh-{cls}" data-share="{cls}" href="{href}" target="_blank" rel="noopener" aria-label="{label} ile paylaş">'
+                f'<svg viewBox="0 0 24 24" aria-hidden="true">{SHARE_IC[cls]}</svg><span>{label}</span></a>')
+    return ('<div class="share-mini"><span>Paylaş:</span>'
+            + a("wa", "https://wa.me/", "WhatsApp") + a("fb", "https://www.facebook.com/", "Facebook")
+            + a("x", "https://x.com/", "X") + "</div>")
+
+
 def share_bar(path, title):
     from urllib.parse import quote
     url = ORIGIN + path
@@ -297,7 +313,7 @@ def book_actions(book, light=True):
          f'<a class="btn btn-ghost" href="{book["pdf"]}" download>PDF indir <small>{mb(book["pdf_size"])}</small></a>']
     if book.get("audio"):
         a.append(f'<a class="btn btn-ghost" href="{book["base"]}#dinle">Sesli kitap</a>')
-    return '<div class="actions">' + "".join(a) + "</div>"
+    return '<div class="actions">' + "".join(a) + "</div>" + share_mini()
 
 
 def render_blocks(blocks, book_slug=""):
@@ -492,6 +508,7 @@ def build_chapter(book, i):
       <button type="button" data-size="1" aria-label="Yazıyı büyüt">A+</button>
       <a href="{book['base']}#icindekiler">İçindekiler</a>
     </div>
+    {share_mini()}
   </header>
   {video}
   {inpage}
@@ -592,6 +609,7 @@ def build_home():
     <p class="giris-kicker">ACIPAYAM.com · 2004’ten beri</p>
     <h1>Memleket kokusu.</h1>
     <p class="giris-lead">Acıpayam’ın ortak hafızası: köylerin anlattıkları, şehitlerin adları, radyonun sesleri ve memleket kitapları. Hepsi ücretsiz, hepsi burada.</p>
+    {share_mini()}
   </div>
   <p class="giris-credit">Taşkın Dede hayrı, 700 yıllık gelenek · Alaaddin Mahallesi, Acıpayam · Fotoğraf: Mustafa Ünal</p>
 </section>
@@ -691,7 +709,7 @@ def build_home():
 def page_hero(kicker, title, lead="", img=""):
     pic = f'<img class="ph-img" src="{img}" alt="" width="400" height="400">' if img else ""
     return (f'<header class="page-hero"><div class="page-hero-in">{pic}<div><p class="kicker">{E(kicker)}</p>'
-            f'<h1>{E(title)}</h1>{f"<p class=hero-intro>{E(lead)}</p>" if lead else ""}</div></div></header>')
+            f'<h1>{E(title)}</h1>{f"<p class=hero-intro>{E(lead)}</p>" if lead else ""}{share_mini()}</div></div></header>')
 
 
 def build_sabit():
@@ -746,7 +764,7 @@ def build_sabit():
             continue
         vid = yt(iv["video"], iv["title"]) if iv.get("video") else ""
         body = f"""<div class="chap-band"><div class="chap-band-in"><a href="/sabit/"><img src="{b['cover']}" alt="" width="40" height="62">Bana Köyünü Anlat</a><span>Kitap dışı görüşme</span></div></div>
-<article class="reader"><header class="chap-head"><h1>{E(iv['title'])}</h1><p class="chap-lead">{E(iv['subtitle'])}</p></header>{vid}
+<article class="reader"><header class="chap-head"><h1>{E(iv['title'])}</h1><p class="chap-lead">{E(iv['subtitle'])}</p>{share_mini()}</header>{vid}
   <div class="text">{fix_yt(iv['html'])}</div>
   {('<section class="chap-extra">' + "".join(fix_yt(x) for x in iv['extra']) + '</section>') if iv['extra'] else ''}
   <nav class="pager"><a class="pager-prev" href="/sabit/kizilhan/"><small>Dizin</small>Tüm görüşmeler</a><a class="pager-next" href="/sabit/#koyler"><small>Harita</small>Köylere dön</a></nav>
@@ -808,7 +826,7 @@ def build_sehit():
     shutil.copy(DATA / "sehitler.json", OUT / "veri" / "sehitler.json")
     body = f"""<header class="page-hero memorial-hero"><div class="page-hero-in"><div>
   <blockquote>{"<br>".join(E(s.strip(chr(34))) for s in m['slogan'][:2])}<cite>Mehmet Âkif Ersoy</cite></blockquote>
-  <h1>{E(m['title'])}</h1><p class="hero-intro">{E(m['lead'])}</p></div></div></header>
+  <h1>{E(m['title'])}</h1><p class="hero-intro">{E(m['lead'])}</p>{share_mini()}</div></div></header>
 <div class="page-body">
   <h2>{E(m['intro_title'])}</h2><p>{E(m['intro'])}</p>
   <div class="finder-tools">
@@ -842,7 +860,7 @@ def build_soon_one(b):
       <p class="hero-by">{E(b['author'])}</p>
       <p class="hero-intro">{E(b['summary'])}</p>
       <p class="hero-intro">{E(b['intro'])}</p>
-      <div class="status-box"><b>Henüz yayında değil</b><span>{E(b['status'])}. Kitap yayımlandığında burada okunabilecek, PDF olarak indirilebilecek.</span></div>
+      <div class="status-box"><b>Henüz yayında değil</b><span>{E(b['status'])}. Kitap yayımlandığında burada okunabilecek, PDF olarak indirilebilecek.</span></div>{share_mini()}
     </div>
   </div>
 </header>
