@@ -703,3 +703,26 @@ a { text-decoration-color: var(--bugday); }
   .po-info { min-width: 0; flex: 1; font-size: .8rem; }
   .po-bar [data-start] { display: none; }
 }
+
+/* ===== KARANLIK MOD (telefon karanlık moddayken) ===== */
+@media (prefers-color-scheme: dark) {
+  :root { --kagit: #17131c; --kagit-2: #211a29; --murekkep: #ece6f2; --soluk: #b3a9bf; --cizgi: #3a3045;
+          --vurgu: #cfa6f0; --zeytin: #c4a3e0; color-scheme: dark; }
+  a:hover, .bk a:hover .bk-t, .kart:hover b, .chat b, .data th, .tc-time, .years time, .transcript summary,
+  .toc a:hover .toc-t, .toc button:hover .toc-t, .toc button[aria-current] .toc-t,
+  .hikaye-yeni .hikaye-motto, .book-hero .status-box b { color: var(--bugday); }
+  .text .lead-p::first-letter { color: var(--bugday); }
+  .data th { border-bottom-color: var(--bugday); }
+  .book-hero .btn-ghost, .hikaye-yeni .story-more summary { color: #fff; border-color: var(--bugday); }
+  .book-hero .btn-ghost:hover { background: var(--bugday); color: #1f1d1a; }
+  .book-hero .status-box { border-color: var(--bugday); }
+  .btn-line { color: var(--murekkep); border-color: var(--cizgi); }
+  .btn-line:hover { background: var(--kagit-2); color: #fff; }
+  .book-hero .zoom img, .bk-cover img { box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 20px 30px -18px rgba(0,0,0,.9); }
+  .reader a.sh, .reader a.sh:hover { color: #fff; }
+  .signs-wrap { background: var(--kagit-2); }
+  .sign { box-shadow: inset 0 0 0 3px var(--tabela), inset 0 0 0 5px rgba(255,255,255,.85), 0 10px 20px -14px rgba(0,0,0,.8); }
+  .map { box-shadow: 0 0 0 1px var(--cizgi); }
+  .photo img { filter: none; }
+  input[type="search"], select, .chat-form input, .chat-form textarea { background: var(--kagit-2); }
+}
