@@ -892,6 +892,16 @@ def main():
     if not CANLI:
         (OUT / "CNAME").write_text("acipayam.gunerunal.com.tr\n")
     (OUT / ".nojekyll").write_text("")
+    if CANLI and MEDIA_BASE.rstrip("/") != ORIGIN:
+        # eski ses ve indirme bağlantıları, sesleri tutan eski sunucuya yönlensin
+        base = MEDIA_BASE.rstrip("/")
+        rules = [f"/{d}/* {base}/{d}/:splat 302" for d in (
+            "icimde-kalan-cocuk/bolumler", "radyo-arsivi/media", "kelekcide-yasamak/downloads",
+            "sabit/downloads", "uslu-dusler/assets")]
+        rules += [f"{f} {base}{f} 302" for f in (
+            "/icimde-kalan-cocuk/Icimde_Kalan_Cocuk_SESLI_KITAP_Onyx_Yuzde_10_Hizli.mp3",
+            "/karanlik-odada-yedi-ay/Karanlik_Odada_Yedi_Ay_SESLI_KITAP_DUZELTILMIS_NIHAI.mp3")]
+        (OUT / "_redirects").write_text("\n".join(rules) + "\n")
     (OUT / "robots.txt").write_text("User-agent: *\n" + ("Allow: /\n" if CANLI else "Disallow: /\n"))
     build_home()
     for b in BOOKS:
