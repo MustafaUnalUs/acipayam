@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "10"
+ASSET_V = "11"
 
 
 def J(name):
@@ -503,6 +503,7 @@ SIGN_ICONS = {
     "sehit": '<path d="M12 3l2.6 5.6 6 .6-4.5 4 1.3 6-5.4-3.1-5.4 3.1 1.3-6-4.5-4 6-.6z"/>',
     "radyo": '<rect x="3" y="8" width="18" height="12" rx="2"/><circle cx="8" cy="14" r="3"/><path d="M14 12h4M14 16h4M7 8l9-5"/>',
     "sohbet": '<path d="M4 5h16v10H9l-5 4z"/>',
+    "video": '<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/>',
 }
 
 
@@ -523,7 +524,7 @@ def build_home():
         sign("/acipayam-dunu-bugunu/", "tarih", "Acıpayam Tarihi", f"{len(dunu['episodes'])} söyleşi, Hikmet Başaran"),
         sign("/sehit-bilgi-kapisi/", "sehit", "Şehitler", f"{mem['stat']} şehit kaydı"),
         sign("/radyo-arsivi/", "radyo", "Radyo ACIPAYAM.com", f"{len(radyo['records'])} eski yayın kaydı"),
-        sign("#sohbet", "sohbet", "Mini Sohbet", "Memlekete selam bırakın"),
+        sign("#videolar", "video", "Videolar", "Eski videolar ve etkinlikler"),
     ])
     pins = "".join(
         f'<a class="pin" href="{p["href"]}" style="left:{p["left"]};top:{p["top"]}"><span>{E(p["name"])}</span></a>'
@@ -541,15 +542,7 @@ def build_home():
                   f'<span class="bk-cover">{cover(b)}{"<span class=bk-ribbon>Yakında</span>" if soon else ""}</span>'
                   f'<span class="bk-tag">{E(tag)}</span><span class="bk-t">{E(b["title"])}</span>'
                   f'<span class="bk-a">{E(b["author"])}</span></a></li>')
-    april = "".join(f'<li><time>{E(a["year"])}</time><div><b>{E(a["title"])}</b><p>{E(a["text"])}</p></div></li>'
-                    for a in h["april"]["items"])
     videos = "".join(f"<li>{yt(v['id'], v['title'])}</li>" for v in h["videos"])
-    msgs = [m for m in J("sohbet.json").get("messages", []) if len(m["message"]) > 8][:3]
-    chat = "".join(
-        f'<li><blockquote>{E(m["message"])}</blockquote><p><b>{E(m["name"])}</b>{" · " + E(m["hometown"]) if m.get("hometown") else ""}</p></li>'
-        for m in msgs)
-    chat_static = (f'<ul class="chat">{chat}</ul>'
-                   f'<a class="btn btn-line" href="{ORIGIN}/#mini-sohbet">acipayam.com’da selam bırakın</a>')
     story = h["story"]
     split = story["body"].find("<p>Ancak ACIPAYAM.com")
     assert split > 0
@@ -590,32 +583,6 @@ def build_home():
   <ul class="bks">{cards}</ul>
 </section>
 
-<section class="blok ikili" aria-label="Tarih ve anma">
-  <a class="kart" href="/acipayam-dunu-bugunu/">
-    <img src="{hist['image']}" alt="Hikmet Başaran" loading="lazy" width="800" height="800">
-    <span class="kart-body"><span class="kart-k">Sözlü tarih · {len(dunu['episodes'])} söyleşi</span><b>{E(hist['title'])}</b>
-      <span>{E(hist['by'])}: belediyecilik hafızası, kaybolan değerler, Millî Mücadele.</span></span>
-  </a>
-  <a class="kart kart-anma" href="/sehit-bilgi-kapisi/">
-    <span class="anma-sayi">{E(mem['stat'])}</span>
-    <span class="kart-body"><span class="kart-k">1853–1928 · Kalıcı anma arşivi</span><b>Denizli Şehit Bilgi Kapısı</b>
-      <span>İsim, köy ya da savaşa göre aranabilir.</span></span>
-  </a>
-</section>
-
-<section class="blok" id="sohbet" aria-labelledby="sohbet-b">
-  <div class="sohbet-grid">
-    <div>
-      <header class="blok-head"><h2 id="sohbet-b">Mini Sohbet</h2><p>2004 ruhuyla, yine aynı memleket meydanı.</p></header>
-      {LIVE_CHAT if CANLI else chat_static}
-    </div>
-    <div>
-      <header class="blok-head"><h2>1 Nisan geleneği</h2><p>{E(h['april']['intro'])}</p></header>
-      <ol class="years">{april}</ol>
-    </div>
-  </div>
-</section>
-
 <section class="hikaye" id="hikaye">
   <div class="hikaye-in">
     <div class="hikaye-side">
@@ -646,9 +613,25 @@ def build_home():
   </div>
 </section>
 
-<section class="blok" aria-labelledby="video-b">
-  <header class="blok-head"><h2 id="video-b">Videolar</h2><p>Acıpayam’ın hafızasından seçkiler.</p></header>
+<section class="blok" id="videolar" aria-labelledby="video-b">
+  <header class="blok-head"><h2 id="video-b">Eski videolar ve etkinlikler</h2><p>ACIPAYAM.com arşivinden görüntüler.</p></header>
   <ul class="videos">{videos}</ul>
+</section>
+
+<section class="blok tek" aria-label="Acıpayam tarihi">
+  <a class="kart" href="/acipayam-dunu-bugunu/">
+    <img src="{hist['image']}" alt="Hikmet Başaran" loading="lazy" width="800" height="800">
+    <span class="kart-body"><span class="kart-k">Sözlü tarih · {len(dunu['episodes'])} söyleşi</span><b>{E(hist['title'])}</b>
+      <span>{E(hist['by'])}: belediyecilik hafızası, kaybolan değerler, Millî Mücadele.</span></span>
+  </a>
+</section>
+
+<section class="blok tek tek-son" aria-label="Şehit Bilgi Kapısı">
+  <a class="kart kart-anma" href="/sehit-bilgi-kapisi/">
+    <span class="anma-sayi">{E(mem['stat'])}</span>
+    <span class="kart-body"><span class="kart-k">1853–1928 · Kalıcı anma arşivi</span><b>Denizli Şehit Bilgi Kapısı</b>
+      <span>İsim, köy ya da savaşa göre aranabilir.</span></span>
+  </a>
 </section>
 """
     write("/", layout("/", "ACIPAYAM.com — Memleket Kokusu", body, cls="page-home"))
