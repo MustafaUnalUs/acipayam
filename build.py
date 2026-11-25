@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "21"
+ASSET_V = "22"
 
 
 def J(name):
@@ -634,7 +634,7 @@ def build_home():
   <ul class="bks">{cards}</ul>
 </section>
 
-<section class="hikaye" id="hikaye">
+<section class="hikaye hikaye-tek" id="hikaye">
   <div class="hikaye-in">
     <div class="hikaye-side">
       <p class="hikaye-k">2004–2014 · İlk on yıl</p>

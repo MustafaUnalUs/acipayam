@@ -679,3 +679,7 @@ a { text-decoration-color: var(--bugday); }
 .kk-list .zoom span { display: none; }
 .kk-y { margin: .45rem 0 0; font: 800 1rem/1 var(--sans); color: #fff; }
 .kk-t { margin: .2rem 0 0; font: 500 .78rem/1.3 var(--sans); color: rgba(255,255,255,.7); }
+/* ilk on yıl: tek sütun, boşluk kalmasın */
+.hikaye-tek .hikaye-in { grid-template-columns: 1fr !important; gap: 1.2rem; max-width: calc(52rem + 2 * var(--gutter)); padding-bottom: 2.5rem; }
+.hikaye-tek .hikaye-side { position: static; }
+.hikaye-tek .hikaye-side h2 { margin-bottom: 0; }
