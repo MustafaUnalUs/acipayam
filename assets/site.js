@@ -263,3 +263,21 @@ document.querySelectorAll("[data-share]").forEach((a) => {
   a.href = { wa: `https://wa.me/?text=${t}%20${u}`, fb: `https://www.facebook.com/sharer/sharer.php?u=${u}`,
              x: `https://x.com/intent/post?text=${t}&url=${u}` }[a.dataset.share];
 });
+
+/* zaman makinesi sekmeleri */
+document.querySelectorAll(".zm").forEach((zm) => {
+  const tabs = [...zm.querySelectorAll('[role="tab"]')];
+  const pick = (t) => tabs.forEach((x) => {
+    const on = x === t;
+    x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1;
+    const pnl = document.getElementById(x.getAttribute("aria-controls"));
+    pnl.hidden = !on; if (on) pnl.querySelector(".zm-screen").scrollTop = 0;
+  });
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => pick(t));
+    t.addEventListener("keydown", (e) => {
+      const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (d) { const n = tabs[(i + d + tabs.length) % tabs.length]; pick(n); n.focus(); }
+    });
+  });
+});

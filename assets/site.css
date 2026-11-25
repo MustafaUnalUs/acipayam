@@ -634,3 +634,34 @@ a { text-decoration-color: var(--bugday); }
 .yol-tarih b { font: 800 3.4rem/1 var(--sans); color: #fff; letter-spacing: -.02em; }
 .yol-tarih span { font: 700 1rem var(--sans); color: var(--bugday); text-transform: uppercase; letter-spacing: .12em; margin-top: .4rem; }
 .yol-list .zoom.is-contain img { object-fit: contain; background: #ececec; }
+
+/* zaman makinesi */
+.zm { max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto; padding: 2.4rem var(--gutter) clamp(3.5rem, 7vw, 5rem); border-top: 1px solid rgba(255,255,255,.18); }
+.zm-head h3 { color: #fff; font-size: clamp(1.7rem, 2.8vw, 2.3rem); margin: 0 0 .4rem; }
+.zm-head p { color: rgba(255,255,255,.78); max-width: 44rem; margin: 0 0 1.6rem; }
+.zm-tabs { display: flex; gap: .5rem; overflow-x: auto; padding-bottom: .4rem; margin-bottom: 1.4rem; }
+.zm-tabs button { flex: 0 0 auto; display: grid; gap: .1rem; text-align: left; cursor: pointer; padding: .7rem 1.2rem; border-radius: 12px;
+  background: rgba(255,255,255,.07); border: 2px solid transparent; color: #fff; font-family: var(--sans); }
+.zm-tabs button b { font: 800 1.4rem/1 var(--sans); }
+.zm-tabs button span { font: 500 .8rem var(--sans); color: rgba(255,255,255,.7); }
+.zm-tabs button:hover { background: rgba(255,255,255,.13); }
+.zm-tabs button[aria-selected="true"] { background: var(--bugday); color: #1f1d1a; }
+.zm-tabs button[aria-selected="true"] span { color: rgba(0,0,0,.65); }
+.zm-panel { display: grid; gap: 1.8rem; align-items: start; }
+.zm-panel[hidden] { display: none; }
+@media (min-width: 960px) { .zm-panel { grid-template-columns: 1.6fr 1fr; gap: 3rem; } }
+.zm-win { border-radius: 12px; overflow: hidden; background: #d9d6de; box-shadow: 0 30px 60px -30px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.2); }
+.zm-bar { display: flex; align-items: center; gap: .45rem; padding: .65rem .9rem; background: #ece9f0; border-bottom: 1px solid #cfcbd6; }
+.zm-bar i { width: .75rem; height: .75rem; border-radius: 50%; background: #ff5f57; }
+.zm-bar i:nth-child(2) { background: #febc2e; } .zm-bar i:nth-child(3) { background: #28c840; }
+.zm-bar span { margin-left: .8rem; flex: 1; padding: .3rem .8rem; border-radius: 999px; background: #fff; color: #4a4552; font: 600 .82rem var(--sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zm-screen { height: clamp(320px, 52vh, 520px); overflow-y: auto; background: #fff; overscroll-behavior: contain; }
+.zm-screen img { width: 100%; height: auto; display: block; }
+.zm-info { color: #fff; }
+.zm-yil { font: 800 clamp(3.4rem, 7vw, 5.5rem)/.9 var(--sans); color: var(--bugday); margin: 0 0 .6rem; letter-spacing: -.03em; }
+.zm-info h4 { font: 800 1.5rem/1.2 var(--sans); margin: 0 0 .8rem; color: #fff; }
+.zm-info p { color: rgba(255,255,255,.82); line-height: 1.7; }
+.zm-sayi { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,.2); font: 600 1rem var(--sans); }
+.zm-sayi b { font: 800 2.4rem/1 var(--sans); color: #fff; margin-right: .3rem; }
+.zm-link { font: 800 1rem var(--sans); color: var(--bugday) !important; text-decoration: none; }
+.zm-screen { height: auto; max-height: clamp(320px, 52vh, 520px); }
