@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "22"
+ASSET_V = "24"
 
 
 def J(name):
@@ -308,8 +308,22 @@ def cover(book, cls="", lazy=True):
             f'{" loading=" + chr(34) + "lazy" + chr(34) if lazy else ""}>')
 
 
+def build_pdf(book):
+    """Kitabın PDF'ini site içinde sayfa sayfa gösterir."""
+    body = (f'<div class="po" id="pdfoku" data-pdf="{book["pdf"]}">'
+            f'<div class="po-bar"><a href="{book["base"]}">← Kitap</a><span class="po-title">{E(book["title"])}</span>'
+            f'<span class="po-info">Yükleniyor…</span>'
+            f'<button type="button" data-zoom="-0.2" aria-label="Küçült">A−</button><button type="button" data-zoom="0.2" aria-label="Büyüt">A+</button>'
+            f'<button type="button" data-start>Başa dön</button><a href="{book["pdf"]}" download>İndir</a></div>'
+            f'<div class="po-pages"></div></div>'
+            f'<script src="/assets/pdfjs/pdf.min.js"></script><script src="/assets/pdfoku.js?v={ASSET_V}"></script>')
+    write(book["base"] + "pdf/", layout(book["base"] + "pdf/", f"{book['title']} · PDF", body,
+                                       desc=f"{book['title']} — PDF olarak oku", cls="page-pdf"))
+
+
 def book_actions(book, light=True):
     a = [f'<a class="btn btn-gold" href="{first_url(book)}">Okumaya başla</a>',
+         f'<a class="btn btn-ghost" href="{book["base"]}pdf/">Sitede PDF oku</a>',
          f'<a class="btn btn-ghost" href="{book["pdf"]}" download>PDF indir <small>{mb(book["pdf_size"])}</small></a>']
     if book.get("audio"):
         a.append(f'<a class="btn btn-ghost" href="{book["base"]}#dinle">Sesli kitap</a>')
@@ -907,6 +921,7 @@ def main():
     (OUT / "robots.txt").write_text("User-agent: *\n" + ("Allow: /\n" if CANLI else "Disallow: /\n"))
     build_home()
     for b in BOOKS:
+        build_pdf(b)
         if b["slug"] != "bana-koyunu-anlat":
             write(b["base"], build_book(b))
         for i in range(len(b["data"]["chapters"])):
