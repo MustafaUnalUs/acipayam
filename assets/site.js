@@ -281,3 +281,23 @@ document.querySelectorAll(".zm").forEach((zm) => {
     });
   });
 });
+
+/* koyu / açık görünüm düğmesi */
+(() => {
+  const b = document.getElementById("tema");
+  if (!b) return;
+  const root = document.documentElement;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  b.addEventListener("click", () => {
+    const t = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", t);
+    try { localStorage.setItem("tema", t); } catch { /* yok say */ }
+  });
+  const mq = matchMedia("(prefers-color-scheme: dark)");
+  mq.addEventListener?.("change", (e) => {
+    let saved = null;
+    try { saved = localStorage.getItem("tema"); } catch { /* yok say */ }
+    if (!saved) root.setAttribute("data-theme", e.matches ? "dark" : "light");
+  });
+  if (meta) meta.content = "#4f1f75";
+})();
