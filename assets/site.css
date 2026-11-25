@@ -565,3 +565,28 @@ a { text-decoration-color: var(--bugday); }
 .giris .share-mini > span { color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
 .memorial-hero .share-mini { justify-content: center; }
 @media (max-width: 520px) { .share-mini > span { flex-basis: 100%; margin: 0; } .share-mini { gap: .45rem; } .share-mini .sh { padding: .5rem .8rem; } .memorial-hero .share-mini > span { text-align: center; } }
+
+/* ACIPAYAM.com'un yolculuğu: zaman şeridi */
+.yol { max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto; padding: 0 var(--gutter) clamp(3.5rem, 7vw, 5.5rem); }
+.yol-baslik { color: #fff; font-size: clamp(1.6rem, 2.6vw, 2.1rem); margin: 0 0 .3rem; padding-top: 2.4rem; border-top: 1px solid rgba(255,255,255,.18); }
+.yol-not { font: 500 .9rem var(--sans); color: rgba(255,255,255,.65); margin: 0 0 1.8rem; }
+.yol-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.4rem; grid-template-columns: repeat(4, minmax(0, 1fr)); position: relative; }
+.yol-list::before { content: ""; position: absolute; left: 0; right: 0; top: .95rem; height: 2px; background: linear-gradient(90deg, rgba(207,166,240,.15), var(--bugday)); }
+.yol-list li { position: relative; display: flex; flex-direction: column; gap: .55rem; }
+.yol-yil { position: relative; z-index: 1; align-self: flex-start; margin: 0 0 .5rem; padding: .3rem .8rem; border-radius: 999px; background: var(--tabela-koyu); box-shadow: 0 0 0 2px var(--bugday);
+  font: 800 1rem/1.2 var(--sans); color: #fff; }
+.yol-bugun .yol-yil { background: var(--bugday); color: #1f1d1a; }
+.yol-list .zoom { display: block; }
+.yol-list .zoom img, .yol-afis img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: top; border-radius: 8px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.18), 0 18px 30px -18px rgba(0,0,0,.8); transition: transform .2s ease; }
+.yol-afis img { object-position: center; }
+.yol-list .zoom:hover img, .yol-afis:hover img { transform: translateY(-3px); }
+.yol-list .zoom span { display: none; }
+.yol-t { margin: .3rem 0 0; font: 800 1.08rem/1.25 var(--sans); color: #fff; }
+.yol-list p:not(.yol-yil):not(.yol-t) { margin: 0; font-size: .98rem; line-height: 1.55; color: rgba(255,255,255,.8); }
+.yol-link { font: 800 .95rem var(--sans); color: var(--bugday) !important; text-decoration: none; }
+@media (max-width: 899px) {
+  .yol-list { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(78%, 300px); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: .8rem; }
+  .yol-list li { scroll-snap-align: start; }
+  .yol-list::before { right: auto; width: 400%; }
+}

@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "15"
+ASSET_V = "16"
 
 
 def J(name):
@@ -639,16 +639,31 @@ def build_home():
     <div class="hikaye-side">
       <p class="hikaye-k">2004–2014 · İlk on yıl</p>
       <h2>{E(story['title'])}</h2>
-      <figure class="eski" data-zoom-group>
-        <figcaption>Eskiden böyleydi</figcaption>
-        <div class="eski-row">
-          <button type="button" class="zoom" data-full="/img/eski-site-1.webp" data-label="ACIPAYAM.com’un eski görünümü · bordo dönem" aria-label="Eski ACIPAYAM.com, bordo dönem: büyüt"><img src="/img/eski-site-1.webp" alt="ACIPAYAM.com’un bordo renkli eski ana sayfası" width="550" height="830" loading="lazy"><span>Bordo dönem</span></button>
-          <button type="button" class="zoom" data-full="/img/eski-site-2.webp" data-label="ACIPAYAM.com’un eski görünümü · mor dönem" aria-label="Eski ACIPAYAM.com, mor dönem: büyüt"><img src="/img/eski-site-2.webp" alt="ACIPAYAM.com’un mor renkli eski ana sayfası" width="494" height="796" loading="lazy"><span>Mor dönem</span></button>
-        </div>
-        <p class="eski-not">Büyütmek için görüntüye dokunun</p>
-      </figure>
     </div>
     <div class="hikaye-text">{story_old}{radyo_html}</div>
+  </div>
+  <div class="yol">
+    <h3 class="yol-baslik">ACIPAYAM.com’un yolculuğu</h3>
+    <p class="yol-not">Eski görünümlere dokunun, büyüsün.</p>
+    <ol class="yol-list" data-zoom-group>
+      <li><p class="yol-yil">2006</p>
+        <button type="button" class="zoom" data-full="/img/eski/2006-mayis.webp" data-label="ACIPAYAM.com · Mayıs 2006" aria-label="ACIPAYAM.com, Mayıs 2006 görünümü: büyüt"><img src="/img/eski/2006-mayis.webp" alt="ACIPAYAM.com’un 2006’daki ana sayfası: Memleketin Kokusu başlığı, bazlama yapan kadınlar fotoğrafı" width="1036" height="1166" loading="lazy"><span>2006</span></button>
+        <p class="yol-t">İlk tasarım: “Memleketin Kokusu”</p>
+        <p>Haber arşivi, forumlar, foto albümleri, mini sohbet ve radyo. Mayıs 2006’da 6.839 üye.</p></li>
+      <li><p class="yol-yil">2011</p>
+        <button type="button" class="zoom" data-full="/img/eski/2011.webp" data-label="ACIPAYAM.com · Temmuz 2011" aria-label="ACIPAYAM.com, 2011 görünümü: büyüt"><img src="/img/eski/2011.webp" alt="ACIPAYAM.com’un 2011’deki bordo renkli ana sayfası" width="1036" height="1024" loading="lazy"><span>2011</span></button>
+        <p class="yol-t">Bordo dönem</p>
+        <p>“2004’ten beri… Memleketimin Kokusu.” Köşe yazarları, kan bankası, köy köy yerleşim yerleri; 30 bini aşan üye.</p></li>
+      <li><p class="yol-yil">2014’e kadar</p>
+        <button type="button" class="zoom" data-full="/img/eski-site-2.webp" data-label="ACIPAYAM.com · Mor dönem" aria-label="ACIPAYAM.com, mor dönem görünümü: büyüt"><img src="/img/eski-site-2.webp" alt="ACIPAYAM.com’un mor renkli son dönem ana sayfası" width="494" height="796" loading="lazy"><span>Mor dönem</span></button>
+        <p class="yol-t">Mor dönem: “Ortak Paydamız Memleketimiz”</p>
+        <p>Sitenin 10. yaşına kadarki son görünümü. 3 Nisan 2014’te yayına ara verildi.</p></li>
+      <li class="yol-bugun"><p class="yol-yil">2026</p>
+        <a class="yol-afis" href="#yeniden"><img src="{h['banner']}" alt="ACIPAYAM.com’un yeni afişi" width="1600" height="671" loading="lazy"></a>
+        <p class="yol-t">Yeniden yayında</p>
+        <p>Aynı isim, aynı ruh: kitaplar, köy köy sözlü tarih, şehitlerimiz ve eski radyonun sesleri.</p>
+        <p><a class="yol-link" href="#yeniden">Neden yeniden yayındayız? →</a></p></li>
+    </ol>
   </div>
 </section>
 
