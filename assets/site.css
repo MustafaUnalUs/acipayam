@@ -521,3 +521,35 @@ a { text-decoration-color: var(--bugday); }
 .radyo-more summary::-webkit-details-marker { display: none; }
 .radyo-more[open] summary { display: none; }
 .radyo-link { margin: 1rem 0 0; font: 700 .95rem var(--sans); }
+
+/* katkı */
+.katki { background: var(--tabela); color: #fff; }
+.katki-in { max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto; padding: clamp(3rem, 7vw, 5rem) var(--gutter); display: grid; gap: 2.4rem; align-items: center; }
+@media (min-width: 960px) { .katki-in { grid-template-columns: 1.3fr 1fr; gap: 4rem; } }
+.katki h2 { color: #fff; }
+.katki p { font-size: 1.15rem; max-width: 40rem; }
+.katki-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .8rem; grid-template-columns: 1fr 1fr; }
+.katki-list li { display: grid; gap: .2rem; padding: 1rem 1.1rem; border-radius: 10px; background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+.katki-list b { font: 800 1.05rem var(--sans); }
+.katki-list span { font: 500 .88rem/1.35 var(--sans); color: rgba(255,255,255,.75); }
+
+/* paylaş */
+.share { border-top: 1px solid var(--cizgi); background: var(--kagit-2); }
+.share-in { max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto; padding: 1.6rem var(--gutter); display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.4rem; }
+.share-in p { margin: 0; font: 800 1rem var(--sans); }
+.share-row { display: flex; flex-wrap: wrap; gap: .6rem; }
+.sh { display: inline-flex; align-items: center; gap: .5rem; padding: .65rem 1.1rem; border-radius: 999px; color: #fff; text-decoration: none; font: 800 .95rem var(--sans); }
+.sh:hover { color: #fff; filter: brightness(1.1); }
+.sh svg { width: 1.2rem; height: 1.2rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.sh-wa { background: #1f8f4e; }
+.sh-fb { background: #1877f2; }
+.sh-x { background: #111; }
+
+/* fotoğraf albümü */
+.foto-grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.6rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+.foto-grid .zoom { width: 100%; }
+.foto-grid .zoom img { aspect-ratio: 3/2; border-radius: 8px; box-shadow: 0 14px 24px -16px rgba(40,10,60,.5); }
+.foto-grid .zoom span { font: 800 1.05rem var(--sans); color: var(--murekkep); text-transform: none; letter-spacing: 0; text-align: left; }
+.foto-meta { margin: .2rem 0 0; font: 500 .9rem/1.4 var(--sans); color: var(--soluk); }
+.foto-cta { margin-top: 3.5rem; padding: 1.8rem; border-radius: 12px; background: var(--kagit-2); }
+.foto-cta h2 { font-size: 1.6rem; }

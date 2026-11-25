@@ -84,13 +84,16 @@
       const it = items[idx];
       dlg.classList.remove("zoomed");
       img.src = it.dataset.full; img.alt = it.dataset.label; title.textContent = it.dataset.label;
-      $$("button", bottom).forEach((b, j) => b.setAttribute("aria-pressed", String(j === idx)));
+      $$("button:not([data-step]):not([data-zoomtoggle])", bottom).forEach((b, j) => b.setAttribute("aria-pressed", String(j === idx)));
     };
     groups.forEach((g) => $$(".zoom", g).forEach((btn, i) => btn.addEventListener("click", () => {
       items = $$(".zoom", g);
-      bottom.innerHTML = items.map((it) => `<button type="button">${it.querySelector("span").textContent}</button>`).join("") +
+      const many = items.length > 4;
+      bottom.innerHTML = (many ? '<button type="button" data-step="-1">‹ Önceki</button><button type="button" data-step="1">Sonraki ›</button>'
+        : items.map((it) => `<button type="button">${it.querySelector("span").textContent}</button>`).join("")) +
         '<button type="button" data-zoomtoggle>Yakınlaştır</button>';
       $$("button", bottom).forEach((b, j) => b.addEventListener("click", () => {
+        if (b.dataset.step) { show(idx + Number(b.dataset.step)); return; }
         if (b.hasAttribute("data-zoomtoggle")) { dlg.classList.toggle("zoomed"); b.textContent = dlg.classList.contains("zoomed") ? "Sığdır" : "Yakınlaştır"; }
         else show(j);
       }));
@@ -253,3 +256,10 @@
   load();
   setInterval(load, 60000);
 })();
+
+/* paylaş: bulunduğu adresi kullan */
+document.querySelectorAll("[data-share]").forEach((a) => {
+  const u = encodeURIComponent(location.href.split("#")[0]), t = encodeURIComponent(document.title);
+  a.href = { wa: `https://wa.me/?text=${t}%20${u}`, fb: `https://www.facebook.com/sharer/sharer.php?u=${u}`,
+             x: `https://x.com/intent/post?text=${t}&url=${u}` }[a.dataset.share];
+});

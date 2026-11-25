@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "12"
+ASSET_V = "13"
 
 
 def J(name):
@@ -167,6 +167,7 @@ NAV = [
     ("/acipayam-dunu-bugunu/", "Acıpayam Tarihi"),
     ("/sehit-bilgi-kapisi/", "Şehitler"),
     ("/radyo-arsivi/", "Radyo"),
+    ("/fotograflar/", "Fotoğraflar"),
     ("/#hikaye", "Hikâyemiz"),
 ]
 
@@ -214,12 +215,33 @@ def layout(path, title, body, desc="", cls="", style=""):
 </header>
 <main id="icerik">
 {body}
+{share_bar(path, full)}
 </main>
 {footer()}
 <script src="/assets/site.js?v={ASSET_V}" defer></script>
 </body>
 </html>
 """
+
+
+def share_bar(path, title):
+    from urllib.parse import quote
+    url = ORIGIN + path
+    t = quote(title)
+    u = quote(url, safe="")
+    ic = {
+        "wa": '<path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.6-2-1-1 1c-1.2-.5-2.4-1.7-2.9-2.9l1-1-1-2z"/>',
+        "fb": '<path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/>',
+        "x": '<path d="M4 4l16 16M20 4 4 20"/>',
+    }
+    def a(cls, href, icon, label):
+        return (f'<a class="sh sh-{cls}" data-share="{cls}" href="{href}" target="_blank" rel="noopener">'
+                f'<svg viewBox="0 0 24 24" aria-hidden="true">{ic[icon]}</svg><span>{label}</span></a>')
+    return (f'<aside class="share" aria-label="Paylaş"><div class="share-in"><p>Bu sayfayı paylaşın</p><div class="share-row">'
+            + a("wa", f"https://wa.me/?text={t}%20{u}", "wa", "WhatsApp")
+            + a("fb", f"https://www.facebook.com/sharer/sharer.php?u={u}", "fb", "Facebook")
+            + a("x", f"https://x.com/intent/post?text={t}&url={u}", "x", "X")
+            + "</div></div></aside>")
 
 
 def footer():
@@ -624,6 +646,23 @@ def build_home():
   </div>
 </section>
 
+<section class="katki" id="katki" aria-labelledby="katki-b">
+  <div class="katki-in">
+    <div>
+      <p class="hikaye-k">Siz de katkıda bulunun</p>
+      <h2 id="katki-b">Sizin de anlatacak bir hikâyeniz var mı?</h2>
+      <p>Eski bir fotoğraf, bir mektup, köyünüzün unutulmuş bir hatırası, bir şiir ya da bir ses kaydı… ACIPAYAM.com herkesin katkısına açık. Gönderdikleriniz incelenir; uygun görülenler gönderenin adıyla birlikte arşive eklenir.</p>
+      <p class="actions"><a class="btn btn-gold" href="mailto:acipayam.com@gmail.com?subject=ACIPAYAM.com%20i%C3%A7in%20katk%C4%B1">E-postayla gönderin</a><a class="btn btn-ghost" href="https://www.facebook.com/acipayamcom" rel="noopener">Facebook’tan yazın</a></p>
+    </div>
+    <ul class="katki-list">
+      <li><b>Fotoğraf</b><span>Nerede, hangi yıl, kimin çektiği</span></li>
+      <li><b>Hatıra</b><span>Bir yaşanmışlık, bir köy hikâyesi</span></li>
+      <li><b>Belge ve mektup</b><span>Eski kâğıtların fotoğrafı yeter</span></li>
+      <li><b>Ses ve video</b><span>Türkü, şiir, sohbet kayıtları</span></li>
+    </ul>
+  </div>
+</section>
+
 <section class="blok" id="videolar" aria-labelledby="video-b">
   <header class="blok-head"><h2 id="video-b">Eski videolar ve etkinlikler</h2><p>ACIPAYAM.com arşivinden görüntüler.</p></header>
   <ul class="videos">{videos}</ul>
@@ -747,6 +786,23 @@ def build_radyo():
     write("/radyo-arsivi/", layout("/radyo-arsivi/", r["title"], body, style="--book:#3d1760"))
 
 
+def build_foto():
+    f = J("fotograflar.json")
+    items = "".join(
+        f'<li><button type="button" class="zoom" data-full="{x["src"]}" data-label="{E(x["title"])} · {E(x["place"])}" '
+        f'aria-label="{E(x["title"])}: büyüt"><img src="{x["src"]}" alt="{E(x["title"])}, {E(x["place"])}" width="{x["w"]}" height="{x["h"]}" loading="lazy">'
+        f'<span>{E(x["title"])}</span></button>'
+        f'<p class="foto-meta">{E(x["place"])}{" · " + E(x["note"]) if x.get("note") else ""}{" · Fotoğraf: " + E(x["by"]) if x.get("by") else ""}</p></li>'
+        for x in f["photos"])
+    body = page_hero(f["kicker"], f["title"], f["lead"]) + f"""<div class="page-body">
+  <ul class="foto-grid" data-zoom-group>{items}</ul>
+  <div class="foto-cta"><h2>Albüme fotoğraf ekleyin</h2>
+    <p>Elinizde Acıpayam’a dair eski ya da yeni bir fotoğraf varsa gönderin. Nerede, hangi yıl ve kimin çektiğini de yazarsanız altına ekleriz.</p>
+    <p class="actions"><a class="btn" href="mailto:acipayam.com@gmail.com?subject=Foto%C4%9Fraf%20alb%C3%BCm%C3%BC">Fotoğraf gönderin</a></p></div>
+</div>"""
+    write("/fotograflar/", layout("/fotograflar/", f["title"], body, desc=f["lead"], style="--book:#4f1f75"))
+
+
 def build_sehit():
     m = J("sehitler-meta.json")
     shutil.copy(DATA / "sehitler.json", OUT / "veri" / "sehitler.json")
@@ -829,6 +885,7 @@ def main():
     build_soon()
     build_dunu()
     build_radyo()
+    build_foto()
     build_sehit()
     redirects()
     not_found()
