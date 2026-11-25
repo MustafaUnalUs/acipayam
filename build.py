@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "11"
+ASSET_V = "12"
 
 
 def J(name):
@@ -523,7 +523,7 @@ def build_home():
         sign("#kitaplar", "kitap", "Kitaplar", f"{len(BOOKS)} kitap okunabilir"),
         sign("/acipayam-dunu-bugunu/", "tarih", "Acıpayam Tarihi", f"{len(dunu['episodes'])} söyleşi, Hikmet Başaran"),
         sign("/sehit-bilgi-kapisi/", "sehit", "Şehitler", f"{mem['stat']} şehit kaydı"),
-        sign("/radyo-arsivi/", "radyo", "Radyo ACIPAYAM.com", f"{len(radyo['records'])} eski yayın kaydı"),
+        sign("/#radyo", "radyo", "Radyo ACIPAYAM.com", f"{len(radyo['records'])} eski yayın kaydı"),
         sign("#videolar", "video", "Videolar", "Eski videolar ve etkinlikler"),
     ])
     pins = "".join(
@@ -544,6 +544,17 @@ def build_home():
                   f'<span class="bk-a">{E(b["author"])}</span></a></li>')
     videos = "".join(f"<li>{yt(v['id'], v['title'])}</li>" for v in h["videos"])
     story = h["story"]
+    def _rec(x):
+        return (f'<li><div class="r-head"><b>{E(x["title"])}</b><time>{E(x["duration"])}</time></div>'
+                f'<p>{E(x["person"])}</p><audio controls preload="none" src="{E(x["file"])}"></audio></li>')
+    recs = radyo["records"]
+    radyo_html = f"""<div class="radyo" id="radyo">
+      <h3>Radyo ACIPAYAM.com</h3>
+      <p>Sitenin ilk yıllarında radyomuz da vardı. “Toprağın Sesi” gibi programlarda şiirler, türküler ve köşe yazıları okundu; memleketin sesi gurbete taşındı. O yayınlardan {len(recs)} kayıt bugün hâlâ dinlenebiliyor.</p>
+      <ol class="radyo-list">{"".join(_rec(x) for x in recs[:3])}</ol>
+      <details class="radyo-more"><summary>Bütün kayıtlar ({len(recs)})</summary><ol class="radyo-list" start="4">{"".join(_rec(x) for x in recs[3:])}</ol></details>
+      <p class="radyo-link"><a href="/radyo-arsivi/">Radyo arşivi sayfası →</a></p>
+    </div>"""
     split = story["body"].find("<p>Ancak ACIPAYAM.com")
     assert split > 0
     story_old, story_new = story["body"][:split], story["body"][split:]
@@ -597,7 +608,7 @@ def build_home():
         <p class="eski-not">Büyütmek için görüntüye dokunun</p>
       </figure>
     </div>
-    <div class="hikaye-text">{story_old}</div>
+    <div class="hikaye-text">{story_old}{radyo_html}</div>
   </div>
 </section>
 
