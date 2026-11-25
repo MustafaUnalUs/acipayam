@@ -576,7 +576,7 @@ def build_home():
 
 <div class="signs-wrap">
   <div class="signs-in">
-    <figure class="afis"><img src="{h['banner']}" alt="ACIPAYAM.com, Memleketimin Kokusu, 2004’ten beri: yöresel kıyafetli kız çocuğu, çiçekler, eski Acıpayam ovası, Türk bayrağı ve Atatürk" width="1600" height="671"><figcaption>Eski afişimizden esinlenen yeni tasarım</figcaption></figure>
+    <figure class="afis"><img src="{h['banner']}" alt="ACIPAYAM.com, Memleketimin Kokusu, 2004’ten beri: yöresel kıyafetli kız çocuğu, çiçekler, eski Acıpayam ovası, Türk bayrağı ve Atatürk" width="1600" height="671"></figure>
     <nav aria-label="Bölümler"><ul class="signs">{signs}</ul></nav>
   </div>
 </div>
