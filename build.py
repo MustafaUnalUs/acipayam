@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "16"
+ASSET_V = "17"
 
 
 def J(name):
@@ -664,6 +664,11 @@ def build_home():
         <p>Aynı isim, aynı ruh: kitaplar, köy köy sözlü tarih, şehitlerimiz ve eski radyonun sesleri.</p>
         <p><a class="yol-link" href="#yeniden">Neden yeniden yayındayız? →</a></p></li>
     </ol>
+  </div>
+  <div class="yol ekip">
+    <h3 class="yol-baslik">Eski ekibimiz</h3>
+    <p class="yol-not">ACIPAYAM.com’u gönüllü emekleriyle yıllarca ayakta tutanlar. Hepsine teşekkür ediyoruz.</p>
+    <ol class="ekip-list" data-zoom-group><li class="ekip-kart"><p class="yol-yil">2005</p><button type="button" class="zoom" data-full="/img/eski/ekip-2005.webp" data-label="ACIPAYAM.com ekibi · 2005" aria-label="2005 ekibinin fotoğrafları: büyüt"><img src="/img/eski/ekip-2005.webp" alt="ACIPAYAM.com 2005 ekibinin fotoğrafları" width="1028" height="108" loading="lazy"><span>2005</span></button><ul class="ekip-adlar"><li><b>Mustafa Ünal</b><span>Kurucu</span></li><li><b>Nuri Gökgöz</b><span>Site editörü</span></li><li><b>Muhammet Ak</b><span>Site yöneticisi</span></li><li><b>İsmail Yıldırım</b><span>Site yöneticisi</span></li><li><b>Mehmet Soysal</b><span>Radyo yöneticisi</span></li><li><b>Emin Okkaya</b><span>Haber editörü</span></li><li><b>Muhammet Dilek</b><span>Köşe yazarı</span></li><li><b>Ümran Songun</b><span>Köşe yazarı</span></li></ul></li><li class="ekip-kart"><p class="yol-yil">2006</p><button type="button" class="zoom" data-full="/img/eski/ekip-2006.webp" data-label="ACIPAYAM.com ekibi · 2006" aria-label="2006 ekibinin fotoğrafları: büyüt"><img src="/img/eski/ekip-2006.webp" alt="ACIPAYAM.com 2006 ekibinin fotoğrafları" width="756" height="168" loading="lazy"><span>2006</span></button><ul class="ekip-adlar"><li><b>Mustafa Ünal</b><span>Kurucu, imtiyaz sahibi</span></li><li><b>Nuri Gökgöz</b><span>Genel koordinatör</span></li><li><b>Emin Okkaya</b><span>Site editörü</span></li><li><b>Muhammet Ak</b><span>Medya direktörü</span></li><li><b>Müzeyyen Savaş</b><span>Haber editörü</span></li><li><b>Osman Can</b><span>Köşe yazarı</span></li><li><b>Baki Evkaralı</b><span>Köşe yazarı</span></li><li><b>Ümran Songun</b><span>Köşe yazarı</span></li><li><b>Ali Can</b><span>Köşe yazarı</span></li><li><b>İsmail Yıldırım</b><span>Teknik sorumlu</span></li></ul></li><li class="ekip-kart"><p class="yol-yil">2013</p><button type="button" class="zoom" data-full="/img/eski/ekip-2013.webp" data-label="ACIPAYAM.com ekibi · 2013" aria-label="2013 ekibinin fotoğrafları: büyüt"><img src="/img/eski/ekip-2013.webp" alt="ACIPAYAM.com 2013 ekibinin fotoğrafları" width="1218" height="108" loading="lazy"><span>2013</span></button><ul class="ekip-adlar"><li><b>Mustafa Ünal</b><span>İmtiyaz sahibi</span></li><li><b>Sabit Kızılhan</b><span>Halkla ilişkiler</span></li><li><b>M. Karaoğlan</b><span>Genel sorumlu</span></li><li><b>Hüseyin Kaçmaz</b><span>Avrupa sorumlusu</span></li><li><b>Can Acar</b><span>Haber editörü</span></li><li><b>H. Baki Çelen</b><span>Radyo DJ</span></li></ul></li></ol>
   </div>
 </section>
 
