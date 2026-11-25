@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "17"
+ASSET_V = "18"
 
 
 def J(name):
@@ -644,20 +644,49 @@ def build_home():
   </div>
   <div class="yol">
     <h3 class="yol-baslik">ACIPAYAM.com’un yolculuğu</h3>
-    <p class="yol-not">Eski görünümlere dokunun, büyüsün.</p>
+    <p class="yol-not">3 Nisan 2004’teki test yayınından bugüne. Eski görünümlere dokunun, büyüsün; yana kaydırarak ilerleyin.</p>
+    <div class="yol-ozet">
+      <div class="yol-sayilar">
+        <p><b>62</b><span>üyeyle başladı · Mayıs 2004</span></p>
+        <p><b>32.650</b><span>üyeye ulaştı · Haziran 2013</span></p>
+        <p><b>1,1 milyon</b><span>forum okuması</span></p>
+        <p><b>10 yıl</b><span>3 Nisan 2004 – 3 Nisan 2014</span></p>
+      </div>
+      <figure class="yol-grafik"><svg viewBox="0 0 600 120" role="img" aria-label="Üye sayısı: Mayıs 2004’te 62, Mayıs 2006’da 6.839, Temmuz 2011’de 30.487, Haziran 2013’te 32.650"><path class="g-alan" d="M26.1,101.8 L44.7,101.2 L68.3,99.3 L75.6,98.7 L136.3,85.1 L427.7,26.7 L534.5,21.3 L534.5,102 L26.1,102 Z"/><path class="g-cizgi" d="M26.1,101.8 L44.7,101.2 L68.3,99.3 L75.6,98.7 L136.3,85.1 L427.7,26.7 L534.5,21.3"/><circle cx="26.1" cy="101.8" r="4"/><circle cx="44.7" cy="101.2" r="4"/><circle cx="68.3" cy="99.3" r="4"/><circle cx="75.6" cy="98.7" r="4"/><circle cx="136.3" cy="85.1" r="4"/><circle cx="427.7" cy="26.7" r="4"/><circle cx="534.5" cy="21.3" r="4"/><text x="16" y="118">2004</text><text x="584" y="118" text-anchor="end">2014</text></svg><figcaption>Üye sayısı, arşiv kayıtlarına göre</figcaption></figure>
+    </div>
     <ol class="yol-list" data-zoom-group>
-      <li><p class="yol-yil">2006</p>
-        <button type="button" class="zoom" data-full="/img/eski/2006-mayis.webp" data-label="ACIPAYAM.com · Mayıs 2006" aria-label="ACIPAYAM.com, Mayıs 2006 görünümü: büyüt"><img src="/img/eski/2006-mayis.webp" alt="ACIPAYAM.com’un 2006’daki ana sayfası: Memleketin Kokusu başlığı, bazlama yapan kadınlar fotoğrafı" width="1036" height="1166" loading="lazy"><span>2006</span></button>
-        <p class="yol-t">İlk tasarım: “Memleketin Kokusu”</p>
-        <p>Haber arşivi, forumlar, foto albümleri, mini sohbet ve radyo. Mayıs 2006’da 6.839 üye.</p></li>
-      <li><p class="yol-yil">2011</p>
-        <button type="button" class="zoom" data-full="/img/eski/2011.webp" data-label="ACIPAYAM.com · Temmuz 2011" aria-label="ACIPAYAM.com, 2011 görünümü: büyüt"><img src="/img/eski/2011.webp" alt="ACIPAYAM.com’un 2011’deki bordo renkli ana sayfası" width="1036" height="1024" loading="lazy"><span>2011</span></button>
+      <li><p class="yol-yil">3 Nisan 2004</p>
+        <div class="yol-tarih" aria-hidden="true"><b>2004</b><span>3 Nisan</span></div>
+        <p class="yol-t">İlk adım: test yayını</p>
+        <p>“Memlekete Hoş Geldiniz.” Ana sayfada “3 Nisan 2004’de Test Yayınına Başladık” yazıyordu. Mayıs 2004’te 62 üye, 6 albüm, 8 fotoğraf.</p></li>
+      <li><p class="yol-yil">Eylül 2004</p>
+        <div class="yol-tarih" aria-hidden="true"><b>2004</b><span>Eylül</span></div>
+        <p class="yol-t">İlk haberler</p>
+        <p>“Denizli-Acıpayam İnternet Portalı.” Haberler, köy ve kasabalar, mini sohbet; 340 üye.</p></li>
+      <li><p class="yol-yil">Şubat 2005</p>
+        <div class="yol-tarih" aria-hidden="true"><b>2005</b><span>Şubat</span></div>
+        <p class="yol-t">Gurbetten selamlar</p>
+        <p>Mini sohbette İsviçre’den, Hollanda’dan selamlar. 1.083 üye, 260 bini aşan sayfa gösterimi.</p></li>
+      <li><p class="yol-yil">Nisan 2005</p>
+        <div class="yol-tarih" aria-hidden="true"><b>2005</b><span>Nisan</span></div>
+        <p class="yol-t">Birinci yaş</p>
+        <p>Kumsala yazılmış “www.acipayam.com uzak değiliz” fotoğrafıyla ilk yaş günü; 1.339 üye.</p></li>
+      <li><p class="yol-yil">Ağustos 2005</p>
+        <button type="button" class="zoom is-contain" data-full="/img/eski/2005.webp" data-label="ACIPAYAM.com · Ağustos 2005" aria-label="ACIPAYAM.com · Ağustos 2005: büyüt"><img src="/img/eski/2005.webp" alt="2005’teki sitenin fotoğraf galerisi sayıları, video bölümü ve ekip şeridi" width="1060" height="556" loading="lazy"><span>ACIPAYAM.com · Ağustos 2005</span></button>
+        <p class="yol-t">Fotoğraf galerisi büyüyor</p>
+        <p>46 albüm, 1.562 fotoğraf, 75 bini aşan izlenme. İlk ekip: kurucu, editörler, radyo yöneticisi ve köşe yazarları.</p></li>
+      <li><p class="yol-yil">Mayıs 2006</p>
+        <button type="button" class="zoom" data-full="/img/eski/2006-mayis.webp" data-label="ACIPAYAM.com · Mayıs 2006" aria-label="ACIPAYAM.com · Mayıs 2006: büyüt"><img src="/img/eski/2006-mayis.webp" alt="ACIPAYAM.com’un 2006’daki ana sayfası" width="1036" height="1166" loading="lazy"><span>ACIPAYAM.com · Mayıs 2006</span></button>
+        <p class="yol-t">“Memleketin Kokusu”</p>
+        <p>Yeni tasarım: haber arşivi, forumlar, şiir bahçesi, kan bankası, radyo. 6.839 üye.</p></li>
+      <li><p class="yol-yil">Temmuz 2011</p>
+        <button type="button" class="zoom" data-full="/img/eski/2011.webp" data-label="ACIPAYAM.com · Temmuz 2011" aria-label="ACIPAYAM.com · Temmuz 2011: büyüt"><img src="/img/eski/2011.webp" alt="ACIPAYAM.com’un 2011’deki bordo ana sayfası" width="1036" height="1024" loading="lazy"><span>ACIPAYAM.com · Temmuz 2011</span></button>
         <p class="yol-t">Bordo dönem</p>
-        <p>“2004’ten beri… Memleketimin Kokusu.” Köşe yazarları, kan bankası, köy köy yerleşim yerleri; 30 bini aşan üye.</p></li>
-      <li><p class="yol-yil">2014’e kadar</p>
-        <button type="button" class="zoom" data-full="/img/eski-site-2.webp" data-label="ACIPAYAM.com · Mor dönem" aria-label="ACIPAYAM.com, mor dönem görünümü: büyüt"><img src="/img/eski-site-2.webp" alt="ACIPAYAM.com’un mor renkli son dönem ana sayfası" width="494" height="796" loading="lazy"><span>Mor dönem</span></button>
+        <p>“2004’ten beri… Memleketimin Kokusu.” Köşe yazarları, köy köy yerleşim yerleri. 30.487 üye, forumlarda bir milyonu aşan okuma.</p></li>
+      <li><p class="yol-yil">2012–2014</p>
+        <button type="button" class="zoom" data-full="/img/eski-site-2.webp" data-label="ACIPAYAM.com · Mor dönem" aria-label="ACIPAYAM.com · Mor dönem: büyüt"><img src="/img/eski-site-2.webp" alt="ACIPAYAM.com’un mor renkli son dönem ana sayfası" width="494" height="796" loading="lazy"><span>ACIPAYAM.com · Mor dönem</span></button>
         <p class="yol-t">Mor dönem: “Ortak Paydamız Memleketimiz”</p>
-        <p>Sitenin 10. yaşına kadarki son görünümü. 3 Nisan 2014’te yayına ara verildi.</p></li>
+        <p>Haziran 2013’te 32.650 üye ve 1.120.782 forum okuması. 3 Nisan 2014’te, onuncu yaşında yayına ara verildi.</p></li>
       <li class="yol-bugun"><p class="yol-yil">2026</p>
         <a class="yol-afis" href="#yeniden"><img src="{h['banner']}" alt="ACIPAYAM.com’un yeni afişi" width="1600" height="671" loading="lazy"></a>
         <p class="yol-t">Yeniden yayında</p>

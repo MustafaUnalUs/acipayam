@@ -611,3 +611,26 @@ a { text-decoration-color: var(--bugday); }
   .ekip-kart { display: grid; grid-template-columns: 5rem minmax(0, 1.5fr) minmax(0, 1fr); gap: 1.6rem; align-items: center; }
   .ekip-adlar { grid-template-columns: 1fr 1fr; }
 }
+
+/* yolculuk: zenginleştirilmiş şerit */
+.yol-ozet { display: grid; gap: 1.6rem; align-items: center; margin: 0 0 2.2rem; padding: 1.4rem; border-radius: 14px; background: rgba(255,255,255,.06); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14); }
+@media (min-width: 900px) { .yol-ozet { grid-template-columns: 1.2fr 1fr; } }
+.yol-sayilar { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.6rem; }
+.yol-sayilar p { margin: 0; display: grid; }
+.yol-sayilar b { font: 800 clamp(1.7rem, 3vw, 2.4rem)/1.05 var(--sans); color: #fff; }
+.yol-sayilar span { font: 500 .88rem/1.35 var(--sans); color: rgba(255,255,255,.72); }
+.yol-grafik { margin: 0; }
+.yol-grafik svg { width: 100%; height: auto; display: block; overflow: visible; }
+.yol-grafik .g-alan { fill: rgba(207,166,240,.18); }
+.yol-grafik .g-cizgi { fill: none; stroke: var(--bugday); stroke-width: 3; stroke-linejoin: round; }
+.yol-grafik circle { fill: var(--tabela-koyu); stroke: var(--bugday); stroke-width: 2.5; }
+.yol-grafik text { fill: rgba(255,255,255,.65); font: 600 12px var(--sans); }
+.yol-grafik figcaption { font: 500 .82rem var(--sans); color: rgba(255,255,255,.6); margin-top: .3rem; }
+.yol-list { grid-template-columns: none !important; grid-auto-flow: column; grid-auto-columns: min(80%, 290px); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 1rem; scrollbar-color: var(--bugday) transparent; }
+.yol-list li { scroll-snap-align: start; }
+.yol-list::before { right: auto; width: 2900px; }
+.yol-tarih { width: 100%; aspect-ratio: 4 / 3; border-radius: 8px; display: grid; place-content: center; text-align: center;
+  background: radial-gradient(120% 90% at 30% 20%, rgba(207,166,240,.35), transparent 60%), #2a0f3f; box-shadow: 0 0 0 1px rgba(255,255,255,.18); }
+.yol-tarih b { font: 800 3.4rem/1 var(--sans); color: #fff; letter-spacing: -.02em; }
+.yol-tarih span { font: 700 1rem var(--sans); color: var(--bugday); text-transform: uppercase; letter-spacing: .12em; margin-top: .4rem; }
+.yol-list .zoom.is-contain img { object-fit: contain; background: #ececec; }
