@@ -253,7 +253,7 @@ def share_bar(path, title):
     def a(cls, href, icon, label):
         return (f'<a class="sh sh-{cls}" data-share="{cls}" href="{href}" target="_blank" rel="noopener">'
                 f'<svg viewBox="0 0 24 24" aria-hidden="true">{ic[icon]}</svg><span>{label}</span></a>')
-    return (f'<aside class="share" aria-label="Paylaş"><div class="share-in"><p>Bu sayfayı paylaşın</p><div class="share-row">'
+    return (f'<aside class="share" aria-label="Paylaş"><div class="share-in"><p>Bu bölümü paylaşın</p><div class="share-row">'
             + a("wa", f"https://wa.me/?text={t}%20{u}", "wa", "WhatsApp")
             + a("fb", f"https://www.facebook.com/sharer/sharer.php?u={u}", "fb", "Facebook")
             + a("x", f"https://x.com/intent/post?text={t}&url={u}", "x", "X")
