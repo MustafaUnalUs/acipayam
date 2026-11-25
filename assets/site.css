@@ -665,3 +665,17 @@ a { text-decoration-color: var(--bugday); }
 .zm-sayi b { font: 800 2.4rem/1 var(--sans); color: #fff; margin-right: .3rem; }
 .zm-link { font: 800 1rem var(--sans); color: var(--bugday) !important; text-decoration: none; }
 .zm-screen { height: auto; max-height: clamp(320px, 52vh, 520px); }
+
+/* yolculuk: küçük, büyüyebilen */
+.kk { max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto; padding: 2rem var(--gutter) 3rem; border-top: 1px solid rgba(255,255,255,.18); }
+.kk h3 { color: #fff; font-size: 1.5rem; margin: 0 0 .3rem; }
+.kk-not { font: 500 .9rem var(--sans); color: rgba(255,255,255,.7); margin: 0 0 1.2rem; }
+.kk-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .9rem; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 760px) { .kk-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.kk-list .zoom { display: block; width: 100%; }
+.kk-list .zoom img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: top; border-radius: 6px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.2); transition: transform .2s ease, box-shadow .2s ease; }
+.kk-list .zoom:hover img { transform: translateY(-2px); box-shadow: 0 0 0 2px var(--bugday); }
+.kk-list .zoom span { display: none; }
+.kk-y { margin: .45rem 0 0; font: 800 1rem/1 var(--sans); color: #fff; }
+.kk-t { margin: .2rem 0 0; font: 500 .78rem/1.3 var(--sans); color: rgba(255,255,255,.7); }

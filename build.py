@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "20"
+ASSET_V = "21"
 
 
 def J(name):
@@ -642,40 +642,10 @@ def build_home():
     </div>
     <div class="hikaye-text">{story_old}{radyo_html}</div>
   </div>
-  <div class="zm" id="yolculuk">
-    <div class="zm-head"><h3>ACIPAYAM.com’un yolculuğu</h3>
-      <p>3 Nisan 2004’te 62 üyeyle bir test yayını olarak başladı, on yılda 30 binden fazla Acıpayamlıyı buluşturdu. Bir yıl seçin, eski sitede gezinin.</p></div>
-    <div class="zm-tabs" role="tablist" aria-label="Yıllar"><button type="button" role="tab" id="zm-t2004" aria-controls="zm-p2004" aria-selected="true"><b>2004</b><span>Mayıs 2004</span></button><button type="button" role="tab" id="zm-t2005" aria-controls="zm-p2005" aria-selected="false" tabindex="-1"><b>2005</b><span>Nisan 2005</span></button><button type="button" role="tab" id="zm-t2006" aria-controls="zm-p2006" aria-selected="false" tabindex="-1"><b>2006</b><span>Mayıs 2006</span></button><button type="button" role="tab" id="zm-t2011" aria-controls="zm-p2011" aria-selected="false" tabindex="-1"><b>2011</b><span>Temmuz 2011</span></button><button type="button" role="tab" id="zm-t2013" aria-controls="zm-p2013" aria-selected="false" tabindex="-1"><b>2013</b><span>Haziran 2013</span></button><button type="button" role="tab" id="zm-t2026" aria-controls="zm-p2026" aria-selected="false" tabindex="-1"><b>2026</b><span>Bugün</span></button></div>
-      <div class="zm-panel" role="tabpanel" id="zm-p2004" aria-labelledby="zm-t2004">
-        <div class="zm-win"><div class="zm-bar" aria-hidden="true"><i></i><i></i><i></i><span>www.acipayam.com · Mayıs 2004</span></div>
-          <div class="zm-screen" tabindex="0" aria-label="ACIPAYAM.com, Mayıs 2004: kaydırarak gezinin"><img src="/img/eski/2004.webp" alt="ACIPAYAM.com’un mayıs 2004 görünümü" width="1028" height="982" loading="lazy"></div></div>
-        <div class="zm-info"><p class="zm-yil">2004</p><h4>“Memlekete Hoş Geldiniz”</h4><p>3 Nisan 2004’te test yayınına başladı. Forumlar, haberler, resim galerisi, hikâye diyarı… İlk forum mesajlarından biri: “Teke yöresi neresidir biliyor musunuz?”</p><p class="zm-sayi"><b>62</b> üye</p></div>
-      </div>
-      <div class="zm-panel" role="tabpanel" id="zm-p2005" aria-labelledby="zm-t2005" hidden>
-        <div class="zm-win"><div class="zm-bar" aria-hidden="true"><i></i><i></i><i></i><span>www.acipayam.com · Nisan 2005</span></div>
-          <div class="zm-screen" tabindex="0" aria-label="ACIPAYAM.com, Nisan 2005: kaydırarak gezinin"><img src="/img/eski/2005.webp" alt="ACIPAYAM.com’un nisan 2005 görünümü" width="1036" height="1135" loading="lazy"></div></div>
-        <div class="zm-info"><p class="zm-yil">2005</p><h4>Birinci yaş</h4><p>“Acıpayam’ın güncel ve yaşayan sesi.” Kumsala yazılmış “www.acipayam.com uzak değiliz” fotoğrafıyla ilk yaş günü. Mini sohbette İsviçre’den, Hollanda’dan selamlar.</p><p class="zm-sayi"><b>1.339</b> üye</p></div>
-      </div>
-      <div class="zm-panel" role="tabpanel" id="zm-p2006" aria-labelledby="zm-t2006" hidden>
-        <div class="zm-win"><div class="zm-bar" aria-hidden="true"><i></i><i></i><i></i><span>www.acipayam.com · Mayıs 2006</span></div>
-          <div class="zm-screen" tabindex="0" aria-label="ACIPAYAM.com, Mayıs 2006: kaydırarak gezinin"><img src="/img/eski/2006-mayis.webp" alt="ACIPAYAM.com’un mayıs 2006 görünümü" width="1036" height="1166" loading="lazy"></div></div>
-        <div class="zm-info"><p class="zm-yil">2006</p><h4>“Memleketin Kokusu”</h4><p>İlk iki yılın sonunda site yeni yüzüne kavuştu: haber arşivi, forumlar, foto albümleri, şiir bahçesi, kan bankası ve radyo. Gurbetteki Acıpayamlılar mini sohbette selamlaşıyordu.</p><p class="zm-sayi"><b>6.839</b> üye</p></div>
-      </div>
-      <div class="zm-panel" role="tabpanel" id="zm-p2011" aria-labelledby="zm-t2011" hidden>
-        <div class="zm-win"><div class="zm-bar" aria-hidden="true"><i></i><i></i><i></i><span>www.acipayam.com · Temmuz 2011</span></div>
-          <div class="zm-screen" tabindex="0" aria-label="ACIPAYAM.com, Temmuz 2011: kaydırarak gezinin"><img src="/img/eski/2011.webp" alt="ACIPAYAM.com’un temmuz 2011 görünümü" width="1036" height="1024" loading="lazy"></div></div>
-        <div class="zm-info"><p class="zm-yil">2011</p><h4>Bordo dönem</h4><p>“2004’ten beri… Memleketimin Kokusu.” Köşe yazarları, köy köy yerleşim yerleri, kan bankası, Acıpayam–Dalaman yürüyüşü. Forumlarda bir milyonu aşan okuma.</p><p class="zm-sayi"><b>30.487</b> üye</p></div>
-      </div>
-      <div class="zm-panel" role="tabpanel" id="zm-p2013" aria-labelledby="zm-t2013" hidden>
-        <div class="zm-win"><div class="zm-bar" aria-hidden="true"><i></i><i></i><i></i><span>www.acipayam.com · Haziran 2013</span></div>
-          <div class="zm-screen" tabindex="0" aria-label="ACIPAYAM.com, Haziran 2013: kaydırarak gezinin"><img src="/img/eski-site-2.webp" alt="ACIPAYAM.com’un haziran 2013 görünümü" width="494" height="796" loading="lazy"></div></div>
-        <div class="zm-info"><p class="zm-yil">2013</p><h4>Mor dönem: “Ortak Paydamız Memleketimiz”</h4><p>Sitenin son görünümü. 3 Nisan 2014’te, onuncu yaşında yayına ara verildi.</p><p class="zm-sayi"><b>32.650</b> üye</p></div>
-      </div>
-      <div class="zm-panel" role="tabpanel" id="zm-p2026" aria-labelledby="zm-t2026" hidden>
-        <div class="zm-win"><div class="zm-bar" aria-hidden="true"><i></i><i></i><i></i><span>www.acipayam.com · Bugün</span></div>
-          <div class="zm-screen" tabindex="0" aria-label="ACIPAYAM.com, Bugün: kaydırarak gezinin"><img src="{h['banner']}" alt="ACIPAYAM.com’un bugün görünümü" width="1600" height="671" loading="lazy"></div></div>
-        <div class="zm-info"><p class="zm-yil">2026</p><h4>Yeniden yayında</h4><p>Aynı isim, aynı ruh. Bu kez kitaplar, köy köy sözlü tarih, şehitlerimiz ve eski radyonun sesleriyle.</p><p><a class="zm-link" href="#yeniden">Neden yeniden yayındayız? →</a></p></div>
-      </div>
+  <div class="kk" id="yolculuk">
+    <h3>ACIPAYAM.com’un yolculuğu</h3>
+    <p class="kk-not">3 Nisan 2004’te başladı, on yıl sürdü. Büyütmek için resme dokunun.</p>
+    <ol class="kk-list" data-zoom-group><li><button type="button" class="zoom" data-full="/img/eski/2004.webp" data-label="ACIPAYAM.com · Mayıs 2004 · “Memlekete Hoş Geldiniz” · 62 üye" aria-label="ACIPAYAM.com 2004: büyüt"><img src="/img/eski/2004.webp" alt="ACIPAYAM.com’un 2004 görünümü" width="1028" height="982" loading="lazy"><span>2004</span></button><p class="kk-y">2004</p><p class="kk-t">İlk hal · 62 üye</p></li><li><button type="button" class="zoom" data-full="/img/eski/2005.webp" data-label="ACIPAYAM.com · Nisan 2005 · Birinci yaş · 1.339 üye" aria-label="ACIPAYAM.com 2005: büyüt"><img src="/img/eski/2005.webp" alt="ACIPAYAM.com’un 2005 görünümü" width="1036" height="1135" loading="lazy"><span>2005</span></button><p class="kk-y">2005</p><p class="kk-t">Birinci yaş · 1.339 üye</p></li><li><button type="button" class="zoom" data-full="/img/eski/2006-mayis.webp" data-label="ACIPAYAM.com · Mayıs 2006 · “Memleketin Kokusu” · 6.839 üye" aria-label="ACIPAYAM.com 2006: büyüt"><img src="/img/eski/2006-mayis.webp" alt="ACIPAYAM.com’un 2006 görünümü" width="1036" height="1166" loading="lazy"><span>2006</span></button><p class="kk-y">2006</p><p class="kk-t">Memleketin Kokusu · 6.839 üye</p></li><li><button type="button" class="zoom" data-full="/img/eski/2011.webp" data-label="ACIPAYAM.com · Temmuz 2011 · Bordo dönem · 30.487 üye" aria-label="ACIPAYAM.com 2011: büyüt"><img src="/img/eski/2011.webp" alt="ACIPAYAM.com’un 2011 görünümü" width="1036" height="1024" loading="lazy"><span>2011</span></button><p class="kk-y">2011</p><p class="kk-t">Bordo dönem · 30.487 üye</p></li><li><button type="button" class="zoom" data-full="/img/eski-site-2.webp" data-label="ACIPAYAM.com · Haziran 2013 · Mor dönem · 32.650 üye" aria-label="ACIPAYAM.com 2013: büyüt"><img src="/img/eski-site-2.webp" alt="ACIPAYAM.com’un 2013 görünümü" width="494" height="796" loading="lazy"><span>2013</span></button><p class="kk-y">2013</p><p class="kk-t">Mor dönem · 32.650 üye</p></li></ol>
   </div>
   <div class="yol ekip">
     <h3 class="yol-baslik">Eski ekibimiz</h3>
