@@ -21,10 +21,6 @@
   --wide: 1320px;
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --kagit: #161512; --kagit-2: #1f1d19; --murekkep: #ece8df; --soluk: #aaa498; --cizgi: #34312b; color-scheme: dark; }
-}
-:root[data-theme="dark"] { --kagit: #161512; --kagit-2: #1f1d19; --murekkep: #ece8df; --soluk: #aaa498; --cizgi: #34312b; color-scheme: dark; }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: 5rem; scroll-behavior: smooth; }
