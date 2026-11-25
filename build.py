@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "8"
+ASSET_V = "9"
 
 
 def J(name):
@@ -554,10 +554,13 @@ def build_home():
     chat_static = (f'<ul class="chat">{chat}</ul>'
                    f'<a class="btn btn-line" href="{ORIGIN}/#mini-sohbet">acipayam.com’da selam bırakın</a>')
     story = h["story"]
-    cut = story["body"].find("<h3>")
-    story_html = story["body"] if cut < 0 else (
-        story["body"][:cut] + '<details class="story-more"><summary>Hikâyenin devamını okuyun</summary>'
-        + story["body"][cut:] + "</details>")
+    split = story["body"].find("<p>Ancak ACIPAYAM.com")
+    assert split > 0
+    story_old, story_new = story["body"][:split], story["body"][split:]
+    cut = story_new.find("<h3>")
+    story_new = story_new if cut < 0 else (
+        story_new[:cut] + '<details class="story-more"><summary>Devamını okuyun</summary>'
+        + story_new[cut:] + "</details>")
     hist = h["history"]
     body = f"""
 <section class="giris">
@@ -619,8 +622,8 @@ def build_home():
 <section class="hikaye" id="hikaye">
   <div class="hikaye-in">
     <div class="hikaye-side">
+      <p class="hikaye-k">2004–2014 · İlk on yıl</p>
       <h2>{E(story['title'])}</h2>
-      <p class="hikaye-motto">Ortak paydamız memleketimiz.</p>
       <figure class="eski" data-zoom-group>
         <figcaption>Eskiden böyleydi</figcaption>
         <div class="eski-row">
@@ -630,7 +633,19 @@ def build_home():
         <p class="eski-not">Büyütmek için görüntüye dokunun</p>
       </figure>
     </div>
-    <div class="hikaye-text">{story_html}<p class="imza">{E(story['signature'][0])}<small>ACIPAYAM.com kurucusu</small></p></div>
+    <div class="hikaye-text">{story_old}</div>
+  </div>
+</section>
+
+<section class="hikaye hikaye-yeni" id="yeniden">
+  <div class="hikaye-in">
+    <div class="hikaye-side">
+      <p class="hikaye-k">Bugün · Yeniden yayındayız</p>
+      <h2>Neden yeniden yayındayız?</h2>
+      <p class="hikaye-motto">Ortak paydamız memleketimiz.</p>
+      <figure class="afis afis-yeni"><img src="{h['banner']}" alt="ACIPAYAM.com, Memleketimin Kokusu, 2004’ten beri: yeni afiş" width="1600" height="671" loading="lazy"><figcaption>Eski afişimizden esinlenen yeni tasarım</figcaption></figure>
+    </div>
+    <div class="hikaye-text">{story_new}<p class="imza">{E(story['signature'][0])}<small>ACIPAYAM.com kurucusu</small></p></div>
   </div>
 </section>
 

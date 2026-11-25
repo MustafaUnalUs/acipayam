@@ -482,3 +482,13 @@ a { text-decoration-color: var(--bugday); }
 .eski .zoom img { aspect-ratio: 3/4; object-fit: cover; object-position: top; border-radius: 6px; box-shadow: 0 16px 30px -16px rgba(0,0,0,.7); }
 .eski .zoom span { color: rgba(255,255,255,.8); }
 .eski-not { font: 500 .85rem var(--sans); color: rgba(255,255,255,.65); margin: .7rem 0 0; }
+
+/* hikâye ikiye bölündü */
+.hikaye-k { font: 800 .85rem var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--bugday); margin: 0 0 .7rem; }
+.hikaye-yeni { background: var(--kagit-2); color: var(--murekkep); }
+.hikaye-yeni h2, .hikaye-yeni .hikaye-text h3, .hikaye-yeni .hikaye-text a, .hikaye-yeni .imza { color: var(--murekkep); }
+.hikaye-yeni .hikaye-k { color: var(--vurgu); }
+.hikaye-yeni .hikaye-motto { color: var(--tabela); }
+.hikaye-yeni .imza small { color: var(--soluk); }
+.hikaye-yeni .story-more summary { border-color: var(--tabela); color: var(--tabela); }
+.afis-yeni { margin-top: 1.6rem; }
