@@ -474,3 +474,11 @@ a { text-decoration-color: var(--bugday); }
   .signs-in .sign-s { font-size: .85rem; }
 }
 @media (max-width: 759px) { .giris-in { padding-bottom: 4.2rem; } .giris-credit { left: var(--gutter); } }
+
+/* eskiden böyleydi */
+.eski { margin: 2rem 0 0; }
+.eski figcaption { font: 800 .85rem var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--bugday); margin-bottom: .8rem; }
+.eski-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.eski .zoom img { aspect-ratio: 3/4; object-fit: cover; object-position: top; border-radius: 6px; box-shadow: 0 16px 30px -16px rgba(0,0,0,.7); }
+.eski .zoom span { color: rgba(255,255,255,.8); }
+.eski-not { font: 500 .85rem var(--sans); color: rgba(255,255,255,.65); margin: .7rem 0 0; }

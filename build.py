@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "7"
+ASSET_V = "8"
 
 
 def J(name):
@@ -621,6 +621,14 @@ def build_home():
     <div class="hikaye-side">
       <h2>{E(story['title'])}</h2>
       <p class="hikaye-motto">Ortak paydamız memleketimiz.</p>
+      <figure class="eski" data-zoom-group>
+        <figcaption>Eskiden böyleydi</figcaption>
+        <div class="eski-row">
+          <button type="button" class="zoom" data-full="/img/eski-site-1.webp" data-label="ACIPAYAM.com’un eski görünümü · bordo dönem" aria-label="Eski ACIPAYAM.com, bordo dönem: büyüt"><img src="/img/eski-site-1.webp" alt="ACIPAYAM.com’un bordo renkli eski ana sayfası" width="550" height="830" loading="lazy"><span>Bordo dönem</span></button>
+          <button type="button" class="zoom" data-full="/img/eski-site-2.webp" data-label="ACIPAYAM.com’un eski görünümü · mor dönem" aria-label="Eski ACIPAYAM.com, mor dönem: büyüt"><img src="/img/eski-site-2.webp" alt="ACIPAYAM.com’un mor renkli eski ana sayfası" width="494" height="796" loading="lazy"><span>Mor dönem</span></button>
+        </div>
+        <p class="eski-not">Büyütmek için görüntüye dokunun</p>
+      </figure>
     </div>
     <div class="hikaye-text">{story_html}<p class="imza">{E(story['signature'][0])}<small>ACIPAYAM.com kurucusu</small></p></div>
   </div>
