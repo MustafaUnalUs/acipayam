@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "9"
+ASSET_V = "10"
 
 
 def J(name):
@@ -205,7 +205,7 @@ def layout(path, title, body, desc="", cls="", style=""):
 <a class="skip" href="#icerik">İçeriğe geç</a>
 <header class="bar">
   <div class="bar-in">
-    <a class="mark" href="/">{MARK}<span>Acıpayam<em>.com</em></span></a>
+    <a class="mark" href="/">{MARK}<span>ACIPAYAM<em>.com</em></span></a>
     <details class="menu">
       <summary><span>Menü</span></summary>
       <nav aria-label="Ana menü">{nav}</nav>
@@ -232,7 +232,7 @@ def footer():
     return f"""<footer class="foot">
   <div class="foot-in">
     <div class="foot-brand">
-      <a class="mark" href="/">{MARK}<span>Acıpayam<em>.com</em></span></a>
+      <a class="mark" href="/">{MARK}<span>ACIPAYAM<em>.com</em></span></a>
       <p class="foot-motto">Ortak paydamız memleketimiz.</p>
       <p>2004’ten beri Acıpayam’ın kitapları, sözlü tarihi ve sesleri. Ticari amacı olmayan bağımsız bir kültür hizmeti.</p>
     </div>
@@ -336,7 +336,7 @@ def toc(book):
                 rows.append("</ol>")
             rows.append((f'<h3 class="toc-part">{E(tr_title(part))}</h3>' if part else "") + '<ol class="toc">')
         rows.append(f'<li><a href="{chapter_url(book, i, c)}"><span class="toc-n">{i + 1:02d}</span>'
-                    f'<span class="toc-t">{E(tr_title(c["title"]))}</span><span class="toc-m">{minutes(c["words"])} dk</span></a></li>')
+                    f'<span class="toc-t">{E(tr_title(c["title"]))}</span></a></li>')
     rows.append("</ol>")
     return "\n".join(rows)
 
@@ -367,9 +367,6 @@ def book_hero(book, extra_meta=""):
       {sub}
       <p class="hero-by">{by}</p>
       <p class="hero-intro">{E(book['intro'])}</p>
-      <dl class="facts"><div><dt>Bölüm</dt><dd>{len(book['data']['chapters'])}</dd></div>
-        <div><dt>Okuma süresi</dt><dd>{'yaklaşık ' + format(hours, '.1f').replace('.', ',') + ' saat' if hours >= 1 else str(minutes(book['words'])) + ' dakika'}</dd></div>
-        <div><dt>PDF</dt><dd>{mb(book['pdf_size'])}</dd></div>{extra_meta}</dl>
       {book_actions(book)}
     </div>
   </div>
@@ -468,7 +465,7 @@ def build_chapter(book, i):
     <h1>{E(title)}</h1>
     {lead}
     <div class="tools" role="group" aria-label="Okuma ayarları">
-      <span>{minutes(c['words'])} dakikalık okuma</span>
+      <span>Yazı boyutu</span>
       <button type="button" data-size="-1" aria-label="Yazıyı küçült">A−</button>
       <button type="button" data-size="1" aria-label="Yazıyı büyüt">A+</button>
       <a href="{book['base']}#icindekiler">İçindekiler</a>

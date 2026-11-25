@@ -492,3 +492,6 @@ a { text-decoration-color: var(--bugday); }
 .hikaye-yeni .imza small { color: var(--soluk); }
 .hikaye-yeni .story-more summary { border-color: var(--tabela); color: var(--tabela); }
 .afis-yeni { margin-top: 1.6rem; }
+
+.giris-kicker { text-shadow: 0 1px 10px rgba(0,0,0,.7); color: #e6ccfa; }
+.mark span { letter-spacing: .02em; }
