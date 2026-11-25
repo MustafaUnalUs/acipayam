@@ -774,3 +774,25 @@ body.has-gecis { padding-bottom: 4.5rem; }
 .sh-x svg { width: .9rem !important; height: .9rem !important; }
 .reader a.sh, .reader a.sh:hover { color: #fff !important; }
 :root[data-theme="dark"] .sh-x, .page-reader .sh-x { box-shadow: inset 0 0 0 1px rgba(255,255,255,.35) !important; }
+
+/* yan oklar */
+.yan-ok { position: fixed; top: 50%; transform: translateY(-50%); z-index: 25; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--kagit, #fff); color: var(--vurgu, #7a3daa); box-shadow: 0 0 0 1px var(--cizgi, #ddd), 0 8px 20px -10px rgba(0,0,0,.45); transition: transform .15s, background .15s; text-decoration: none; }
+.yan-ok svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.yan-ok:hover { transform: translateY(-50%) scale(1.08); }
+.yan-ok.is-off { opacity: .25; pointer-events: none; }
+.yan-ok[hidden] { display: none; }
+@media (hover: none) { .yan-ok { display: none !important; } }
+/* kaydırma ipucu (yalnız dokunmatik) */
+.kaydir-ipucu { display: none; text-align: center; font: 600 .85rem/1.4 system-ui, sans-serif; color: var(--soluk); margin: 2.4rem 0 0; padding: .7rem; border-radius: 10px; border: 1px dashed var(--cizgi); }
+.kaydir-ipucu span { font-size: 1.1rem; }
+@media (hover: none) { .kaydir-ipucu { display: block; } }
+
+/* okuma alanı: kâğıt sayfa */
+.page-reader { background: var(--kagit-2); }
+.page-reader .reader { background: var(--kagit); border: 1px solid var(--cizgi); border-radius: 14px; box-shadow: 0 24px 50px -34px rgba(40,10,60,.45);
+  margin-top: 2rem; margin-bottom: 3rem; padding-top: clamp(2rem, 5vw, 3.4rem); max-width: calc(42rem + 2 * var(--gutter) + 2px); }
+:root[data-theme="dark"] .page-reader { background: #0f0c13; }
+:root[data-theme="dark"] .page-reader .reader { background: #1c1624; border-color: #342a40; box-shadow: 0 24px 50px -30px rgba(0,0,0,.9); }
+:root[data-theme="dark"] .yan-ok { background: #241c2e; color: var(--bugday); box-shadow: 0 0 0 1px #3a3045, 0 8px 20px -10px #000; }
+@media (max-width: 720px) { .page-reader .reader { border-radius: 0; border-left: 0; border-right: 0; margin-top: 0; } }
