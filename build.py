@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "29"
+ASSET_V = "30"
 
 
 def J(name):
@@ -232,7 +232,7 @@ def layout(path, title, body, desc="", cls="", style=""):
 SHARE_IC = {
     "wa": '<path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.6-2-1-1 1c-1.2-.5-2.4-1.7-2.9-2.9l1-1-1-2z"/>',
     "fb": '<path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/>',
-    "x": '<path d="M4 4l16 16M20 4 4 20"/>',
+    "x": '<path class="xl" d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.41l-5.8-7.58-6.64 7.58H.47l8.6-9.83L0 1.15h7.59l5.24 6.93zM17.6 20.64h2.04L6.49 3.24H4.3z"/>',
 }
 
 
@@ -253,7 +253,7 @@ def share_bar(path, title):
     ic = {
         "wa": '<path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.6-2-1-1 1c-1.2-.5-2.4-1.7-2.9-2.9l1-1-1-2z"/>',
         "fb": '<path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/>',
-        "x": '<path d="M4 4l16 16M20 4 4 20"/>',
+        "x": '<path class="xl" d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.41l-5.8-7.58-6.64 7.58H.47l8.6-9.83L0 1.15h7.59l5.24 6.93zM17.6 20.64h2.04L6.49 3.24H4.3z"/>',
     }
     def a(cls, href, icon, label):
         return (f'<a class="sh sh-{cls}" data-share="{cls}" href="{href}" target="_blank" rel="noopener" aria-label="{label} ile paylaş" title="{label}">'
