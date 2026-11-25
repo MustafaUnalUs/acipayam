@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "27"
+ASSET_V = "28"
 
 
 def J(name):
@@ -256,7 +256,7 @@ def share_bar(path, title):
         "x": '<path d="M4 4l16 16M20 4 4 20"/>',
     }
     def a(cls, href, icon, label):
-        return (f'<a class="sh sh-{cls}" data-share="{cls}" href="{href}" target="_blank" rel="noopener">'
+        return (f'<a class="sh sh-{cls}" data-share="{cls}" href="{href}" target="_blank" rel="noopener" aria-label="{label} ile paylaş" title="{label}">'
                 f'<svg viewBox="0 0 24 24" aria-hidden="true">{ic[icon]}</svg><span>{label}</span></a>')
     return (f'<aside class="share" aria-label="Paylaş"><div class="share-in"><p>Bu bölümü paylaşın</p><div class="share-row">'
             + a("wa", f"https://wa.me/?text={t}%20{u}", "wa", "WhatsApp")
