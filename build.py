@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "31"
+ASSET_V = "32"
 
 
 def J(name):
@@ -196,7 +196,7 @@ def layout(path, title, body, desc="", cls="", style=""):
 <meta property="og:title" content="{E(full)}">
 <meta property="og:locale" content="tr_TR">
 <meta name="theme-color" content="#4f1f75">
-<script>(function(){{var t;try{{t=localStorage.getItem("tema")}}catch(e){{}}if(t!=="dark"&&t!=="light")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t)}})()</script>
+<script>(function(){{var t;try{{t=localStorage.getItem("tema")}}catch(e){{}}if(t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t)}})()</script>
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

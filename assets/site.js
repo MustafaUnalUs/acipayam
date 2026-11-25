@@ -297,7 +297,6 @@ document.querySelectorAll(".zm").forEach((zm) => {
   mq.addEventListener?.("change", (e) => {
     let saved = null;
     try { saved = localStorage.getItem("tema"); } catch { /* yok say */ }
-    if (!saved) root.setAttribute("data-theme", e.matches ? "dark" : "light");
   });
   if (meta) meta.content = "#4f1f75";
 })();
