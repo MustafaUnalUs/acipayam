@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "61"
+ASSET_V = "63"
 
 
 def J(name):
@@ -642,6 +642,14 @@ SIGN_ICONS = {
 }
 
 
+
+def _acp_sehit():
+    d = J("sehitler.json"); k = d["h"].index("İLÇE")
+    return f'{sum(1 for r in d["r"] if r[k] == "ACIPAYAM"):,}'.replace(",", ".")
+
+
+ACP_SEHIT = _acp_sehit()
+
 def sign(href, icon, title, sub):
     return (f'<li><a class="sign" href="{href}"><svg viewBox="0 0 24 24" aria-hidden="true">{SIGN_ICONS[icon]}</svg>'
             f'<span class="sign-t">{E(title)}</span><span class="sign-s">{E(sub)}</span>'
@@ -654,10 +662,10 @@ def build_home():
     radyo = J("radyo.json")
     mem = h["memorial"]
     signs = "".join([
-        sign("#koyler", "koy", "Köyler", f"{len(SABIT['interviews'])} görüşme, köy haritası"),
+        sign("#koyler", "koy", "Köyler (Mahalleler)", f"56 mahalle, {len(SABIT['interviews'])} görüşme, harita"),
         sign("#kitaplar", "kitap", "Kitaplar", f"{len(BOOKS)} kitap okunabilir"),
-        sign("/acipayam-dunu-bugunu/", "soylesi", "Söyleşiler", f"Acıpayam Dünü Bugünü · {len(dunu['episodes'])} bölüm"),
-        sign("/sehit-bilgi-kapisi/", "sehit", "Şehitler", f"{mem['stat']} şehit kaydı"),
+        sign("/acipayam-dunu-bugunu/", "soylesi", "Söyleşiler", f"Acıpayam Dünü Bugünü, {len(dunu['episodes'])} bölüm"),
+        sign("/sehit-bilgi-kapisi/", "sehit", "Denizli Şehitleri", f"{mem['stat']} kayıt, {ACP_SEHIT}'i Acıpayam'dan"),
         sign("/#radyo", "radyo", "Radyo ACIPAYAM.com", f"{len(radyo['records'])} eski yayın kaydı"),
         sign("#videolar", "video", "Videolar", "Eski videolar ve etkinlikler"),
     ])
@@ -794,7 +802,7 @@ def build_home():
   <a class="kart kart-anma" href="/sehit-bilgi-kapisi/">
     <span class="anma-sayi">{E(mem['stat'])}</span>
     <span class="kart-body"><span class="kart-k">1853–1928 · Kalıcı anma arşivi</span><b>Denizli Şehit Bilgi Kapısı</b>
-      <span>İsim, köy ya da savaşa göre aranabilir.</span></span>
+      <span>Denizli'nin bütün ilçelerinden {mem['stat']} kayıt; {ACP_SEHIT}'i Acıpayam'dan. İsim, köy ya da savaşa göre aranabilir.</span></span>
   </a>
 </section>
 """

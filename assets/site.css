@@ -1011,3 +1011,4 @@ body.has-gecis { padding-bottom: 4.5rem; }
   .sign-t, .signs-in .sign-t { font-size: 1.02rem; }
 }
 .signs > li { display: flex; } .signs > li > .sign { flex: 1; }
+.bar nav a, .menu a { white-space: nowrap; }
