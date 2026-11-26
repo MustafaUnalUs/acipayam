@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "64"
+ASSET_V = "67"
 
 
 def J(name):
@@ -689,13 +689,13 @@ def build_home():
         return (f'<li><div class="r-head"><b>{E(x["title"])}</b><time>{E(x["duration"])}</time></div>'
                 f'<p>{E(x["person"])}</p><audio controls preload="none" src="{E(x["file"])}"></audio></li>')
     recs = radyo["records"]
-    radyo_html = f"""<div class="radyo" id="radyo">
-      <h3>Radyo ACIPAYAM.com</h3>
+    radyo_html = f"""<details class="acil radyo" id="radyo">
+      <summary><span class="acil-b">Radyo ACIPAYAM.com</span><span class="acil-s">{len(recs)} eski yayın kaydı</span></summary>
       <p>Sitenin ilk yıllarında radyomuz da vardı. “Toprağın Sesi” gibi programlarda şiirler, türküler ve köşe yazıları okundu; memleketin sesi gurbete taşındı. O yayınlardan {len(recs)} kayıt bugün hâlâ dinlenebiliyor.</p>
       <ol class="radyo-list">{"".join(_rec(x) for x in recs[:3])}</ol>
       <details class="radyo-more"><summary>Bütün kayıtlar ({len(recs)})</summary><ol class="radyo-list" start="4">{"".join(_rec(x) for x in recs[3:])}</ol></details>
       <p class="radyo-link"><a href="/radyo-arsivi/">Radyo arşivi sayfası →</a></p>
-    </div>"""
+    </details>"""
     split = story["body"].find("<p>Ancak ACIPAYAM.com")
     assert split > 0
     story_old, story_new = story["body"][:split], story["body"][split:]
@@ -744,16 +744,16 @@ def build_home():
     </div>
     <div class="hikaye-text">{story_old}{radyo_html}</div>
   </div>
-  <div class="kk" id="yolculuk">
-    <h3>ACIPAYAM.com’un yolculuğu</h3>
+  <details class="acil kk" id="yolculuk">
+    <summary><span class="acil-b">ACIPAYAM.com’un yolculuğu</span><span class="acil-s">2004–2013 · 5 ekran görüntüsü</span></summary>
     <p class="kk-not">3 Nisan 2004’te başladı, on yıl sürdü. Büyütmek için resme dokunun.</p>
     <ol class="kk-list" data-zoom-group><li><button type="button" class="zoom" data-full="/img/eski/2004-mayis.webp" data-label="ACIPAYAM.com · Mayıs 2004 · “Memlekete Hoş Geldiniz” · 62 üye" aria-label="ACIPAYAM.com 2004: büyüt"><img src="/img/eski/2004-mayis.webp" alt="ACIPAYAM.com’un 2004 görünümü" width="1028" height="982" loading="lazy"><span>2004</span></button><p class="kk-y">2004</p><p class="kk-t">İlk hal · 62 üye</p></li><li><button type="button" class="zoom" data-full="/img/eski/2005-nisan.webp" data-label="ACIPAYAM.com · Nisan 2005 · Birinci yaş · 1.339 üye" aria-label="ACIPAYAM.com 2005: büyüt"><img src="/img/eski/2005-nisan.webp" alt="ACIPAYAM.com’un 2005 görünümü" width="1036" height="1135" loading="lazy"><span>2005</span></button><p class="kk-y">2005</p><p class="kk-t">Birinci yaş · 1.339 üye</p></li><li><button type="button" class="zoom" data-full="/img/eski/2006-mayis.webp" data-label="ACIPAYAM.com · Mayıs 2006 · “Memleketin Kokusu” · 6.839 üye" aria-label="ACIPAYAM.com 2006: büyüt"><img src="/img/eski/2006-mayis.webp" alt="ACIPAYAM.com’un 2006 görünümü" width="1036" height="1166" loading="lazy"><span>2006</span></button><p class="kk-y">2006</p><p class="kk-t">Memleketin Kokusu · 6.839 üye</p></li><li><button type="button" class="zoom" data-full="/img/eski/2011.webp" data-label="ACIPAYAM.com · Temmuz 2011 · Bordo dönem · 30.487 üye" aria-label="ACIPAYAM.com 2011: büyüt"><img src="/img/eski/2011.webp" alt="ACIPAYAM.com’un 2011 görünümü" width="1036" height="1024" loading="lazy"><span>2011</span></button><p class="kk-y">2011</p><p class="kk-t">Bordo dönem · 30.487 üye</p></li><li><button type="button" class="zoom" data-full="/img/eski-site-2.webp" data-label="ACIPAYAM.com · Haziran 2013 · Mor dönem · 32.650 üye" aria-label="ACIPAYAM.com 2013: büyüt"><img src="/img/eski-site-2.webp" alt="ACIPAYAM.com’un 2013 görünümü" width="494" height="796" loading="lazy"><span>2013</span></button><p class="kk-y">2013</p><p class="kk-t">Mor dönem · 32.650 üye</p></li></ol>
-  </div>
-  <div class="yol ekip">
-    <h3 class="yol-baslik">Eski ekibimiz</h3>
+  </details>
+  <details class="acil yol ekip" id="ekip">
+    <summary><span class="acil-b">Eski ekibimiz</span><span class="acil-s">2005, 2006, 2011 ve 2013 kadroları</span></summary>
     <p class="yol-not">ACIPAYAM.com’u gönüllü emekleriyle yıllarca ayakta tutanlar. Hepsine teşekkür ediyoruz.</p>
     <ol class="ekip-list" data-zoom-group><li class="ekip-kart"><p class="yol-yil">2005</p><button type="button" class="zoom" data-full="/img/eski/ekip-2005.webp" data-label="ACIPAYAM.com ekibi · 2005" aria-label="2005 ekibinin fotoğrafları: büyüt"><img src="/img/eski/ekip-2005.webp" alt="ACIPAYAM.com 2005 ekibinin fotoğrafları" width="1028" height="108" loading="lazy"><span>2005</span></button><ul class="ekip-adlar"><li><b>Mustafa Ünal</b><span>Kurucu</span></li><li><b>Nuri Gökgöz</b><span>Site editörü</span></li><li><b>Muhammet Ak</b><span>Site yöneticisi</span></li><li><b>İsmail Yıldırım</b><span>Site yöneticisi</span></li><li><b>Mehmet Soysal</b><span>Radyo yöneticisi</span></li><li><b>Emin Okkaya</b><span>Haber editörü</span></li><li><b>Muhammet Dilek</b><span>Köşe yazarı</span></li><li><b>Ümran Songun</b><span>Köşe yazarı</span></li></ul></li><li class="ekip-kart"><p class="yol-yil">2006</p><button type="button" class="zoom" data-full="/img/eski/ekip-2006.webp" data-label="ACIPAYAM.com ekibi · 2006" aria-label="2006 ekibinin fotoğrafları: büyüt"><img src="/img/eski/ekip-2006.webp" alt="ACIPAYAM.com 2006 ekibinin fotoğrafları" width="756" height="168" loading="lazy"><span>2006</span></button><ul class="ekip-adlar"><li><b>Mustafa Ünal</b><span>Kurucu, imtiyaz sahibi</span></li><li><b>Nuri Gökgöz</b><span>Genel koordinatör</span></li><li><b>Emin Okkaya</b><span>Site editörü</span></li><li><b>Muhammet Ak</b><span>Medya direktörü</span></li><li><b>Müzeyyen Savaş</b><span>Haber editörü</span></li><li><b>Osman Can</b><span>Köşe yazarı</span></li><li><b>Baki Evkaralı</b><span>Köşe yazarı</span></li><li><b>Ümran Songun</b><span>Köşe yazarı</span></li><li><b>Ali Can</b><span>Köşe yazarı</span></li><li><b>İsmail Yıldırım</b><span>Teknik sorumlu</span></li></ul></li><li class="ekip-kart"><p class="yol-yil">2011</p><button type="button" class="zoom" data-full="/img/eski/ekip-2011.webp" data-label="ACIPAYAM.com ekibi · 2011" aria-label="2011 ekibinin fotoğrafları: büyüt"><img src="/img/eski/ekip-2011.webp" alt="ACIPAYAM.com 2011 ekibinin fotoğrafları" width="1036" height="112" loading="lazy"><span>2011</span></button><ul class="ekip-adlar"><li><b>Mustafa Ünal</b><span>Kurucu</span></li><li><b>Sabit Kızılhan</b><span>Halkla ilişkiler</span></li><li><b>İsmail Yıldırım</b><span>Teknik sorumlu</span></li><li><b>R. Alkan</b><span>Haber koordinatörü</span></li><li><b>M. Karaoğlan</b><span>Genel sorumlu</span></li><li><b>Hüseyin Kaçmaz</b><span>Avrupa sorumlusu</span></li><li><b>Hüzün</b><span>Bayan sorumlusu</span></li><li><b>E. İlhan</b><span>Haber editörü</span></li><li><b>Can Acar</b><span>Haber editörü</span></li><li><b>H. Baki Çelen</b><span>Haber editörü</span></li></ul></li><li class="ekip-kart"><p class="yol-yil">2013</p><button type="button" class="zoom" data-full="/img/eski/ekip-2013.webp" data-label="ACIPAYAM.com ekibi · 2013" aria-label="2013 ekibinin fotoğrafları: büyüt"><img src="/img/eski/ekip-2013.webp" alt="ACIPAYAM.com 2013 ekibinin fotoğrafları" width="1218" height="108" loading="lazy"><span>2013</span></button><ul class="ekip-adlar"><li><b>Mustafa Ünal</b><span>İmtiyaz sahibi</span></li><li><b>Sabit Kızılhan</b><span>Halkla ilişkiler</span></li><li><b>M. Karaoğlan</b><span>Genel sorumlu</span></li><li><b>Hüseyin Kaçmaz</b><span>Avrupa sorumlusu</span></li><li><b>Can Acar</b><span>Haber editörü</span></li><li><b>H. Baki Çelen</b><span>Radyo DJ</span></li></ul></li></ol>
-  </div>
+  </details>
 </section>
 
 <section class="hikaye hikaye-yeni" id="yeniden">

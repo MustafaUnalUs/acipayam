@@ -582,3 +582,13 @@ document.querySelectorAll(".map").forEach((map) => {
   btn.addEventListener("click", open);
   map.addEventListener("click", (e) => { if (!e.target.closest(".pin, .map-buyut")) open(); });
 });
+
+/* adres #radyo gibi bir kapalı bölümü gösteriyorsa aç */
+(() => {
+  const ac = () => {
+    const h = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    const d = h && (h.tagName === "DETAILS" ? h : h.closest("details"));
+    if (d && !d.open) { d.open = true; h.scrollIntoView(); }
+  };
+  ac(); addEventListener("hashchange", ac);
+})();
