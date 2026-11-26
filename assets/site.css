@@ -1047,3 +1047,8 @@ details.acil.kk > :not(summary), details.acil.yol > :not(summary) { margin-left:
 .signs-in .signs { grid-template-columns: 1fr 1fr; }
 @media (min-width: 900px) { .signs-in .signs { grid-template-columns: repeat(3, 1fr); } }
 .afis-alt .share-mini { margin: 0; } .afis-alt .share-mini > span { color: rgba(255,255,255,.85); }
+.afis-alt p { display: flex; flex-direction: column; gap: .25rem; }
+.afis-alt .payda { font: 800 clamp(1.35rem, 2.6vw, 1.9rem)/1.2 var(--sans); color: #fff; letter-spacing: .01em; }
+.afis-alt .payda::after { content: ""; display: block; width: 3rem; height: 2px; margin: .5rem auto .2rem; background: #d9b25c; border-radius: 2px; }
+.afis-alt p span { font-size: 1rem; color: rgba(255,255,255,.8); }
+.afis-alt { flex-direction: column; padding-top: 1.4rem; padding-bottom: 1.4rem; }

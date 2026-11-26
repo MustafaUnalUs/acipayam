@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "69"
+ASSET_V = "70"
 
 
 def J(name):
@@ -199,14 +199,14 @@ def layout(path, title, body, desc="", cls="", style=""):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{E(full)}</title>
-<meta name="description" content="{E(desc or 'Acıpayam’ın kitapları, sözlü tarihi ve ortak hafızası. 2004’ten beri memleket kokusu.')}">
+<meta name="description" content="{E(desc or 'Ortak paydamız memleketimiz: Acıpayam’ın kitapları, köyleri, şehitleri ve sözlü tarihi. 2004’ten beri memleket kokusu.')}">
 {"" if CANLI else NOINDEX}<link rel="canonical" href="{ORIGIN}{path}">
 <meta property="og:title" content="{E(full)}">
 <meta property="og:locale" content="tr_TR">
 <meta property="og:type" content="{'book' if og_slug(path) else 'website'}">
 <meta property="og:site_name" content="ACIPAYAM.com">
 <meta property="og:url" content="{ORIGIN}{path}">
-<meta property="og:description" content="{E(desc or 'Acıpayam’ın kitapları, sözlü tarihi ve ortak hafızası. 2004’ten beri memleket kokusu.')}">
+<meta property="og:description" content="{E(desc or 'Ortak paydamız memleketimiz: Acıpayam’ın kitapları, köyleri, şehitleri ve sözlü tarihi. 2004’ten beri memleket kokusu.')}">
 <meta property="og:image" content="{ORIGIN}/img/paylas/{og_slug(path) or 'acipayam'}.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -709,7 +709,7 @@ def build_home():
   <h1 class="sr-only">ACIPAYAM.com · Memleketimin Kokusu · 2004’ten beri</h1>
   <img src="{h['banner']}" alt="ACIPAYAM.com, Memleketimin Kokusu, 2004’ten beri: yöresel kıyafetli kız çocuğu, çiçekler, eski Acıpayam ovası, Türk bayrağı ve Atatürk" width="1600" height="671" fetchpriority="high">
 </section>
-<div class="afis-alt"><p>Acıpayam’ın ortak hafızası: köylerin anlattıkları, şehitlerin adları, radyonun sesleri ve memleket kitapları. Hepsi ücretsiz, hepsi burada.</p>{share_mini()}</div>
+<div class="afis-alt"><p><b class="payda">Ortak paydamız memleketimiz.</b><span>Köylerimizin anlattıkları, şehitlerimizin adları, radyomuzun sesleri ve kitaplarımız. Hepsi ücretsiz, hepsi burada.</span></p>{share_mini()}</div>
 
 <div class="signs-wrap">
   <div class="signs-in">
