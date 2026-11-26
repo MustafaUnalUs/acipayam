@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "76"
+ASSET_V = "77"
 
 
 def J(name):
@@ -714,13 +714,13 @@ def build_home():
   <img src="{h['banner']}" alt="ACIPAYAM.com, Memleketimin Kokusu, 2004’ten beri: yöresel kıyafetli kız çocuğu, çiçekler, eski Acıpayam ovası, Türk bayrağı ve Atatürk" width="1600" height="671" fetchpriority="high">
 </section>
 <div class="afis-alt">
-  <p class="payda">Eskiyi arşivliyoruz, <em>yeniyi eskitiyoruz.</em></p>
+  <p class="payda">Eskiyi Arşivliyoruz, <em>Yeniyi Eskitiyoruz.</em></p>
   <ol class="zaman">
     <li><span class="z-k">2004–2014</span><b>Buluştuk</b><span>Acıpayamlıları on yıl bir araya getirdik.</span></li>
     <li><span class="z-k">Bugün</span><b>Kaydediyoruz</b><span>Köyleri, şehitleri, sesleri ve kitapları.</span></li>
     <li><span class="z-k">Yarın</span><b>Bırakıyoruz</b><span>Hepsini, ücretsiz, gelecek kuşaklara.</span></li>
   </ol>
-  <p class="z-slogan">Ortak paydamız memleketimiz.</p>
+  <p class="z-slogan">Ortak Paydamız Memleketimiz.</p>
   {share_mini()}
 </div>
 
@@ -767,7 +767,7 @@ def build_home():
   <div class="hikaye-in">
     <div class="hikaye-side">
       <p class="hikaye-k">Bugün · Yeniden yoldayız</p>
-      <h2 class="slogan">Eskiyi arşivliyoruz,<br><em>yeniyi eskitiyoruz.</em></h2>
+      <h2 class="slogan">Eskiyi Arşivliyoruz,<br><em>Yeniyi Eskitiyoruz.</em></h2>
       <p class="slogan-giris">ACIPAYAM.com’un hikâyesi 2014’te bitmedi. Aynı isimle ve aynı bağımsız ruhla yeniden yola çıktık. Bu kez yalnızca insanları buluşturmak için değil; hikâyelerini, eserlerini, seslerini ve yaşadıkları dönemin izlerini gelecek kuşaklara bırakmak için buradayız.</p>
     </div>
     <div class="hikaye-text">{story_new}<p class="imza">{E(story['signature'][0])}<small>ACIPAYAM.com kurucusu</small></p></div>
