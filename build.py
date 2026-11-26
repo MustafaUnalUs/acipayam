@@ -309,7 +309,7 @@ def audio(src, label):
 
 
 def cover(book, cls="", lazy=True):
-    return (f'<img class="cover-img {cls}" src="{book["cover"]}" alt="{E(book["title"])} kapağı" width="400" height="620"'
+    return (f'<img class="cover-img {cls}" src="{book["cover"]}?v=6" alt="{E(book["title"])} kapağı" width="400" height="620"'
             f'{" loading=" + chr(34) + "lazy" + chr(34) if lazy else ""}>')
 
 
@@ -402,11 +402,11 @@ def cover_pair(book):
     """Ön ve arka kapak yan yana; dokununca büyük hâli açılır."""
     items = []
     for side, src, label in (("", book["cover"], "Ön kapak"), ("-arka", book["back"], "Arka kapak")):
-        full = f"/img/kapak/{book['slug']}{side}-buyuk.webp"
+        full = f"/img/kapak/{book['slug']}{side}-buyuk.webp?v=6"
         items.append(
             f'<button type="button" class="zoom" data-full="{full}" data-label="{E(book["title"])} · {label}" '
             f'aria-label="{E(book["title"])}, {label.lower()}: büyüt">'
-            f'<img src="{src}" alt="{E(book["title"])} {label.lower()}" width="400" height="620"><span>{label}</span></button>')
+            f'<img src="{src}?v=6" alt="{E(book["title"])} {label.lower()}" width="400" height="620"><span>{label}</span></button>')
     return (f'<figure class="covers" data-zoom-group>{"".join(items)}'
             f'<figcaption>Büyütmek ve okumak için kapağa dokunun</figcaption></figure>')
 
