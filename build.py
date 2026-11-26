@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "60"
+ASSET_V = "61"
 
 
 def J(name):
@@ -164,7 +164,7 @@ def mb(n):
 NAV = [
     ("/#kitaplar", "Kitaplar"),
     ("/sabit/", "Köyler"),
-    ("/acipayam-dunu-bugunu/", "Acıpayam Tarihi"),
+    ("/acipayam-dunu-bugunu/", "Söyleşiler"),
     ("/sehit-bilgi-kapisi/", "Şehitler"),
     ("/radyo-arsivi/", "Radyo"),
     ("/fotograflar/", "Fotoğraflar"),
@@ -633,6 +633,7 @@ SIGN_ICONS = {
     # basit, tabela piktogramları (beyaz çizgi)
     "koy": '<path d="M4 20V10l8-6 8 6v10"/><path d="M10 20v-6h4v6"/>',
     "kitap": '<path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4z"/><path d="M20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6z"/>',
+    "soylesi": '<path d="M4 5h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M17 9h3a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1v3l-4-3h-3a2 2 0 0 1-2-2"/>',
     "tarih": '<path d="M4 20h16"/><path d="M6 20V9M10 20V9M14 20V9M18 20V9"/><path d="M3 9l9-5 9 5z"/>',
     "sehit": '<path d="M12 3l2.6 5.6 6 .6-4.5 4 1.3 6-5.4-3.1-5.4 3.1 1.3-6-4.5-4 6-.6z"/>',
     "radyo": '<rect x="3" y="8" width="18" height="12" rx="2"/><circle cx="8" cy="14" r="3"/><path d="M14 12h4M14 16h4M7 8l9-5"/>',
@@ -655,7 +656,7 @@ def build_home():
     signs = "".join([
         sign("#koyler", "koy", "Köyler", f"{len(SABIT['interviews'])} görüşme, köy haritası"),
         sign("#kitaplar", "kitap", "Kitaplar", f"{len(BOOKS)} kitap okunabilir"),
-        sign("/acipayam-dunu-bugunu/", "tarih", "Acıpayam Tarihi", f"{len(dunu['episodes'])} söyleşi, Hikmet Başaran"),
+        sign("/acipayam-dunu-bugunu/", "soylesi", "Söyleşiler", f"Acıpayam Dünü Bugünü · {len(dunu['episodes'])} bölüm"),
         sign("/sehit-bilgi-kapisi/", "sehit", "Şehitler", f"{mem['stat']} şehit kaydı"),
         sign("/#radyo", "radyo", "Radyo ACIPAYAM.com", f"{len(radyo['records'])} eski yayın kaydı"),
         sign("#videolar", "video", "Videolar", "Eski videolar ve etkinlikler"),
@@ -781,11 +782,11 @@ def build_home():
   <ul class="videos">{videos}</ul>
 </section>
 
-<section class="blok tek" aria-label="Acıpayam tarihi">
+<section class="blok tek" aria-label="Acıpayam Dünü Bugünü söyleşileri">
   <a class="kart" href="/acipayam-dunu-bugunu/">
     <img src="{hist['image']}" alt="Hikmet Başaran" loading="lazy" width="800" height="800">
-    <span class="kart-body"><span class="kart-k">Sözlü tarih · {len(dunu['episodes'])} söyleşi</span><b>{E(hist['title'])}</b>
-      <span>{E(hist['by'])}: belediyecilik hafızası, kaybolan değerler, Millî Mücadele.</span></span>
+    <span class="kart-body"><span class="kart-k">Video söyleşi · {len(dunu['episodes'])} bölüm</span><b>{E(hist['title'])}</b>
+      <span>{E(hist['by'])}: eski belediyecilik ve şehir hayatı, kaybolan değerler, Millî Mücadele yılları.</span></span>
   </a>
 </section>
 
@@ -922,7 +923,7 @@ def build_dunu():
   <details class="transcript"><summary>Konuşmanın yazılı metni</summary><p class="muted">Saatler videonun ilgili anını yeni sekmede açar. Metin videonun sesinden çözümlenmiştir.</p>{blocks}</details>
 </section>"""
     note = f'<p class="note-box">{E(d["editor_note"])}</p>' if d["editor_note"] else ""
-    body = page_hero("Sözlü tarih · Hikmet Başaran’ın anlatımıyla", d["title"], d["intro"][0] if d["intro"] else "", d["image"]) + \
+    body = page_hero(f"Video söyleşi · {len(d['episodes'])} bölüm", d["title"], d["intro"][0] if d["intro"] else "", d["image"]) + \
         f'<div class="page-body narrow">{note}{eps}</div>'
     write("/acipayam-dunu-bugunu/", layout("/acipayam-dunu-bugunu/", d["title"], body, style="--book:#4f1f75"))
 
