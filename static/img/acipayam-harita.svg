@@ -43,6 +43,7 @@
 <path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate(110,2590) rotate(180)"/><text class="kom" x="124" y="2603" text-anchor="start">KÖYCEĞİZ</text>
 <path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate(2330,170) rotate(0)"/><text class="kom" x="2316" y="183" text-anchor="end">ÇARDAK</text>
 <path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate(1250,95) rotate(-90)"/><text class="kom" x="1250" y="147" text-anchor="middle">HONAZ</text>
+<path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate(700,2640) rotate(90)"/><text class="kom" x="724" y="2653">DALAMAN</text>
 <g transform="translate(150,150)" fill="#4f1f75"><path d="M0,-60 L23,21 L0,7 L-23,21 Z"/><path d="M0,-60 L0,7 L-23,21 Z" fill="#8a63ad"/><text y="66" text-anchor="middle" font-size="34" font-weight="800">K</text></g>
 <circle class="ko" cx="1325.5" cy="1025.1" r="9.5"/>
 <circle class="ko" cx="1351.2" cy="1209.6" r="9.5"/>
