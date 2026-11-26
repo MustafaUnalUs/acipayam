@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "54"
+ASSET_V = "56"
 
 
 def J(name):
@@ -548,6 +548,16 @@ def listen_box(book, title):
             f'<span>Bu bölümü dinleyin</span><small>{sec // 60}:{sec % 60:02d} · sesli kitap</small></figcaption>'
             f'<audio controls preload="none" src="{html.escape(src)}"{extra}></audio></figure>')
 
+
+def ayni_koy(iv):
+    """Aynı köyden yapılmış diğer görüşmelere bağlantı (ör. Acıpayam Merkez'in iki görüşmesi, Eskiköy'deki Kınteş Şükür)."""
+    kok = lambda v: re.sub(r"\s*\(.*\)", "", v).strip()
+    digerleri = [x for x in SABIT["interviews"] if x["slug"] != iv["slug"] and kok(x["village"]) == kok(iv["village"])]
+    if not digerleri:
+        return ""
+    li = "".join(f'<li><a href="/sabit/{x["slug"]}/"><b>{E(x["title"])}</b><span>{E(x["people"])}</span></a></li>' for x in digerleri)
+    return f'<aside class="ayni-koy"><h2>Aynı yerden diğer görüşme{"ler" if len(digerleri) > 1 else ""} <small>· {E(kok(iv["village"]))}</small></h2><ul>{li}</ul></aside>'
+
 def build_chapter(book, i):
     ch = book["data"]["chapters"]
     c = ch[i]
@@ -567,6 +577,8 @@ def build_chapter(book, i):
                   "".join(f'<li><a href="#{slugify(plain(b["h"]))}">{E(plain(b["h"]))}</a></li>' for b in subs) +
                   "</ol></details>")
     extra = ('<section class="chap-extra">' + "".join(fix_yt(x) for x in iv["extra"]) + "</section>") if iv and iv.get("extra") else ""
+    if iv:
+        extra += ayni_koy(iv)
     pager = '<nav class="pager" aria-label="Bölümler arasında gezin">'
     pager += (f'<a class="pager-prev" href="{prev_[0]}"><small>Önceki bölüm</small>{E(prev_[1])}</a>' if prev_ else "<span></span>")
     pager += (f'<a class="pager-next" href="{next_[0]}"><small>Sonraki bölüm</small>{E(next_[1])}</a>' if next_ else
@@ -801,8 +813,8 @@ def page_hero(kicker, title, lead="", img=""):
 MAP_IMG, MAP_W, MAP_H = "/img/acipayam-harita.svg?v=7", 2290, 2700
 _MAP_CROP = (137, 107, 1376, 1600)
 MAP_XY = J("harita-koyler.json")
-_PIN_AD = {"Acıpayam Merkez": "Acıpayam", "Yeşilyuva (Gaysar)": "Yeşilyuva", "Ucarı": "Uçarı", "Eskiköy · Kintes": "Eskiköy"}
-_PIN_KAY = {"/sabit/acipayam-ali-riza-ozturk/": (-22, 0), "/sabit/acipayam-suleyman-ersoy/": (22, 0), "/sabit/kintez-sukru/": (0, 42)}
+_PIN_AD = {"Acıpayam Merkez": "Acıpayam", "Yeşilyuva (Gaysar)": "Yeşilyuva", "Ucarı": "Uçarı"}
+_PIN_KAY = {}
 
 
 def map_pins():
@@ -885,6 +897,7 @@ def build_sabit():
 <article class="reader"><header class="chap-head"><h1>{E(iv['title'])}</h1><p class="chap-lead">{E(iv['subtitle'])}</p>{share_mini()}</header>{vid}
   <div class="text">{fix_yt(iv['html'])}</div>
   {('<section class="chap-extra">' + "".join(fix_yt(x) for x in iv['extra']) + '</section>') if iv['extra'] else ''}
+  {ayni_koy(iv)}
   <nav class="pager"><a class="pager-prev" href="/sabit/kizilhan/"><small>Dizin</small>Tüm görüşmeler</a><a class="pager-next" href="/sabit/#koyler"><small>Harita</small>Köylere dön</a></nav>
 </article>"""
         write(f"/sabit/{iv['slug']}/", layout(f"/sabit/{iv['slug']}/", iv["title"], body, cls="page-reader", style=f"--book:{b['color']}"))
