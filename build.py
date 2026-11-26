@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "63"
+ASSET_V = "64"
 
 
 def J(name):
@@ -162,7 +162,7 @@ def mb(n):
 
 # ------------------------------------------------------------------ iskelet
 NAV = [
-    ("/#kitaplar", "Kitaplar"),
+    ("/#kitaplar", "Kitaplarımız"),
     ("/sabit/", "Köyler"),
     ("/acipayam-dunu-bugunu/", "Söyleşiler"),
     ("/sehit-bilgi-kapisi/", "Şehitler"),
@@ -663,7 +663,7 @@ def build_home():
     mem = h["memorial"]
     signs = "".join([
         sign("#koyler", "koy", "Köyler (Mahalleler)", f"56 mahalle, {len(SABIT['interviews'])} görüşme, harita"),
-        sign("#kitaplar", "kitap", "Kitaplar", f"{len(BOOKS)} kitap okunabilir"),
+        sign("#kitaplar", "kitap", "Kitaplarımız", f"Acıpayam Kültür Yayınları, {len(BOOKS)} kitap"),
         sign("/acipayam-dunu-bugunu/", "soylesi", "Söyleşiler", f"Acıpayam Dünü Bugünü, {len(dunu['episodes'])} bölüm"),
         sign("/sehit-bilgi-kapisi/", "sehit", "Denizli Şehitleri", f"{mem['stat']} kayıt, {ACP_SEHIT}'i Acıpayam'dan"),
         sign("/#radyo", "radyo", "Radyo ACIPAYAM.com", f"{len(radyo['records'])} eski yayın kaydı"),
@@ -731,7 +731,7 @@ def build_home():
 </section>
 
 <section class="blok blok-alt" id="kitaplar" aria-labelledby="kitaplar-b">
-  <header class="blok-head"><h2 id="kitaplar-b">Memleket kitapları</h2>
+  <header class="blok-head"><h2 id="kitaplar-b">Kitaplarımız <small class="blok-alt-b">Acıpayam Kültür Yayınları</small></h2>
     <p>İnternette bölüm bölüm okunur, PDF olarak indirilir, kimi sesli dinlenir. US’lu Anlatılar altı kitaplık bir seridir.</p></header>
   <ul class="bks">{cards}</ul>
 </section>

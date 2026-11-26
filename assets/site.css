@@ -1012,3 +1012,4 @@ body.has-gecis { padding-bottom: 4.5rem; }
 }
 .signs > li { display: flex; } .signs > li > .sign { flex: 1; }
 .bar nav a, .menu a { white-space: nowrap; }
+.blok-alt-b { display: block; margin-top: .35rem; font: 700 .8rem var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--vurgu); }
