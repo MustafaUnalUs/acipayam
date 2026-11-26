@@ -26,7 +26,7 @@
 <text class="drad" text-anchor="middle" transform="translate(735,2430) rotate(52)">Kırkpınar D.</text>
 <text class="drad" text-anchor="middle" transform="translate(1772,1735) rotate(-72)">Bulanık D.</text>
 <text class="il" x="560" y="1180" text-anchor="middle">DENİZLİ</text>
-<text class="il" x="2060" y="1900" text-anchor="middle">BURDUR</text>
+<text class="il" x="2120" y="1720" text-anchor="middle">BURDUR</text>
 <text class="il" x="330" y="2705" text-anchor="middle">MUĞLA</text>
 <circle class="ilm" cx="486.5" cy="444.3" r="12"/><circle cx="486.5" cy="444.3" r="5" fill="#fff"/>
 <text class="kom" x="500.5" y="422.3" text-anchor="start">TAVAS</text>
@@ -36,9 +36,12 @@
 <text class="kom" x="1311.6" y="2331.6" text-anchor="end">ÇAMELİ</text>
 <circle class="ilm" cx="1833" cy="2087" r="12"/><circle cx="1833" cy="2087" r="5" fill="#fff"/>
 <text class="kom" x="1857" y="2101" text-anchor="start">GÖLHİSAR</text>
+<circle class="ilm" cx="2329" cy="2019" r="12"/><circle cx="2329" cy="2019" r="5" fill="#fff"/>
+<text class="kom" x="2305" y="2033" text-anchor="end">ÇAVDIR</text>
 <path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate(2330,1000) rotate(0)"/><text class="kom" x="2316" y="1013" text-anchor="end">YEŞİLOVA</text>
 <path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate(110,1900) rotate(180)"/><text class="kom" x="124" y="1913" text-anchor="start">BEYAĞAÇ</text>
-<path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate(2000,2470) rotate(0)"/><text class="kom" x="1986" y="2483" text-anchor="end">ALTINYAYLA</text>
+<path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate(110,2590) rotate(180)"/><text class="kom" x="124" y="2603" text-anchor="start">KÖYCEĞİZ</text>
+<path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate(2330,170) rotate(0)"/><text class="kom" x="2316" y="183" text-anchor="end">ÇARDAK</text>
 <g transform="translate(150,150)" fill="#4f1f75"><path d="M0,-60 L23,21 L0,7 L-23,21 Z"/><path d="M0,-60 L0,7 L-23,21 Z" fill="#8a63ad"/><text y="66" text-anchor="middle" font-size="34" font-weight="800">K</text></g>
 <circle class="ko" cx="1325.5" cy="1025.1" r="9.5"/>
 <circle class="ko" cx="1351.2" cy="1209.6" r="9.5"/>

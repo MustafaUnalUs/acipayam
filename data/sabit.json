@@ -471,8 +471,8 @@
  ],
  "themes_title": "Dört ana anlatı ekseni",
  "themes_lead": "Görüşmeler boyunca tekrar eden dört tema, kitabın omurgasını oluşturuyor.",
- "villages_title": "Acıpayam'ın köyleri",
- "villages_lead": "Acıpayam'ın tüm mahalleleri alfabetik sırayla listelenmiştir. Görüşmesi tamamlanan köy adları haritaya ve ilgili görüşme sayfasına bağlanır; henüz görüşme yapılmayan köyler soluk renkte, isim olarak listede yer alır.",
+ "villages_title": "Acıpayam'ın mahalleleri",
+ "villages_lead": "2014'teki büyükşehir düzenlemesiyle Acıpayam'daki bütün köy ve beldeler mahalle oldu. İlçede bugün 56 mahalle var: 4'ü merkezde, 52'si kırsalda (eski köyler). Sabit Kızılhan'ın görüşme yaptığı yerler koyu renkte ve görüşme sayfasına bağlı; görüşme yapılmayanlar soluk renkte.",
  "villages": [
   {
    "name": "Acıpayam Merkez",

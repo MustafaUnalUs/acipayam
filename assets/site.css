@@ -975,3 +975,6 @@ body.has-gecis { padding-bottom: 4.5rem; }
 .ayni-koy span { color: var(--soluk); font-size: .95rem; }
 :root[data-theme="dark"] .ayni-koy { background: rgba(207,166,240,.08); box-shadow: inset 0 0 0 1px rgba(207,166,240,.25); }
 .ayni-koy h2 small { font-weight: 600; color: var(--soluk); font-size: .95rem; }
+.chips .chips-baslik { flex-basis: 100%; border: 0; background: none; padding: .6rem 0 .1rem; font: 700 .8rem var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--soluk); }
+.chips .chips-baslik:first-child { padding-top: 0; }
+.chips .chips-baslik small { font-size: inherit; text-transform: none; letter-spacing: 0; font-weight: 600; }

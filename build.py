@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "56"
+ASSET_V = "57"
 
 
 def J(name):
@@ -810,7 +810,7 @@ def page_hero(kicker, title, lead="", img=""):
 
 # Harita: HGM Denizli il haritasından (1:250.000) yeniden çizilmiş vektör (tools/harita/). Köy noktaları data/harita-koyler.json
 # (SVG koordinatları); pinler isimle bu noktalara oturur.
-MAP_IMG, MAP_W, MAP_H = "/img/acipayam-harita.svg?v=7", 2290, 2700
+MAP_IMG, MAP_W, MAP_H = "/img/acipayam-harita.svg?v=8", 2290, 2700
 _MAP_CROP = (137, 107, 1376, 1600)
 MAP_XY = J("harita-koyler.json")
 _PIN_AD = {"Acıpayam Merkez": "Acıpayam", "Yeşilyuva (Gaysar)": "Yeşilyuva", "Ucarı": "Uçarı"}
@@ -841,16 +841,20 @@ def map_pins():
 def map_legend():
     n_var = len({p["name"] for p in SABIT["pins"] if p["href"]})
     n_yok = sum(1 for p in SABIT["pins"] if not p["href"])
-    return (f'<p class="map-lejant"><span><i class="lj lj-var"></i>Görüşme yapılan köy ({n_var})</span>'
-            f'<span><i class="lj lj-yok"></i>Görüşme yapılmayan köy ({n_yok})</span></p>')
+    return (f'<p class="map-lejant"><span><i class="lj lj-var"></i>Görüşme yapılan mahalle ({n_var})</span>'
+            f'<span><i class="lj lj-yok"></i>Görüşme yapılmayan mahalle ({n_yok})</span></p>')
 
 def build_sabit():
     b = bana
     ch = b["data"]["chapters"]
     pins = map_pins()
-    villages = "".join(
-        (f'<li><a href="{v["href"]}">{E(v["name"])}</a></li>' if v["href"] else f'<li class="todo">{E(v["name"])}</li>')
-        for v in SABIT["villages"])
+    chip = lambda v: (f'<li><a href="{v["href"]}">{E(v["name"])}</a></li>' if v["href"] else f'<li class="todo">{E(v["name"])}</li>')
+    merkez_gor = [v for v in SABIT["villages"] if v["name"] == "Acıpayam Merkez"]
+    MAH = J("mahalleler.json")
+    villages = ('<li class="chips-baslik">Merkez mahalleler</li>' + "".join(f'<li class="todo">{E(m)}</li>' for m in MAH["merkez"]) +
+                "".join(f'<li><a href="{v["href"]}">Merkezde yapılan görüşmeler</a></li>' for v in merkez_gor if v["href"]) +
+                '<li class="chips-baslik">Kırsal mahalleler <small>(eski köyler)</small></li>' +
+                "".join(chip(v) for v in SABIT["villages"] if v["name"] != "Acıpayam Merkez"))
     themes = "".join(f'<li><h3>{E(t["title"])}</h3><p>{E(t["text"])}</p></li>' for t in SABIT["themes"])
     body = f"""{book_hero(b, f'<div><dt>Görüşme</dt><dd>{len(INTERVIEWS)}</dd></div>')}
 <section class="sheet"><div class="sheet-in">

@@ -66,13 +66,13 @@ f'<path d="{sinir}" fill="none" stroke="#4f1f75" stroke-width="6.5" stroke-linej
 for t, x, y, r in [("Kırmızı D.", 1030, 1165, 50), ("Dalaman Ç.", 1178, 1665, -66), ("Çatak D.", 805, 1712, 62), ("Kırkpınar D.", 735, 2430, 52), ("Bulanık D.", 1772, 1735, -72)]:
     o.append(f'<text class="drad" text-anchor="middle" transform="translate({x},{y}) rotate({r})">{t}</text>')
 # komşu iller (büyük, soluk) ve komşu ilçeler (gerçek merkez noktası ya da yön oku ile)
-for t, x, y in [("DENİZLİ", 560, 1180), ("BURDUR", 2060, 1900), ("MUĞLA", 330, 2705)]:
+for t, x, y in [("DENİZLİ", 560, 1180), ("BURDUR", 2120, 1720), ("MUĞLA", 330, 2705)]:
     o.append(f'<text class="il" x="{x}" y="{y}" text-anchor="middle">{t}</text>')
-for t, x, y, a in [("TAVAS", 486.5, 444.3, 'ur'), ("SERİNHİSAR", 1085, 416, 'd'), ("ÇAMELİ", 1325.6, 2353.6, 'ul'), ("GÖLHİSAR", 1833, 2087, 'r')]:
+for t, x, y, a in [("TAVAS", 486.5, 444.3, 'ur'), ("SERİNHİSAR", 1085, 416, 'd'), ("ÇAMELİ", 1325.6, 2353.6, 'ul'), ("GÖLHİSAR", 1833, 2087, 'r'), ("ÇAVDIR", 2329, 2019, 'l')]:
     o.append(f'<circle class="ilm" cx="{x}" cy="{y}" r="12"/><circle cx="{x}" cy="{y}" r="5" fill="#fff"/>')
-    tx, ty, anc = {'r': (x + 24, y + 14, 'start'), 'd': (x, y + 56, 'middle'), 'ur': (x + 14, y - 22, 'start'), 'ul': (x - 14, y - 22, 'end')}[a]
+    tx, ty, anc = {'r': (x + 24, y + 14, 'start'), 'l': (x - 24, y + 14, 'end'), 'd': (x, y + 56, 'middle'), 'ur': (x + 14, y - 22, 'start'), 'ul': (x - 14, y - 22, 'end')}[a]
     o.append(f'<text class="kom" x="{tx}" y="{ty}" text-anchor="{anc}">{t}</text>')
-for t, x, y, r in [("YEŞİLOVA", 2330, 1000, 0), ("BEYAĞAÇ", 110, 1900, 180), ("ALTINYAYLA", 2000, 2470, 0)]:
+for t, x, y, r in [("YEŞİLOVA", 2330, 1000, 0), ("BEYAĞAÇ", 110, 1900, 180), ("KÖYCEĞİZ", 110, 2590, 180), ("ÇARDAK", 2330, 170, 0)]:
     ok = f'<path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate({x},{y}) rotate({r})"/>'
     tx, anc = (x - 14, 'end') if r == 0 else (x + 14, 'start')
     o.append(ok + f'<text class="kom" x="{tx}" y="{y + 13}" text-anchor="{anc}">{t}</text>')
