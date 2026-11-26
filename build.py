@@ -662,8 +662,8 @@ def build_home():
     radyo = J("radyo.json")
     mem = h["memorial"]
     signs = "".join([
-        sign("#koyler", "koy", "Köyler (Mahalleler)", f"56 mahalle, {len(SABIT['interviews'])} görüşme, harita"),
         sign("#kitaplar", "kitap", "Kitaplarımız", f"Acıpayam Kültür Yayınları, {len(BOOKS)} kitap"),
+        sign("#koyler", "koy", "Köyler (Mahalleler)", f"56 mahalle, {len(SABIT['interviews'])} görüşme, harita"),
         sign("/acipayam-dunu-bugunu/", "soylesi", "Söyleşiler", f"Acıpayam Dünü Bugünü, {len(dunu['episodes'])} bölüm"),
         sign("/sehit-bilgi-kapisi/", "sehit", "Denizli Şehitleri", f"{mem['stat']} kayıt, {ACP_SEHIT}'i Acıpayam'dan"),
         sign("/#radyo", "radyo", "Radyo ACIPAYAM.com", f"{len(radyo['records'])} eski yayın kaydı"),
@@ -730,17 +730,17 @@ def build_home():
   </div>
 </div>
 
-<section class="blok" id="koyler" aria-labelledby="koyler-b">
+<section class="blok" id="kitaplar" aria-labelledby="kitaplar-b">
+  <header class="blok-head"><h2 id="kitaplar-b">Kitaplarımız <small class="blok-alt-b">Acıpayam Kültür Yayınları</small></h2>
+    <p>İnternette bölüm bölüm okunur, PDF olarak indirilir, kimi sesli dinlenir. US’lu Anlatılar altı kitaplık bir seridir.</p></header>
+  <ul class="bks">{cards}</ul>
+</section>
+
+<section class="blok blok-alt" id="koyler" aria-labelledby="koyler-b">
   <header class="blok-head"><h2 id="koyler-b">Köy köy Acıpayam</h2>
     <p>Sabit Kızılhan’ın kaydettiği {len(SABIT['interviews'])} sözlü tarih görüşmesi. Haritada bir köye dokunun; anlatının metni ve videosu açılır.</p></header>
   <div class="map"><img src="{MAP_IMG}" alt="Acıpayam ve köylerinin haritası" width="{MAP_W}" height="{MAP_H}" loading="lazy">{pins}</div>{map_legend()}
   <p class="blok-links"><a class="btn" href="/sabit/">Bana Köyünü Anlat</a><a class="btn btn-line" href="/sabit/kizilhan/">Bütün görüşmeler</a><a class="btn btn-line" href="/sabit/sozluk/">Yerel ağız sözlüğü</a></p>
-</section>
-
-<section class="blok blok-alt" id="kitaplar" aria-labelledby="kitaplar-b">
-  <header class="blok-head"><h2 id="kitaplar-b">Kitaplarımız <small class="blok-alt-b">Acıpayam Kültür Yayınları</small></h2>
-    <p>İnternette bölüm bölüm okunur, PDF olarak indirilir, kimi sesli dinlenir. US’lu Anlatılar altı kitaplık bir seridir.</p></header>
-  <ul class="bks">{cards}</ul>
 </section>
 
 <section class="hikaye hikaye-tek" id="hikaye">
