@@ -721,7 +721,6 @@ def build_home():
     <li><span class="z-k">Bugün</span><b>Kaydediyoruz</b><span>Köyleri, şehitleri, sesleri ve kitapları.</span></li>
     <li><span class="z-k">Yarın</span><b>Bırakıyoruz</b><span>Hepsini, ücretsiz, gelecek kuşaklara.</span></li>
   </ol>
-  <p class="z-slogan">Ortak Paydamız Memleketimiz.</p>
 </div>
 
 <div class="signs-wrap">
