@@ -927,3 +927,6 @@ body.has-gecis { padding-bottom: 4.5rem; }
 .ht-ic .pin { transform: scale(var(--ps, 1)); }
 .ht-ic .pin:hover, .ht-ic .pin:focus-visible { transform: scale(calc(var(--ps, 1) * 1.4)); }
 .ht-yakin .pin span { opacity: 1; font-size: .75rem; padding: .15rem .4rem; }
+
+/* sayfa başlıkları her yerde sitenin moru (kitap kapak rengi değil) */
+.page-hero { background: var(--tabela); }
