@@ -509,3 +509,76 @@ document.querySelectorAll(".dinle-kutu audio[data-start]").forEach((au) => {
   au.addEventListener("play", () => { if (au.currentTime < a - 1 || au.currentTime >= z) au.currentTime = a; });
   au.addEventListener("timeupdate", () => { if (au.currentTime >= z) { au.pause(); au.currentTime = a; } });
 });
+
+/* harita: tam ekran, yakınlaştır / sürükle */
+document.querySelectorAll(".map").forEach((map) => {
+  const ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
+  const btn = document.createElement("button");
+  btn.type = "button"; btn.className = "map-buyut"; btn.innerHTML = ICON + "<span>Büyüt</span>";
+  btn.setAttribute("aria-label", "Haritayı tam ekran büyüt");
+  map.appendChild(btn);
+  const open = () => {
+    const ov = document.createElement("div");
+    ov.className = "harita-tam"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-modal", "true"); ov.setAttribute("aria-label", "Büyütülmüş köy haritası");
+    ov.innerHTML = '<div class="ht-bar"><b>Köy köy Acıpayam</b><span class="ht-ipucu">Yakınlaştırın, sürükleyin, köye dokunun</span>' +
+      '<button type="button" data-z="1" aria-label="Yakınlaştır">+</button><button type="button" data-z="-1" aria-label="Uzaklaştır">−</button>' +
+      '<button type="button" class="ht-kapat" aria-label="Kapat">✕</button></div><div class="ht-alan"><div class="ht-ic"></div></div>';
+    const alan = ov.querySelector(".ht-alan"), ic = ov.querySelector(".ht-ic");
+    const kopya = map.cloneNode(true);
+    kopya.querySelector(".map-buyut").remove();
+    kopya.querySelector("img").removeAttribute("loading");
+    ic.appendChild(kopya);
+    document.body.appendChild(ov);
+    document.documentElement.classList.add("ht-acik");
+    let s = 1, tx = 0, ty = 0, W, H;
+    const img = kopya.querySelector("img");
+    const ratio = (img.naturalWidth || img.width) / (img.naturalHeight || img.height);
+    const fit = () => {
+      const r = alan.getBoundingClientRect();
+      H = r.height - 24; W = H * ratio;
+      if (W > r.width - 24) { W = r.width - 24; H = W / ratio; }
+      kopya.style.width = W + "px";
+      s = 1; tx = (r.width - W) / 2; ty = (r.height - H) / 2; apply();
+    };
+    const apply = () => {
+      ic.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
+      ov.classList.toggle("ht-yakin", s >= 1.5);
+      kopya.style.setProperty("--ps", 1 / Math.sqrt(s));
+    };
+    const zoomAt = (f, cx, cy) => {
+      const ns = Math.min(6, Math.max(1, s * f));
+      tx = cx - (cx - tx) * ns / s; ty = cy - (cy - ty) * ns / s; s = ns;
+      if (s === 1) { fit(); return; }
+      apply();
+    };
+    const center = () => { const r = alan.getBoundingClientRect(); return [r.width / 2, r.height / 2]; };
+    const close = () => { ov.remove(); document.documentElement.classList.remove("ht-acik"); removeEventListener("resize", fit); removeEventListener("keydown", key); btn.focus(); };
+    const key = (e) => { if (e.key === "Escape") close(); else if (e.key === "+" || e.key === "=") zoomAt(1.4, ...center()); else if (e.key === "-") zoomAt(1 / 1.4, ...center()); };
+    ov.querySelector(".ht-kapat").onclick = close;
+    ov.querySelectorAll("[data-z]").forEach((b) => (b.onclick = () => zoomAt(b.dataset.z > 0 ? 1.5 : 1 / 1.5, ...center())));
+    alan.addEventListener("wheel", (e) => { e.preventDefault(); const r = alan.getBoundingClientRect(); zoomAt(e.deltaY < 0 ? 1.15 : 1 / 1.15, e.clientX - r.left, e.clientY - r.top); }, { passive: false });
+    const pts = new Map(); let moved = 0, last = null, pinch = null;
+    alan.addEventListener("pointerdown", (e) => { pts.set(e.pointerId, [e.clientX, e.clientY]); moved = 0; last = [e.clientX, e.clientY];
+      if (pts.size === 2) { const [a, b] = [...pts.values()]; pinch = Math.hypot(a[0] - b[0], a[1] - b[1]); } });
+    alan.addEventListener("pointermove", (e) => {
+      if (!pts.has(e.pointerId)) return;
+      pts.set(e.pointerId, [e.clientX, e.clientY]);
+      if (pts.size === 2 && pinch) {
+        const [a, b] = [...pts.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]), r = alan.getBoundingClientRect();
+        zoomAt(d / pinch, (a[0] + b[0]) / 2 - r.left, (a[1] + b[1]) / 2 - r.top); pinch = d; moved = 99; return;
+      }
+      const dx = e.clientX - last[0], dy = e.clientY - last[1]; last = [e.clientX, e.clientY];
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (moved > 6) { alan.setPointerCapture(e.pointerId); tx += dx; ty += dy; apply(); }
+    });
+    const up = (e) => { pts.delete(e.pointerId); if (pts.size < 2) pinch = null; if (pts.size === 1) last = [...pts.values()][0]; };
+    alan.addEventListener("pointerup", up); alan.addEventListener("pointercancel", up);
+    alan.addEventListener("click", (e) => { if (moved > 6) { e.preventDefault(); e.stopPropagation(); } }, true);
+    alan.addEventListener("dblclick", (e) => { const r = alan.getBoundingClientRect(); zoomAt(2, e.clientX - r.left, e.clientY - r.top); });
+    addEventListener("resize", fit); addEventListener("keydown", key);
+    if (img.complete) fit(); else img.onload = fit;
+    ov.querySelector(".ht-kapat").focus();
+  };
+  btn.addEventListener("click", open);
+  map.addEventListener("click", (e) => { if (!e.target.closest(".pin, .map-buyut")) open(); });
+});

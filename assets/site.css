@@ -904,3 +904,26 @@ body.has-gecis { padding-bottom: 4.5rem; }
   #koyler .blok-links { align-self: start; }
   #koyler .map { max-width: 520px; margin: 0; justify-self: end; }
 }
+
+/* harita büyütme */
+.map { cursor: zoom-in; }
+.map-buyut { position: absolute; right: 0; top: 0; display: inline-flex; align-items: center; gap: .4rem; padding: .5rem .85rem; border: 0; border-radius: 999px; background: var(--tabela, #4f1f75); color: #fff; font: 700 .9rem var(--sans); cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.2); }
+.map-buyut svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.map-buyut:hover { filter: brightness(1.15); }
+.ht-acik, .ht-acik body { overflow: hidden; }
+.harita-tam { position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; background: #1b1424; }
+.ht-bar { display: flex; align-items: center; gap: .5rem; padding: .6rem max(.8rem, env(safe-area-inset-left)); background: #2a1d38; color: #fff; font: 600 .95rem var(--sans); }
+.ht-bar b { font-size: 1.05rem; margin-right: auto; }
+.ht-ipucu { color: #cbb8dd; font-size: .85rem; margin-right: .6rem; }
+@media (max-width: 560px) { .ht-ipucu { display: none; } }
+.ht-bar button { width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 1px solid rgba(255,255,255,.3); background: rgba(255,255,255,.08); color: #fff; font: 700 1.3rem/1 var(--sans); cursor: pointer; }
+.ht-bar button:hover { background: rgba(255,255,255,.2); }
+.ht-bar .ht-kapat { font-size: 1.05rem; margin-left: .3rem; }
+.ht-alan { position: relative; flex: 1; overflow: hidden; touch-action: none; cursor: grab; }
+.ht-alan:active { cursor: grabbing; }
+.ht-ic { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
+.ht-ic .map { max-width: none; margin: 0; cursor: inherit; filter: drop-shadow(0 10px 30px rgba(0,0,0,.5)); }
+.ht-ic .map img { -webkit-user-drag: none; user-select: none; pointer-events: none; }
+.ht-ic .pin { transform: scale(var(--ps, 1)); }
+.ht-ic .pin:hover, .ht-ic .pin:focus-visible { transform: scale(calc(var(--ps, 1) * 1.4)); }
+.ht-yakin .pin span { opacity: 1; font-size: .75rem; padding: .15rem .4rem; }
