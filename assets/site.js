@@ -502,3 +502,10 @@ document.querySelectorAll(".zm").forEach((zm) => {
     setTimeout(go, 600); setTimeout(go, 1800);
   }
 })();
+
+/* bölüm sesi: tam kaydın yalnızca bu bölüme ait kısmı */
+document.querySelectorAll(".dinle-kutu audio[data-start]").forEach((au) => {
+  const a = parseFloat(au.dataset.start), z = parseFloat(au.dataset.end);
+  au.addEventListener("play", () => { if (au.currentTime < a - 1 || au.currentTime >= z) au.currentTime = a; });
+  au.addEventListener("timeupdate", () => { if (au.currentTime >= z) { au.pause(); au.currentTime = a; } });
+});
