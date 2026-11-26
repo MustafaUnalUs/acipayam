@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "33"
+ASSET_V = "34"
 
 
 def J(name):
@@ -326,13 +326,20 @@ def build_pdf(book):
                                        desc=f"{book['title']} — PDF olarak oku", cls="page-pdf"))
 
 
+BA_READ = '<path d="M3 5.5c3-1.2 6-1.2 9 .8 3-2 6-2 9-.8V19c-3-1.2-6-1.2-9 .8-3-2-6-2-9-.8z"/><path d="M12 6.3v13.5"/>'
+BA_PDF = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>'
+BA_DL = '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>'
+BA_AU = '<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/>'
+
+
 def book_actions(book, light=True):
-    a = [f'<a class="btn btn-gold" href="{first_url(book)}">Okumaya başla</a>',
-         f'<a class="btn btn-ghost" href="{book["base"]}pdf/">Sitede PDF oku</a>',
-         f'<a class="btn btn-ghost" href="{book["pdf"]}" download>PDF indir <small>{mb(book["pdf_size"])}</small></a>']
+    ic = lambda d: f'<svg viewBox="0 0 24 24" aria-hidden="true">{d}</svg>'
+    a = [f'<a class="ba ba-main" href="{first_url(book)}">{ic(BA_READ)}<span>Okumaya başla</span></a>',
+         f'<a class="ba" href="{book["base"]}pdf/">{ic(BA_PDF)}<span>PDF oku</span></a>',
+         f'<a class="ba" href="{book["pdf"]}" download>{ic(BA_DL)}<span>İndir <small>{mb(book["pdf_size"])}</small></span></a>']
     if book.get("audio"):
-        a.append(f'<a class="btn btn-ghost" href="{book["base"]}#dinle">Sesli kitap</a>')
-    return '<div class="actions">' + "".join(a) + "</div>" + share_mini()
+        a.append(f'<a class="ba" href="{book["base"]}#dinle">{ic(BA_AU)}<span>Dinle</span></a>')
+    return f'<div class="bk-actions ba-n{len(a) - 1}">' + "".join(a) + "</div>" + share_mini()
 
 
 def render_blocks(blocks, book_slug=""):
