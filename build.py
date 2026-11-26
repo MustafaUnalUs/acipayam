@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "53"
+ASSET_V = "54"
 
 
 def J(name):
@@ -798,7 +798,7 @@ def page_hero(kicker, title, lead="", img=""):
 
 # Harita: HGM Denizli il haritasından (1:250.000) yeniden çizilmiş vektör (tools/harita/). Köy noktaları data/harita-koyler.json
 # (SVG koordinatları); pinler isimle bu noktalara oturur.
-MAP_IMG, MAP_W, MAP_H = "/img/acipayam-harita.svg?v=6", 3050, 3100
+MAP_IMG, MAP_W, MAP_H = "/img/acipayam-harita.svg?v=7", 2290, 2700
 _MAP_CROP = (137, 107, 1376, 1600)
 MAP_XY = J("harita-koyler.json")
 _PIN_AD = {"Acıpayam Merkez": "Acıpayam", "Yeşilyuva (Gaysar)": "Yeşilyuva", "Ucarı": "Uçarı", "Eskiköy · Kintes": "Eskiköy"}
