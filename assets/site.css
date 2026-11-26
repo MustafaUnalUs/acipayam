@@ -1033,3 +1033,17 @@ details.acil.kk, details.acil.yol { max-width: min(832px, calc(100% - 2 * var(--
 details.acil.yol { margin-bottom: clamp(3rem, 6vw, 4.5rem); }
 details.acil.kk > :not(summary), details.acil.yol > :not(summary) { margin-left: 1.2rem; margin-right: 1.2rem; }
 .hikaye-tek .hikaye-in { padding-bottom: 0; } details.acil.kk { margin-top: 1rem; }
+
+/* en üstte eski ikonik afiş */
+.afis-ust { background: #2a0f3f; line-height: 0; }
+.afis-ust img { display: block; width: 100%; max-width: 1600px; height: auto; margin: 0 auto; }
+@media (min-width: 1600px) { .afis-ust img { box-shadow: 0 0 60px rgba(0,0,0,.45); } }
+.afis-alt { background: #2a0f3f; color: rgba(255,255,255,.88); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .6rem 1.4rem;
+  padding: .9rem var(--gutter) 1.1rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,.08); }
+.afis-alt p { margin: 0; font: 400 1.05rem/1.5 var(--serif); max-width: 46rem; }
+.afis-alt .share { margin: 0; }
+.afis-alt .share span, .afis-alt .share-label { color: rgba(255,255,255,.8); }
+.signs-in { grid-template-columns: 1fr !important; }
+.signs-in .signs { grid-template-columns: 1fr 1fr; }
+@media (min-width: 900px) { .signs-in .signs { grid-template-columns: repeat(3, 1fr); } }
+.afis-alt .share-mini { margin: 0; } .afis-alt .share-mini > span { color: rgba(255,255,255,.85); }

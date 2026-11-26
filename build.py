@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "67"
+ASSET_V = "69"
 
 
 def J(name):
@@ -705,20 +705,14 @@ def build_home():
         + story_new[cut:] + "</details>")
     hist = h["history"]
     body = f"""
-<section class="giris">
-  <img class="giris-img" src="/img/photo-01.webp" alt="Acıpayam Alaaddin Mahallesi’ndeki Taşkın Dede hayrında ateşte kaynayan kazanlar" width="1536" height="1024">
-  <div class="giris-in">
-    <p class="giris-kicker">ACIPAYAM.com · 2004’ten beri</p>
-    <h1>Memleket kokusu.</h1>
-    <p class="giris-lead">Acıpayam’ın ortak hafızası: köylerin anlattıkları, şehitlerin adları, radyonun sesleri ve memleket kitapları. Hepsi ücretsiz, hepsi burada.</p>
-    {share_mini()}
-  </div>
-  <p class="giris-credit">Taşkın Dede hayrı, 700 yıllık gelenek · Alaaddin Mahallesi, Acıpayam · Fotoğraf: Mustafa Ünal</p>
+<section class="afis-ust">
+  <h1 class="sr-only">ACIPAYAM.com · Memleketimin Kokusu · 2004’ten beri</h1>
+  <img src="{h['banner']}" alt="ACIPAYAM.com, Memleketimin Kokusu, 2004’ten beri: yöresel kıyafetli kız çocuğu, çiçekler, eski Acıpayam ovası, Türk bayrağı ve Atatürk" width="1600" height="671" fetchpriority="high">
 </section>
+<div class="afis-alt"><p>Acıpayam’ın ortak hafızası: köylerin anlattıkları, şehitlerin adları, radyonun sesleri ve memleket kitapları. Hepsi ücretsiz, hepsi burada.</p>{share_mini()}</div>
 
 <div class="signs-wrap">
   <div class="signs-in">
-    <figure class="afis"><img src="{h['banner']}" alt="ACIPAYAM.com, Memleketimin Kokusu, 2004’ten beri: yöresel kıyafetli kız çocuğu, çiçekler, eski Acıpayam ovası, Türk bayrağı ve Atatürk" width="1600" height="671"></figure>
     <nav aria-label="Bölümler"><ul class="signs">{signs}</ul></nav>
   </div>
 </div>
