@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "78"
+ASSET_V = "80"
 
 
 def J(name):
@@ -275,7 +275,7 @@ def share_bar(path, title):
     def a(cls, href, icon, label):
         return (f'<a class="sh sh-{cls}" data-share="{cls}" href="{href}" target="_blank" rel="noopener" aria-label="{label} ile paylaş" title="{label}">'
                 f'<svg viewBox="0 0 24 24" aria-hidden="true">{ic[icon]}</svg><span>{label}</span></a>')
-    return (f'<aside class="share" aria-label="Paylaş"><div class="share-in"><p>Bu bölümü paylaşın</p><div class="share-row">'
+    return (f'<aside class="share" aria-label="Paylaş"><div class="share-in"><p>{"ACIPAYAM.com’u paylaşın" if path == "/" else "Bu bölümü paylaşın"}</p><div class="share-row">'
             + a("wa", f"https://wa.me/?text={t}%20{u}", "wa", "WhatsApp")
             + a("fb", f"https://www.facebook.com/sharer/sharer.php?u={u}", "fb", "Facebook")
             + a("x", f"https://x.com/intent/post?text={t}&url={u}", "x", "X")
@@ -712,6 +712,7 @@ def build_home():
 <section class="afis-ust">
   <h1 class="sr-only">ACIPAYAM.com · Memleketimin Kokusu · 2004’ten beri</h1>
   <img src="{h['banner']}" alt="ACIPAYAM.com, Memleketimin Kokusu, 2004’ten beri: yöresel kıyafetli kız çocuğu, çiçekler, eski Acıpayam ovası, Türk bayrağı ve Atatürk" width="1600" height="671" fetchpriority="high">
+  <div class="afis-paylas">{share_mini()}</div>
 </section>
 <div class="afis-alt">
   <p class="payda">Eskiyi Arşivliyoruz, <em>Yeniyi Eskitiyoruz.</em></p>
@@ -721,7 +722,6 @@ def build_home():
     <li><span class="z-k">Yarın</span><b>Bırakıyoruz</b><span>Hepsini, ücretsiz, gelecek kuşaklara.</span></li>
   </ol>
   <p class="z-slogan">Ortak Paydamız Memleketimiz.</p>
-  {share_mini()}
 </div>
 
 <div class="signs-wrap">
