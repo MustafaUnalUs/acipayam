@@ -1,6 +1,6 @@
 # ozellik2.json + eslesen.json → static/img/acipayam-harita.svg ve data/harita-koyler.json
 import json, numpy as np
-VX0, VY0, VW, VH = 120, 60, 2150, 2600
+VX0, VY0, VW, VH = -350, -250, 3050, 3100
 k = 1.77
 F = json.load(open('ozellik2.json')); E = json.load(open('eslesen.json'))
 txt = np.load('yazi_maske.npy')
@@ -49,8 +49,9 @@ f'''<defs>
 <style>
 .ky{{font-size:{FS}px;font-weight:600;fill:#33263f;paint-order:stroke;stroke:#f4ecf9;stroke-width:8px;stroke-linejoin:round}}
 .ko{{fill:#fff;stroke:#a3326f;stroke-width:4.5}}
-.kom{{font-size:40px;font-weight:700;letter-spacing:.14em;fill:#8d80a0}}
-.ilm{{fill:#8d80a0}}
+.kom{{font-size:38px;font-weight:800;letter-spacing:.08em;fill:#4a3d58;paint-order:stroke;stroke:#f3eff6;stroke-width:9px;stroke-linejoin:round}}
+.il{{font-size:78px;font-weight:800;letter-spacing:.32em;fill:#7a6a8c;fill-opacity:.55}}
+.ilm{{fill:#4a3d58}}
 .drad{{font-size:29px;font-style:italic;font-weight:600;fill:#3f78b8;paint-order:stroke;stroke:#ede2f6;stroke-width:7px;letter-spacing:.04em}}
 </style></defs>''',
 f'<path d="{sinir}" fill="url(#zemin)" filter="url(#golge)"/>',
@@ -64,11 +65,16 @@ f'<g fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="#9c34
 f'<path d="{sinir}" fill="none" stroke="#4f1f75" stroke-width="6.5" stroke-linejoin="round"/>']
 for t, x, y, r in [("Kırmızı D.", 1030, 1165, 50), ("Dalaman Ç.", 1178, 1665, -66), ("Çatak D.", 805, 1712, 62), ("Kırkpınar D.", 735, 2430, 52), ("Bulanık D.", 1772, 1735, -72)]:
     o.append(f'<text class="drad" text-anchor="middle" transform="translate({x},{y}) rotate({r})">{t}</text>')
-for t, x, y, a in [("TAVAS", 486, 440, 'r'), ("SERİNHİSAR", 1081, 416, 'b'), ("ÇAMELİ", 1328, 2352, 'r'), ("GÖLHİSAR", 1831, 2084, 'r'), ("ALTINYAYLA", 1950, 2610, 'l')]:
-    o.append(f'<circle class="ilm" cx="{x}" cy="{y}" r="9"/>')
-    if a == 'r': o.append(f'<text class="kom" x="{x + 22}" y="{y + 14}">{t}</text>')
-    elif a == 'l': o.append(f'<text class="kom" x="{x - 22}" y="{y + 14}" text-anchor="end">{t}</text>')
-    else: o.append(f'<text class="kom" x="{x}" y="{y + 56}" text-anchor="middle">{t}</text>')
+for t, x, y in [("DENİZLİ", 90, 60), ("BURDUR", 2430, 1010), ("MUĞLA", 60, 2620)]:
+    o.append(f'<text class="il" x="{x}" y="{y}" text-anchor="middle">{t}</text>')
+ILCE = [("TAVAS", 486.5, 444.3, 'ur'), ("SERİNHİSAR", 1085, 416, 'd'), ("KALE", -176, 937, 'r'), ("BEYAĞAÇ", -45, 1723, 'ul'),
+        ("ÇAMELİ", 1325.6, 2353.6, 'ul'), ("GÖLHİSAR", 1833, 2087, 'r'), ("ALTINYAYLA", 1951, 2627, 'r'),
+        ("YEŞİLOVA", 2562, 696, 'l'), ("TEFENNİ", 2622, 1445, 'l'), ("ÇAVDIR", 2329, 2019, 'u')]
+for t, x, y, a in ILCE:
+    o.append(f'<circle class="ilm" cx="{x}" cy="{y}" r="12"/><circle cx="{x}" cy="{y}" r="5" fill="#fff"/>')
+    tx, ty, anc = {'r': (x + 24, y + 14, 'start'), 'l': (x - 24, y + 14, 'end'), 'u': (x, y - 26, 'middle'), 'd': (x, y + 56, 'middle'),
+                   'ur': (x + 14, y - 22, 'start'), 'ul': (x - 14, y - 22, 'end')}[a]
+    o.append(f'<text class="kom" x="{tx}" y="{ty}" text-anchor="{anc}">{t}</text>')
 o.append(f'<g transform="translate({VX0 + 130},{VY0 + 170})" fill="#4f1f75"><path d="M0,-60 L23,21 L0,7 L-23,21 Z"/><path d="M0,-60 L0,7 L-23,21 Z" fill="#8a63ad"/><text y="66" text-anchor="middle" font-size="34" font-weight="800">K</text></g>')
 lab = []; koy = {}
 ZORLA = {'Yukarı': 'd', 'Eskiköy': 'r', 'Boğazdere': 'u', 'Suçatı': 'r'}

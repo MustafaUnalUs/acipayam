@@ -9,3 +9,5 @@ PDF (Mustafa Ünal'ın gönderdiği). Gömülü JPEG'den Acıpayam kesiti alın�
 2. Köy noktaları isimlerle eşleştirilip `eslesen.json` yazılır
    (eski `data/harita-koyler.json` + afin dönüşüm; hepsi ≤2 px).
 3. `python3 ciz2.py` → `static/img/acipayam-harita.svg` ve `data/harita-koyler.json`.
+4. `python3 cevre.py` → `static/img/acipayam-cevre.webp`: komşu il ve ilçelerin soluk altlığı
+   (SVG ile aynı çerçeve: acp koordinatlarında -350,-250, 3050×3100). `.map` arka planı olarak kullanılır.

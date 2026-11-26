@@ -955,3 +955,16 @@ body.has-gecis { padding-bottom: 4.5rem; }
 /* pin boyu harita genişliğiyle orantılı (telefonda köy adlarını kapatmasın) */
 .map .pin:not(.pin-yok) { width: 2.3%; height: auto; aspect-ratio: 1; margin: -1.15% 0 0 -1.15%; border-width: 2.5px; box-shadow: 0 0 0 2px rgba(255,255,255,.75); min-width: 9px; }
 @media (max-width: 560px) { .map .pin:not(.pin-yok) { border-width: 2px; box-shadow: 0 0 0 1.5px rgba(255,255,255,.8); } }
+
+/* harita: komşu il/ilçeler altlığı (SVG ile aynı çerçeve) */
+.map, :root[data-theme="dark"] .map { background: url(/img/acipayam-cevre.webp?v=1) 0 0 / 100% 100% no-repeat; filter: none; max-width: 640px; }
+@media (min-width: 900px) {
+  #koyler { grid-template-columns: minmax(0, 1fr) minmax(0, 620px); }
+  #koyler .map { max-width: 620px; }
+  #koyler .map-lejant { width: 620px; }
+}
+.ht-ic .map { filter: none; }
+:root[data-theme="dark"] .map { background-color: #f6f3f8; border-radius: 18px; }
+:root[data-theme="dark"] .ht-ic .map { border-radius: 0; }
+.map .pin:not(.pin-yok) { width: 1.9%; margin: -.95% 0 0 -.95%; min-width: 8px; }
+.ht-ic .map, :root[data-theme="dark"] .ht-ic .map { max-width: none; background-color: #f6f3f8; }
