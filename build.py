@@ -798,7 +798,7 @@ def page_hero(kicker, title, lead="", img=""):
 
 # Harita: ilçe sınırı dışındaki koyu arka plan kesildi (tools/… maske.py). Pin konumları
 # kesilmemiş 1376×1600 görsele göre; kırpılmış görsele çevrilir.
-MAP_IMG, MAP_W, MAP_H = "/img/acipayam-harita.webp", 1216, 1441
+MAP_IMG, MAP_W, MAP_H = "/img/acipayam-harita.webp?v=2", 1216, 1441
 _MAP_CROP = (137, 107, 1376, 1600)
 
 
