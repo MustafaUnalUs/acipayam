@@ -945,3 +945,13 @@ body.has-gecis { padding-bottom: 4.5rem; }
 .ht-yakin .pin-yok span { opacity: 0; }
 .ht-yakin .pin-yok:hover span, .ht-yakin .pin-yok:focus-visible span { opacity: 1; }
 @media (max-width: 560px) { .map-lejant { flex-direction: column; align-items: flex-start; width: fit-content; } }
+/* yeni vektör haritada köy adları haritanın üstünde yazılı: büyütünce pin etiketleri tekrar etmesin */
+.ht-yakin .pin span { opacity: 0; }
+.ht-yakin .pin:hover span, .ht-yakin .pin:focus-visible span { opacity: 1; }
+.pin-yok { opacity: 0; }
+.pin-yok:hover, .pin-yok:focus-visible { opacity: 1; }
+.lj-yok { width: 11px; height: 11px; background: #fff; border: 2.5px solid #a3326f; }
+.pin-yok { width: 14px; height: 14px; margin: -7px 0 0 -7px; background: transparent; border: 0; }
+/* pin boyu harita genişliğiyle orantılı (telefonda köy adlarını kapatmasın) */
+.map .pin:not(.pin-yok) { width: 2.3%; height: auto; aspect-ratio: 1; margin: -1.15% 0 0 -1.15%; border-width: 2.5px; box-shadow: 0 0 0 2px rgba(255,255,255,.75); min-width: 9px; }
+@media (max-width: 560px) { .map .pin:not(.pin-yok) { border-width: 2px; box-shadow: 0 0 0 1.5px rgba(255,255,255,.8); } }

@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "47"
+ASSET_V = "49"
 
 
 def J(name):
@@ -796,18 +796,27 @@ def page_hero(kicker, title, lead="", img=""):
 
 
 
-# Harita: ilçe sınırı dışındaki koyu arka plan kesildi (tools/… maske.py). Pin konumları
-# kesilmemiş 1376×1600 görsele göre; kırpılmış görsele çevrilir.
-MAP_IMG, MAP_W, MAP_H = "/img/acipayam-harita.webp?v=2", 1216, 1441
+# Harita: eski haritadan yeniden çizilmiş vektör (tools/harita/). Köy noktaları data/harita-koyler.json
+# (SVG koordinatları); pinler isimle bu noktalara oturur.
+MAP_IMG, MAP_W, MAP_H = "/img/acipayam-harita.svg?v=4", 1216, 1441
 _MAP_CROP = (137, 107, 1376, 1600)
+MAP_XY = J("harita-koyler.json")
+_PIN_AD = {"Acıpayam Merkez": "Acıpayam", "Yeşilyuva (Gaysar)": "Yeşilyuva", "Ucarı": "Uçarı", "Eskiköy · Kintes": "Eskiköy"}
+_PIN_KAY = {"/sabit/acipayam-ali-riza-ozturk/": (-12, 0), "/sabit/acipayam-suleyman-ersoy/": (12, 0), "/sabit/kintez-sukru/": (0, 24)}
 
 
 def map_pins():
     x0, y0, W, H = _MAP_CROP
-    def conv(v, full, off, size):
-        return f"{(float(v.rstrip('%')) / 100 * full - off) / size * 100:.2f}%"
+
     def pos(p):
-        return f'left:{conv(p["left"], W, x0, MAP_W)};top:{conv(p["top"], H, y0, MAP_H)}'
+        xy = MAP_XY.get(_PIN_AD.get(p["name"], p["name"]))
+        if xy:
+            dx, dy = _PIN_KAY.get(p["href"] or "", (0, 0))
+            x, y = xy[0] + dx, xy[1] + dy
+        else:
+            x = float(p["left"].rstrip("%")) / 100 * W - x0
+            y = float(p["top"].rstrip("%")) / 100 * H - y0
+        return f"left:{x / MAP_W * 100:.2f}%;top:{y / MAP_H * 100:.2f}%"
     yok = "".join(
         f'<span class="pin pin-yok" style="{pos(p)}" tabindex="0" aria-label="{E(p["name"])}: görüşme yapılmadı"><span>{E(p["name"])} · görüşme yok</span></span>'
         for p in SABIT["pins"] if not p["href"])
