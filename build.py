@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "32"
+ASSET_V = "33"
 
 
 def J(name):
@@ -117,11 +117,11 @@ SOON = {
 SOONS = [SOON]
 for _b in [
     {"slug": "uslu-dimag", "title": "US’lu Dimağ", "author": "Mustafa Ünal",
-     "series": "US’lu Anlatılar · Beşinci kitap · Henüz yayında değil", "kicker": "US’lu Anlatılar · Beşinci kitap · Final",
+     "series": "US’lu Anlatılar · Altıncı kitap · Henüz yayında değil", "kicker": "US’lu Anlatılar · Altıncı kitap · Final",
      "summary": "Doksan öğretide ölçüsü oturmuş bir zihin.", "status": "2027’de yayımlanması planlanıyor",
      "intro": "Bu kitap öğretmek ya da ikna etmek için yazılmadı. Bir insanın hayatın içinde düşe kalka, zamanla oluşmuş us izlerinin kaydı; davranıştan zamana, güvenden vedaya doksan kısa öğreti."},
     {"slug": "gonul-dostu", "title": "Gönül Dostu", "author": "Mustafa Ünal",
-     "series": "Bağımsız eser · Henüz yayında değil", "kicker": "Bağımsız eser · Sabit Kızılhan ile Yol Yürümek",
+     "series": "US’lu Anlatılar · Beşinci kitap · Henüz yayında değil", "kicker": "US’lu Anlatılar · Beşinci kitap · Sabit Kızılhan ile Yol Yürümek",
      "summary": "2005–2026 arasındaki yol arkadaşlığından; dostluğun, memleketin ve hak mücadelesinin canlı tanıklığı.",
      "status": "2027’de yayımlanması planlanıyor", "intro": _gonul["paragraphs"][0]},
 ]:
@@ -131,7 +131,7 @@ for _b in [
 
 SERI = {"icimde-kalan-cocuk": (1, "Kitap I"), "karanlik-odada-yedi-ay": (2, "Kitap II"),
         "uslu-dusler": (3, "Kitap III · Bonus"), "adi-konmamis-islere-don-bicen-adam": (4, "Kitap IV · Hazırlanıyor"),
-        "uslu-dimag": (5, "Kitap V · Final · Hazırlanıyor")}
+        "gonul-dostu": (5, "Kitap V · Hazırlanıyor"), "uslu-dimag": (6, "Kitap VI · Final · Hazırlanıyor")}
 for b in BOOKS + SOONS:
     if b["slug"] in SERI:
         b["seri"], b["seri_ad"] = SERI[b["slug"]]
@@ -457,7 +457,7 @@ def series_strip(book):
     return f"""<section class="seri" aria-label="US’lu Anlatılar serisi">
   <div class="seri-in">
     <div class="seri-head"><p class="kicker">Seri</p><h2>US’lu Anlatılar</h2>
-      <p>Mustafa Ünal’ın beş kitaplık serisi: çocukluktan bugüne bir hayatın hatıraları ve süzgeçten geçmiş düşünceleri. Her kitap tek başına da okunabilir.</p></div>
+      <p>Mustafa Ünal’ın altı kitaplık serisi: çocukluktan bugüne bir hayatın hatıraları ve süzgeçten geçmiş düşünceleri. Her kitap tek başına da okunabilir.</p></div>
     <ol class="seri-list">{items}</ol>
   </div>
 </section>"""
@@ -588,8 +588,8 @@ def build_home():
         f'<a class="pin" href="{p["href"]}" style="left:{p["left"]};top:{p["top"]}"><span>{E(p["name"])}</span></a>'
         for p in SABIT["pins"] if p["href"])
     # kitaplar: 8 kitap, 4'lü dengeli ızgara
-    order = ["bana-koyunu-anlat", "kelekcide-yasamak", "gonul-dostu", "icimde-kalan-cocuk",
-             "karanlik-odada-yedi-ay", "uslu-dusler", "adi-konmamis-islere-don-bicen-adam", "uslu-dimag"]
+    order = ["bana-koyunu-anlat", "kelekcide-yasamak", "icimde-kalan-cocuk", "karanlik-odada-yedi-ay",
+             "uslu-dusler", "adi-konmamis-islere-don-bicen-adam", "gonul-dostu", "uslu-dimag"]
     allb = {b["slug"]: b for b in BOOKS + SOONS}
     cards = ""
     for slug in order:
@@ -649,7 +649,7 @@ def build_home():
 
 <section class="blok blok-alt" id="kitaplar" aria-labelledby="kitaplar-b">
   <header class="blok-head"><h2 id="kitaplar-b">Memleket kitapları</h2>
-    <p>İnternette bölüm bölüm okunur, PDF olarak indirilir, kimi sesli dinlenir. US’lu Anlatılar beş kitaplık bir seridir.</p></header>
+    <p>İnternette bölüm bölüm okunur, PDF olarak indirilir, kimi sesli dinlenir. US’lu Anlatılar altı kitaplık bir seridir.</p></header>
   <ul class="bks">{cards}</ul>
 </section>
 
