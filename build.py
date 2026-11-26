@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "45"
+ASSET_V = "47"
 
 
 def J(name):
@@ -705,7 +705,7 @@ def build_home():
 <section class="blok" id="koyler" aria-labelledby="koyler-b">
   <header class="blok-head"><h2 id="koyler-b">Köy köy Acıpayam</h2>
     <p>Sabit Kızılhan’ın kaydettiği {len(SABIT['interviews'])} sözlü tarih görüşmesi. Haritada bir köye dokunun; anlatının metni ve videosu açılır.</p></header>
-  <div class="map"><img src="{MAP_IMG}" alt="Acıpayam ve köylerinin haritası" width="{MAP_W}" height="{MAP_H}" loading="lazy">{pins}</div>
+  <div class="map"><img src="{MAP_IMG}" alt="Acıpayam ve köylerinin haritası" width="{MAP_W}" height="{MAP_H}" loading="lazy">{pins}</div>{map_legend()}
   <p class="blok-links"><a class="btn" href="/sabit/">Bana Köyünü Anlat</a><a class="btn btn-line" href="/sabit/kizilhan/">Bütün görüşmeler</a><a class="btn btn-line" href="/sabit/sozluk/">Yerel ağız sözlüğü</a></p>
 </section>
 
@@ -806,9 +806,22 @@ def map_pins():
     x0, y0, W, H = _MAP_CROP
     def conv(v, full, off, size):
         return f"{(float(v.rstrip('%')) / 100 * full - off) / size * 100:.2f}%"
-    return "".join(
-        f'<a class="pin" href="{p["href"]}" style="left:{conv(p["left"], W, x0, MAP_W)};top:{conv(p["top"], H, y0, MAP_H)}"><span>{E(p["name"])}</span></a>'
+    def pos(p):
+        return f'left:{conv(p["left"], W, x0, MAP_W)};top:{conv(p["top"], H, y0, MAP_H)}'
+    yok = "".join(
+        f'<span class="pin pin-yok" style="{pos(p)}" tabindex="0" aria-label="{E(p["name"])}: görüşme yapılmadı"><span>{E(p["name"])} · görüşme yok</span></span>'
+        for p in SABIT["pins"] if not p["href"])
+    var = "".join(
+        f'<a class="pin" href="{p["href"]}" style="{pos(p)}"><span>{E(p["name"])}</span></a>'
         for p in SABIT["pins"] if p["href"])
+    return yok + var
+
+
+def map_legend():
+    n_var = len({p["name"] for p in SABIT["pins"] if p["href"]})
+    n_yok = sum(1 for p in SABIT["pins"] if not p["href"])
+    return (f'<p class="map-lejant"><span><i class="lj lj-var"></i>Görüşme yapılan köy ({n_var})</span>'
+            f'<span><i class="lj lj-yok"></i>Görüşme yapılmayan köy ({n_yok})</span></p>')
 
 def build_sabit():
     b = bana
@@ -821,7 +834,7 @@ def build_sabit():
     body = f"""{book_hero(b, f'<div><dt>Görüşme</dt><dd>{len(INTERVIEWS)}</dd></div>')}
 <section class="sheet"><div class="sheet-in">
   <header class="sec-head"><h2>{E(' '.join(SABIT['map_title']))}</h2><p>Görüşmesi yapılan köyler işaretli. Bir köye dokunun; anlatının metni ve videosu açılır.</p></header>
-  <div class="map"><img src="{MAP_IMG}" alt="Acıpayam ve köylerinin haritası" width="{MAP_W}" height="{MAP_H}" loading="lazy">{pins}</div>
+  <div class="map"><img src="{MAP_IMG}" alt="Acıpayam ve köylerinin haritası" width="{MAP_W}" height="{MAP_H}" loading="lazy">{pins}</div>{map_legend()}
 </div></section>
 <div class="book-body">
   <section class="contents" id="icindekiler"><h2>İçindekiler</h2>{toc(b)}</section>

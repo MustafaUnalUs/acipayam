@@ -930,3 +930,18 @@ body.has-gecis { padding-bottom: 4.5rem; }
 
 /* sayfa başlıkları her yerde sitenin moru (kitap kapak rengi değil) */
 .page-hero { background: var(--tabela); }
+
+/* görüşme yapılmayan köyler */
+.pin-yok { width: 10px; height: 10px; margin: -5px 0 0 -5px; background: #fff; border: 2px solid #8a8195; box-shadow: none; cursor: default; }
+.pin-yok span { background: #5e5668; }
+.pin-yok:hover, .pin-yok:focus-visible { transform: scale(1.3); }
+.map-lejant { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.4rem; margin: .9rem auto 0; max-width: 540px; font: 600 .9rem var(--sans); color: var(--soluk); }
+.map-lejant span { display: inline-flex; align-items: center; gap: .45rem; }
+.lj { display: inline-block; border-radius: 50%; }
+.lj-var { width: 14px; height: 14px; background: var(--bugday); border: 3px solid var(--tabela); }
+.lj-yok { width: 10px; height: 10px; background: #fff; border: 2px solid #8a8195; }
+@media (min-width: 900px) { #koyler .map-lejant { grid-column: 2; grid-row: 3; justify-self: end; width: 520px; margin: .6rem 0 0; } }
+.ht-yakin .pin-yok span { background: #5e5668; opacity: .92; }
+.ht-yakin .pin-yok span { opacity: 0; }
+.ht-yakin .pin-yok:hover span, .ht-yakin .pin-yok:focus-visible span { opacity: 1; }
+@media (max-width: 560px) { .map-lejant { flex-direction: column; align-items: flex-start; width: fit-content; } }
