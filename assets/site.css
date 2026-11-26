@@ -1052,3 +1052,15 @@ details.acil.kk > :not(summary), details.acil.yol > :not(summary) { margin-left:
 .afis-alt .payda::after { content: ""; display: block; width: 3rem; height: 2px; margin: .5rem auto .2rem; background: #d9b25c; border-radius: 2px; }
 .afis-alt p span { font-size: 1rem; color: rgba(255,255,255,.8); }
 .afis-alt { flex-direction: column; padding-top: 1.4rem; padding-bottom: 1.4rem; }
+
+/* yeniden yoldayız: slogan ve giriş */
+.hikaye .slogan { font: 800 clamp(2rem, 4.4vw, 3.3rem)/1.08 var(--sans); letter-spacing: -.01em; color: #fff; margin: .3rem 0 1rem; }
+.hikaye .slogan em { font-style: normal; color: #e7c46e; }
+.slogan-giris { font: 400 1.15rem/1.65 var(--serif); color: rgba(255,255,255,.86); margin: 0; padding-left: 1rem; border-left: 3px solid #e7c46e; }
+.hikaye-yeni .slogan { color: var(--murekkep); }
+.hikaye-yeni .slogan em { color: var(--vurgu); }
+.hikaye-yeni .slogan-giris { color: var(--murekkep); border-left-color: var(--vurgu); }
+:root[data-theme="dark"] .hikaye-yeni .slogan em { color: #e7c46e; }
+:root[data-theme="dark"] .hikaye-yeni .slogan-giris { border-left-color: #e7c46e; }
+details.acil.yol { margin-bottom: 0; }
+.hikaye-tek { padding-bottom: clamp(3rem, 6vw, 4.5rem); }

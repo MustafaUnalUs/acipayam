@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "70"
+ASSET_V = "72"
 
 
 def J(name):
@@ -699,6 +699,10 @@ def build_home():
     split = story["body"].find("<p>Ancak ACIPAYAM.com")
     assert split > 0
     story_old, story_new = story["body"][:split], story["body"][split:]
+    # ilk üç paragraf slogan girişinde anlatılıyor; metin "Bugünün fotoğrafları…" ile sürer
+    k = story_new.find("<p>Bugünün fotoğrafları")
+    if k > 0:
+        story_new = story_new[k:]
     cut = story_new.find("<h3>")
     story_new = story_new if cut < 0 else (
         story_new[:cut] + '<details class="story-more"><summary>Devamını okuyun</summary>'
@@ -753,10 +757,9 @@ def build_home():
 <section class="hikaye hikaye-yeni" id="yeniden">
   <div class="hikaye-in">
     <div class="hikaye-side">
-      <p class="hikaye-k">Bugün · Yeniden yayındayız</p>
-      <h2>Neden yeniden yayındayız?</h2>
-      <p class="hikaye-motto">Ortak paydamız memleketimiz.</p>
-      <figure class="afis afis-yeni"><img src="{h['banner']}" alt="ACIPAYAM.com, Memleketimin Kokusu, 2004’ten beri: yeni afiş" width="1600" height="671" loading="lazy"><figcaption>Eski afişimizden esinlenen yeni tasarım</figcaption></figure>
+      <p class="hikaye-k">Bugün · Yeniden yoldayız</p>
+      <h2 class="slogan">Eskiyi arşivliyoruz,<br><em>yeniyi eskitiyoruz.</em></h2>
+      <p class="slogan-giris">ACIPAYAM.com’un hikâyesi 2014’te bitmedi. Aynı isimle ve aynı bağımsız ruhla yeniden yola çıktık. Bu kez yalnızca insanları buluşturmak için değil; hikâyelerini, eserlerini, seslerini ve yaşadıkları dönemin izlerini gelecek kuşaklara bırakmak için buradayız.</p>
     </div>
     <div class="hikaye-text">{story_new}<p class="imza">{E(story['signature'][0])}<small>ACIPAYAM.com kurucusu</small></p></div>
   </div>
