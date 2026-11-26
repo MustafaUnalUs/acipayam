@@ -1088,3 +1088,8 @@ details.acil.yol { margin-bottom: 0; }
   .zaman li > * { grid-column: 2; }
 }
 @media (max-width: 640px) { .zaman::before { left: .82rem; } }
+.afis-alt > p.payda em { font-style: normal; color: #e7c46e; }
+.z-slogan { font: 800 clamp(1.05rem, 2vw, 1.3rem) var(--sans); font-style: normal; letter-spacing: .12em; text-transform: uppercase; color: #fff; margin-top: .4rem; }
+.z-slogan::before, .z-slogan::after { content: "—"; color: #e7c46e; margin: 0 .6rem; }
+.afis-alt > p.z-slogan { display: block; font: 800 clamp(1rem, 2vw, 1.25rem)/1.3 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: #fff; max-width: none; }
+@media (max-width: 640px) { .afis-alt > p.z-slogan::before, .afis-alt > p.z-slogan::after { margin: 0 .35rem; } .afis-alt > p.z-slogan { letter-spacing: .06em; } }
