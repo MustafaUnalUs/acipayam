@@ -978,3 +978,36 @@ body.has-gecis { padding-bottom: 4.5rem; }
 .chips .chips-baslik { flex-basis: 100%; border: 0; background: none; padding: .6rem 0 .1rem; font: 700 .8rem var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--soluk); }
 .chips .chips-baslik:first-child { padding-top: 0; }
 .chips .chips-baslik small { font-size: inherit; text-transform: none; letter-spacing: 0; font-weight: 600; }
+
+/* ana sayfa bölüm kartları (tabela yerine sade, modern kart) */
+.signs-in .signs { gap: .75rem; }
+.sign, .signs-in .sign {
+  grid-template-columns: auto 1fr auto; column-gap: .9rem; row-gap: .1rem;
+  padding: .95rem 1rem .95rem .95rem; min-height: 0;
+  background: var(--sn-bg); color: var(--sn-ink); border-radius: 16px;
+  box-shadow: 0 0 0 1px var(--sn-line), 0 6px 18px -12px rgba(40,10,70,.35);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+:root[data-theme="dark"] .sign { box-shadow: 0 0 0 1px var(--sn-line), 0 10px 24px -16px rgba(0,0,0,.9); }
+.sign:hover, .sign:focus-visible { color: var(--sn-ink); background: var(--sn-bg-h); transform: translateY(-2px);
+  box-shadow: 0 0 0 1.5px var(--sn-acc), 0 14px 28px -16px rgba(79,31,117,.55); }
+.sign svg, .signs-in .sign svg { grid-row: 1 / span 2; width: 2.9rem; height: 2.9rem; padding: .6rem; border-radius: 12px;
+  background: var(--sn-tile); stroke: var(--sn-acc); stroke-width: 1.8; box-sizing: border-box; }
+.sign-t, .signs-in .sign-t { font: 800 1.08rem/1.2 var(--sans); color: var(--sn-ink); }
+.sign-s, .signs-in .sign-s { font: 500 .84rem/1.35 var(--sans); color: var(--sn-soft); }
+.sign-arrow { font: 700 1.15rem var(--sans); color: var(--sn-acc); opacity: .55; transition: transform .18s ease, opacity .18s ease; }
+.sign:hover .sign-arrow { transform: translateX(3px); opacity: 1; }
+:root { --sn-bg: #fff; --sn-bg-h: #fcfaff; --sn-line: rgba(79,31,117,.14); --sn-ink: #1f1428; --sn-soft: #6a6075; --sn-acc: #5b2a86; --sn-tile: rgba(91,42,134,.09); }
+:root[data-theme="dark"] { --sn-bg: #221b2b; --sn-bg-h: #2a2135; --sn-line: rgba(207,166,240,.16); --sn-ink: #f3ecf8; --sn-soft: #b6a9c4; --sn-acc: #cfa6f0; --sn-tile: rgba(207,166,240,.12); }
+@media (max-width: 639px) {
+  .sign, .signs-in .sign { grid-template-columns: auto 1fr; padding: .8rem; column-gap: .7rem; }
+  .sign svg, .signs-in .sign svg { width: 2.5rem; height: 2.5rem; padding: .5rem; grid-row: 1 / span 2; }
+  .sign-s, .signs-in .sign-s { grid-column: 2; }
+}
+@media (max-width: 639px) {
+  .sign, .signs-in .sign { grid-template-columns: 1fr; row-gap: .35rem; padding: .85rem .85rem .9rem; align-content: start; }
+  .sign svg, .signs-in .sign svg { grid-row: auto; width: 2.4rem; height: 2.4rem; padding: .48rem; margin-bottom: .15rem; }
+  .sign-s, .signs-in .sign-s { grid-column: 1; }
+  .sign-t, .signs-in .sign-t { font-size: 1.02rem; }
+}
+.signs > li { display: flex; } .signs > li > .sign { flex: 1; }
