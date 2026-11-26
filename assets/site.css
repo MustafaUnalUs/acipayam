@@ -1064,3 +1064,27 @@ details.acil.kk > :not(summary), details.acil.yol > :not(summary) { margin-left:
 :root[data-theme="dark"] .hikaye-yeni .slogan-giris { border-left-color: #e7c46e; }
 details.acil.yol { margin-bottom: 0; }
 .hikaye-tek { padding-bottom: clamp(3rem, 6vw, 4.5rem); }
+
+/* afiş altı: zaman çizgisi şeridi */
+.afis-alt { gap: 1.1rem; padding: 1.8rem var(--gutter) 1.6rem; }
+.afis-alt > p.payda { font: 800 clamp(1.5rem, 3vw, 2.1rem)/1.15 var(--sans); color: #fff; margin: 0; max-width: none; display: block; }
+.afis-alt > p.payda::after { content: ""; display: block; width: 3rem; height: 2px; margin: .6rem auto 0; background: #e7c46e; border-radius: 2px; }
+.zaman { list-style: none; margin: .2rem auto 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 15rem)); gap: 0; position: relative; }
+.zaman::before { content: ""; position: absolute; left: 16.6%; right: 16.6%; top: .95rem; height: 2px; background: linear-gradient(90deg, rgba(231,196,110,.25), #e7c46e); }
+.zaman li { position: relative; display: flex; flex-direction: column; align-items: center; gap: .15rem; padding: 0 .6rem; text-align: center; }
+.zaman li::before { content: ""; width: .9rem; height: .9rem; border-radius: 50%; background: #2a0f3f; border: 2px solid #e7c46e; margin: .5rem 0 .45rem; position: relative; z-index: 1; }
+.zaman li:last-child::before { background: #e7c46e; box-shadow: 0 0 0 5px rgba(231,196,110,.2); }
+.zaman .z-k { font: 700 .72rem var(--sans); letter-spacing: .14em; text-transform: uppercase; color: #e7c46e; }
+.zaman b { font: 800 1.15rem var(--sans); color: #fff; }
+.zaman li > span:last-child { font: 400 .95rem/1.4 var(--serif); color: rgba(255,255,255,.75); }
+.z-slogan { margin: .2rem 0 0; font: italic 400 1.1rem var(--serif); }
+.z-slogan a { color: #e7c46e; text-decoration: none; border-bottom: 1px solid rgba(231,196,110,.4); }
+.z-slogan a:hover { border-bottom-color: #e7c46e; }
+@media (max-width: 640px) {
+  .zaman { grid-template-columns: 1fr; gap: .9rem; width: 100%; max-width: 22rem; }
+  .zaman::before { left: 1.05rem; right: auto; top: .9rem; bottom: .9rem; width: 2px; height: auto; background: linear-gradient(180deg, rgba(231,196,110,.25), #e7c46e); }
+  .zaman li { display: grid; grid-template-columns: 1.6rem 1fr; column-gap: .8rem; text-align: left; align-items: start; padding: 0; }
+  .zaman li::before { grid-row: 1 / span 3; margin: .25rem 0 0 .3rem; }
+  .zaman li > * { grid-column: 2; }
+}
+@media (max-width: 640px) { .zaman::before { left: .82rem; } }
