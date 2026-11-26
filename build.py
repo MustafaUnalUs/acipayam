@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "38"
+ASSET_V = "41"
 
 
 def J(name):
@@ -224,6 +224,7 @@ def layout(path, title, body, desc="", cls="", style=""):
 <header class="bar">
   <div class="bar-in">
     <a class="mark" href="/">{MARK}<span>ACIPAYAM<em>.com</em></span></a>
+    <a class="tema ara-btn" href="/ara/" aria-label="Sitede ara" title="Sitede ara"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></a>
     <button type="button" class="tema" id="tema" aria-label="Koyu ya da açık görünüme geç" title="Koyu / açık görünüm">
       <svg class="gunes" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
       <svg class="ay" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -927,6 +928,61 @@ def not_found():
 
 
 
+
+def _strip(h):
+    h = re.sub(r"<(script|style|svg|nav|aside|button)\b.*?</\1>", " ", h, flags=re.S)
+    h = re.sub(r"<[^>]+>", " ", h)
+    return re.sub(r"\s+", " ", html.unescape(h)).strip()
+
+
+def write_search_index():
+    """Site içi arama için hafif dizin: /veri/ara.json"""
+    items = []
+    for f in sorted(OUT.rglob("index.html")):
+        rel = "/" + str(f.parent.relative_to(OUT)).replace("\\", "/")
+        rel = "/" if rel == "/." else rel + "/"
+        t = f.read_text(encoding="utf-8")
+        if 'http-equiv="refresh"' in t or rel.endswith("/pdf/") or rel == "/ara/":
+            continue
+        h1 = re.search(r"<h1[^>]*>(.*?)</h1>", t, re.S)
+        title = _strip(h1.group(1)) if h1 else ""
+        band = re.search(r'class="chap-band-in">\s*<a [^>]*>.*?>([^<]+)</a>', t, re.S)
+        book = band.group(1).strip() if band else ""
+        art = re.search(r'<article class="reader".*?</article>', t, re.S)
+        if art:
+            body = art.group(0)
+        else:
+            m = re.search(r'<main id="icerik">(.*)</main>', t, re.S)
+            body = m.group(1) if m else ""
+        text = _strip(body)
+        if rel == "/":
+            title, kind = "ACIPAYAM.com ana sayfa", "Sayfa"
+        elif "/bolum/" in rel:
+            kind = "Kitap"
+        elif rel.startswith("/sabit/") and rel.count("/") == 3 and book:
+            kind = "Köy görüşmesi"
+        elif book:
+            kind = "Kitap"
+        else:
+            kind = "Sayfa"
+        if title in text[:len(title) + 40]:
+            text = text[text.index(title) + len(title):].strip()
+        items.append({"u": rel, "t": title, "k": kind, "b": book, "x": text})
+    (OUT / "veri").mkdir(exist_ok=True)
+    (OUT / "veri" / "ara.json").write_text(json.dumps(items, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    return len(items)
+
+
+def build_ara():
+    body = page_hero("Sitede ara", "Ne arıyorsunuz?", "Kitapların bütün bölümlerinde, köy görüşmelerinde, şehit kayıtlarında ve sitenin diğer sayfalarında arayın.") + """<div class="page-body narrow">
+  <form class="ara-form" role="search" action="/ara/"><label class="sr-only" for="ara-q">Aranacak kelime</label>
+    <input type="search" id="ara-q" name="q" placeholder="Bir isim, köy, kelime… (ör. Gireniz)" autocomplete="off" enterkeyhint="search">
+    <button type="submit" class="btn">Ara</button></form>
+  <p class="ara-durum" id="ara-durum" aria-live="polite">En az iki harf yazın.</p>
+  <div id="ara-sonuc"></div>
+</div>"""
+    write("/ara/", layout("/ara/", "Sitede ara", body, desc="ACIPAYAM.com içinde arama", cls="page-ara"))
+
 def write_sitemap():
     """Google için site haritası: yönlendirme sayfaları hariç bütün sayfalar."""
     from datetime import date
@@ -983,7 +1039,8 @@ def main():
     build_sehit()
     redirects()
     not_found()
-    print(f"{len(written)} sayfa yazıldı → {OUT} · site haritası: {write_sitemap()} adres")
+    build_ara()
+    print(f"{len(written)} sayfa yazıldı → {OUT} · arama dizini: {write_search_index()} sayfa · site haritası: {write_sitemap()} adres")
 
 
 if __name__ == "__main__":
