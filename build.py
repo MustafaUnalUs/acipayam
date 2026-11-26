@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "35"
+ASSET_V = "36"
 
 
 def J(name):
@@ -180,6 +180,14 @@ TEST_NOTE = ('<p class="foot-note">Bu adres, acipayam.com içeriğiyle hazırlan
              f'Asıl site: <a href="{ORIGIN}/">acipayam.com</a></p>')
 
 
+def og_slug(path):
+    """Paylaşım kartı: sayfa bir kitaba aitse o kitabın kartı."""
+    for b in BOOKS + SOONS:
+        if path.startswith(b["base"]):
+            return b["slug"]
+    return ""
+
+
 def layout(path, title, body, desc="", cls="", style=""):
     full = title if "ACIPAYAM" in title else f"{title} · ACIPAYAM.com"
     nav = "".join(
@@ -195,6 +203,14 @@ def layout(path, title, body, desc="", cls="", style=""):
 {"" if CANLI else NOINDEX}<link rel="canonical" href="{ORIGIN}{path}">
 <meta property="og:title" content="{E(full)}">
 <meta property="og:locale" content="tr_TR">
+<meta property="og:type" content="{'book' if og_slug(path) else 'website'}">
+<meta property="og:site_name" content="ACIPAYAM.com">
+<meta property="og:url" content="{ORIGIN}{path}">
+<meta property="og:description" content="{E(desc or 'Acıpayam’ın kitapları, sözlü tarihi ve ortak hafızası. 2004’ten beri memleket kokusu.')}">
+<meta property="og:image" content="{ORIGIN}/img/paylas/{og_slug(path) or 'acipayam'}.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#4f1f75">
 <script>(function(){{var t;try{{t=localStorage.getItem("tema")}}catch(e){{}}if(t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t)}})()</script>
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
