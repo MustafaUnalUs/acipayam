@@ -926,6 +926,27 @@ def not_found():
     (OUT / "404.html").write_text(layout("/404", "Sayfa bulunamadı", body), encoding="utf-8")
 
 
+
+def write_sitemap():
+    """Google için site haritası: yönlendirme sayfaları hariç bütün sayfalar."""
+    from datetime import date
+    today = date.today().isoformat()
+    urls = []
+    for f in sorted(OUT.rglob("index.html")):
+        t = f.read_text(encoding="utf-8", errors="ignore")
+        if 'http-equiv="refresh"' in t or 'name="robots" content="noindex"' in t:
+            continue
+        rel = "/" + str(f.parent.relative_to(OUT)).replace("\\", "/")
+        rel = "/" if rel == "/." else rel + "/"
+        pr = "1.0" if rel == "/" else ("0.5" if "/bolum/" in rel else "0.8")
+        urls.append(f"  <url><loc>{ORIGIN}{rel}</loc><lastmod>{today}</lastmod><priority>{pr}</priority></url>")
+    (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "\n".join(urls) + "\n</urlset>\n", encoding="utf-8")
+    if CANLI:
+        with open(OUT / "robots.txt", "a") as r:
+            r.write(f"Sitemap: {ORIGIN}/sitemap.xml\n")
+    return len(urls)
+
 def main():
     if OUT.exists():
         shutil.rmtree(OUT)
@@ -962,7 +983,7 @@ def main():
     build_sehit()
     redirects()
     not_found()
-    print(f"{len(written)} sayfa yazıldı → {OUT}")
+    print(f"{len(written)} sayfa yazıldı → {OUT} · site haritası: {write_sitemap()} adres")
 
 
 if __name__ == "__main__":
