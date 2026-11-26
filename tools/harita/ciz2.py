@@ -72,8 +72,10 @@ for t, x, y, a in [("TAVAS", 486.5, 444.3, 'ur'), ("SERİNHİSAR", 1085, 416, 'd
     o.append(f'<circle class="ilm" cx="{x}" cy="{y}" r="12"/><circle cx="{x}" cy="{y}" r="5" fill="#fff"/>')
     tx, ty, anc = {'r': (x + 24, y + 14, 'start'), 'l': (x - 24, y + 14, 'end'), 'd': (x, y + 56, 'middle'), 'ur': (x + 14, y - 22, 'start'), 'ul': (x - 14, y - 22, 'end')}[a]
     o.append(f'<text class="kom" x="{tx}" y="{ty}" text-anchor="{anc}">{t}</text>')
-for t, x, y, r in [("YEŞİLOVA", 2330, 1000, 0), ("BEYAĞAÇ", 110, 1900, 180), ("KÖYCEĞİZ", 110, 2590, 180), ("ÇARDAK", 2330, 170, 0)]:
+for t, x, y, r in [("YEŞİLOVA", 2330, 1000, 0), ("BEYAĞAÇ", 110, 1900, 180), ("KÖYCEĞİZ", 110, 2590, 180), ("ÇARDAK", 2330, 170, 0), ("HONAZ", 1250, 95, -90)]:
     ok = f'<path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate({x},{y}) rotate({r})"/>'
+    if r == -90:   # yukarı ok: yazı okun altında ortalı
+        o.append(ok + f'<text class="kom" x="{x}" y="{y + 52}" text-anchor="middle">{t}</text>'); continue
     tx, anc = (x - 14, 'end') if r == 0 else (x + 14, 'start')
     o.append(ok + f'<text class="kom" x="{tx}" y="{y + 13}" text-anchor="{anc}">{t}</text>')
 o.append(f'<g transform="translate({VX0 + 90},{VY0 + 110})" fill="#4f1f75"><path d="M0,-60 L23,21 L0,7 L-23,21 Z"/><path d="M0,-60 L0,7 L-23,21 Z" fill="#8a63ad"/><text y="66" text-anchor="middle" font-size="34" font-weight="800">K</text></g>')

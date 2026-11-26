@@ -42,6 +42,7 @@
 <path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate(110,1900) rotate(180)"/><text class="kom" x="124" y="1913" text-anchor="start">BEYAĞAÇ</text>
 <path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate(110,2590) rotate(180)"/><text class="kom" x="124" y="2603" text-anchor="start">KÖYCEĞİZ</text>
 <path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate(2330,170) rotate(0)"/><text class="kom" x="2316" y="183" text-anchor="end">ÇARDAK</text>
+<path d="M0,-11 L18,0 L0,11 Z" class="ilm" transform="translate(1250,95) rotate(-90)"/><text class="kom" x="1250" y="147" text-anchor="middle">HONAZ</text>
 <g transform="translate(150,150)" fill="#4f1f75"><path d="M0,-60 L23,21 L0,7 L-23,21 Z"/><path d="M0,-60 L0,7 L-23,21 Z" fill="#8a63ad"/><text y="66" text-anchor="middle" font-size="34" font-weight="800">K</text></g>
 <circle class="ko" cx="1325.5" cy="1025.1" r="9.5"/>
 <circle class="ko" cx="1351.2" cy="1209.6" r="9.5"/>
@@ -92,10 +93,10 @@
 <circle class="ko" cx="1471.0" cy="494.5" r="9.5"/>
 <circle class="ko" cx="1615.8" cy="606.8" r="9.5"/>
 <circle class="ko" cx="1325.4" cy="810.4" r="9.5"/>
-<circle class="ko" cx="1967.4" cy="1164.4" r="9.5"/>
 <circle class="ko" cx="1200.0" cy="1818.8" r="9.5"/>
 <circle class="ko" cx="1211.8" cy="1911.6" r="9.5"/>
 <circle class="ko" cx="731.5" cy="1964.8" r="9.5"/>
+<circle class="ko" cx="1967.4" cy="1164.4" r="9.5"/>
 <circle cx="1356.5" cy="981.0" r="19" fill="#d7263d" stroke="#fff" stroke-width="6"/><circle cx="1356.5" cy="981.0" r="26" fill="none" stroke="#7a1022" stroke-width="2.6"/>
 <text class="ky" x="1325.5" y="1068.8" text-anchor="middle">Yukarı</text>
 <text class="ky" x="1351.2" y="1265.3" text-anchor="middle">Akalan</text>
@@ -146,9 +147,9 @@
 <text class="ky" x="1455.0" y="506.1" text-anchor="end">Kuyucak</text>
 <text class="ky" x="1631.8" y="618.3" text-anchor="start">Avşar</text>
 <text class="ky" x="1341.4" y="821.9" text-anchor="start">Kırca</text>
-<text class="ky" x="1967.4" y="1146.4" text-anchor="middle">Dodurgalar</text>
 <text class="ky" x="1200.0" y="1800.8" text-anchor="middle">Boğazdere</text>
 <text class="ky" x="1195.8" y="1923.1" text-anchor="end">Hacıkurtlar</text>
 <text class="ky" x="731.5" y="1946.8" text-anchor="middle">Hisarköy</text>
+<text class="ky" x="1967.4" y="1146.4" text-anchor="middle">Dodurga</text>
 <text class="ky" x="1314.5" y="983.0" text-anchor="end" style="font-size:46px;font-weight:800;letter-spacing:.04em;fill:#1f1428;stroke-width:10px">ACIPAYAM</text>
 </svg>
