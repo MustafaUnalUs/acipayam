@@ -1189,3 +1189,19 @@ details.vid-daha > summary::after { border-color: var(--vurgu); }
 details.vid-daha > summary:hover { background: transparent; }
 details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
 .mark-badem { width: 1.7rem; height: 1.7rem; flex: none; filter: drop-shadow(0 1px 2px rgba(0,0,0,.3)); }
+
+/* telefonda zaman çizgisi kısa: yalnız yıl ve başlık, yan yana; kartlar ilk ekrana yaklaşsın */
+@media (max-width: 640px) {
+  .afis-alt { padding: 1.1rem var(--gutter) .9rem; gap: .7rem; }
+  .afis-alt > p.payda { font-size: 1.35rem; }
+  .afis-alt > p.payda::after { margin-top: .45rem; }
+  .afis-alt > p.z-giris { font-size: .98rem; margin: 0; }
+  .zaman { grid-template-columns: repeat(3, 1fr) !important; max-width: none; gap: 0; width: 100%; }
+  .zaman::before { left: 16.6%; right: 16.6%; top: .95rem; bottom: auto; width: auto; height: 2px; background: linear-gradient(90deg, rgba(231,196,110,.25), #e7c46e); }
+  .zaman li { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 .2rem; }
+  .zaman li::before { margin: .5rem 0 .35rem; }
+  .zaman li > span:last-child { display: none; }
+  .zaman b { font-size: .92rem; line-height: 1.2; }
+  .zaman .z-k { font-size: .66rem; }
+  .signs-in { padding-top: .6rem; }
+}
