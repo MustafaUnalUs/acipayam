@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "91"
+ASSET_V = "92"
 
 
 def J(name):
@@ -193,20 +193,12 @@ WA_USER = "mustafaunal_tr"
 WA_IC = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.6-2-1-1 1c-1.2-.5-2.4-1.7-2.9-2.9l1-1-1-2z"/></svg>'
 
 
+WA_URL = f"https://wa.me/{WA_USER}"
+
+
 def wa_btn(label="WhatsApp’tan yazın", konu="", cls="btn btn-wa"):
-    return f'<button type="button" class="{cls}" data-wa="{E(konu)}">{WA_IC}<span>{E(label)}</span></button>'
+    return f'<a class="{cls}" href="{WA_URL}" target="_blank" rel="noopener">{WA_IC}<span>{E(label)}</span></a>'
 
-
-def wa_dialog():
-    return f"""<dialog class="wa-dlg" id="wa-dlg" aria-labelledby="wa-dlg-b">
-  <form method="dialog"><button class="wa-kapat" aria-label="Kapat">✕</button></form>
-  <div class="wa-ic">{WA_IC}</div>
-  <h2 id="wa-dlg-b">WhatsApp’tan bize yazın</h2>
-  <p>Fotoğraf, belge, bilgi ya da her türlü soru için site yönetimine doğrudan WhatsApp’tan yazabilirsiniz. Telefon numarası gerekmez; kullanıcı adımız:</p>
-  <p class="wa-ad"><b>@{WA_USER}</b><button type="button" class="btn btn-line wa-kopya">Kopyala</button></p>
-  <ol class="wa-adim"><li>WhatsApp’ı açın, <b>yeni sohbet</b> düğmesine dokunun.</li><li>Arama kutusuna <b>@{WA_USER}</b> yazın.</li><li>Çıkan kişiye mesajınızı, fotoğrafınızı ya da belgenizi gönderin.</li></ol>
-  <p class="wa-not" hidden></p>
-</dialog>"""
 
 def layout(path, title, body, desc="", cls="", style=""):
     full = title if "ACIPAYAM" in title else f"{title} · ACIPAYAM.com"
@@ -260,8 +252,7 @@ def layout(path, title, body, desc="", cls="", style=""):
 {share_bar(path, full)}
 </main>
 {footer()}
-<button type="button" class="wa-yuzen" data-wa="" aria-label="WhatsApp’tan bize yazın">{WA_IC}<span>Bize yazın</span></button>
-{wa_dialog()}
+<a class="wa-yuzen" href="{WA_URL}" target="_blank" rel="noopener" aria-label="WhatsApp’tan bize yazın">{WA_IC}<span>Bize yazın</span></a>
 <script src="/assets/site.js?v={ASSET_V}" defer></script>
 </body>
 </html>

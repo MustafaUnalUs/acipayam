@@ -592,21 +592,3 @@ document.querySelectorAll(".map").forEach((map) => {
   };
   ac(); addEventListener("hashchange", ac);
 })();
-
-/* WhatsApp iletişim penceresi */
-(() => {
-  const d = document.getElementById("wa-dlg");
-  if (!d) return;
-  const ad = "@mustafaunal_tr", not = d.querySelector(".wa-not");
-  const ac = () => { not.hidden = true; d.showModal ? d.showModal() : d.setAttribute("open", ""); };
-  document.addEventListener("click", (e) => {
-    const t = e.target.closest("[data-wa], a[href='#wa']");
-    if (!t) return;
-    e.preventDefault(); ac();
-  });
-  d.querySelector(".wa-kopya").addEventListener("click", () => {
-    const ok = () => { not.textContent = "Kopyalandı. WhatsApp’ta arama kutusuna yapıştırın."; not.hidden = false; };
-    (navigator.clipboard ? navigator.clipboard.writeText(ad) : Promise.reject()).then(ok).catch(() => { not.textContent = "Kullanıcı adı: " + ad; not.hidden = false; });
-  });
-  d.addEventListener("click", (e) => { if (e.target === d) d.close(); });
-})();
