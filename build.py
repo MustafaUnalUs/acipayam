@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "117"
+ASSET_V = "118"
 
 
 MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
@@ -1008,6 +1008,73 @@ def mahalleler():
     return out
 
 
+
+def _nk(x):
+    return re.sub(r"[^a-z]", "", x.replace("İ", "i").replace("I", "ı").lower().translate(str.maketrans("çğıöşüâî", "cgiosuai")))
+
+
+_SEH_ALIAS = {"kayser": "Yeşilyuva (Gaysar)", "yesilyuvakayser": "Yeşilyuva (Gaysar)", "yesilyuva": "Yeşilyuva (Gaysar)",
+              "dodurgalar": "Dodurga", "karahoyuk": "Karahüyük", "ucari": "Ucarı"}
+
+
+def _koy_sehitleri():
+    d = J("sehitler.json"); h = d["h"]; K, I = h.index("MAHALLE - KÖY"), h.index("İLÇE")
+    pn = {_nk(p["name"]): p["name"] for p in SABIT["pins"]}
+    out = {}
+    for r in d["r"]:
+        if r[I] != "ACIPAYAM":
+            continue
+        v = re.sub(r"\s*B\.$", "", r[K]).strip()
+        p = pn.get(_nk(v)) or _SEH_ALIAS.get(_nk(v))
+        if p:
+            out.setdefault(p, []).append({k: (r[h.index(k)] if r[h.index(k)] != "-" else "") for k in ("AD SOYAD", "BABA ADI", "HARP", "ŞEHADET TARİHİ", "ŞEHADET YERİ")} | {"koy": v})
+    return out
+
+
+def _koy_kitaplari():
+    out = {}
+    for p in SABIT["pins"]:
+        if p["name"] in ("Gümüş", "Kurtlar"):
+            continue
+        ns = [re.sub(r"\s*\(.*\)", "", p["name"]).strip()] + (["Gaysar"] if "Gaysar" in p["name"] else []) + (["Uçarı"] if p["name"] == "Ucarı" else [])
+        pat = re.compile(r"(?<![\wçğıöşüÇĞİÖŞÜ])(" + "|".join(map(re.escape, ns)) + r")(?=[’'\s,.;:)!?]|$)")
+        for bk in BOOKS:
+            if bk.get("soon") or not bk.get("data"):
+                continue
+            for i, c in enumerate(bk["data"]["chapters"]):
+                if c.get("interview") and p["href"] and c["interview"]["slug"] in p["href"]:
+                    continue
+                t = " ".join(re.sub("<[^>]+>", " ", str(x.get("h", ""))) for x in c["blocks"])
+                n = len(pat.findall(t))
+                if n:
+                    out.setdefault(p["name"], []).append((n, bk, i, c))
+    for k in out:
+        out[k].sort(key=lambda x: -x[0])
+    return out
+
+
+KOY_SEH = None
+KOY_KIT = None
+
+
+def koy_ekleri(pin_ad):
+    global KOY_SEH, KOY_KIT
+    if KOY_SEH is None:
+        KOY_SEH, KOY_KIT = _koy_sehitleri(), _koy_kitaplari()
+    from urllib.parse import quote
+    html_ = ""
+    kit = KOY_KIT.get(pin_ad, [])
+    if kit:
+        li = "".join(f'<li><a href="{chapter_url(bk, i, c)}"><b>{E(tr_title(c["title"]))}</b><span>{E(bk["title"])}</span></a></li>' for n, bk, i, c in kit[:8])
+        html_ += f'<section class="mh-ek"><h2>Kitaplarda {E(pin_ad)}</h2><p class="mh-ek-not">Bu köyün adının geçtiği bölümler.</p><ul class="mh-kit">{li}</ul></section>'
+    seh = KOY_SEH.get(pin_ad, [])
+    if seh:
+        li = "".join(f'<li><b>{E(x["AD SOYAD"].title())}</b><span>{("Baba adı: " + E(x["BABA ADI"].title()) + " · ") if x["BABA ADI"] else ""}{E(x["HARP"])}{(" · " + E(x["ŞEHADET TARİHİ"])) if x["ŞEHADET TARİHİ"] else ""}</span></li>' for x in seh[:24])
+        q = seh[0]["koy"]
+        html_ += (f'<section class="mh-ek"><h2>Bu köyden şehitlerimiz <small>({len(seh)})</small></h2><p class="mh-ek-not">1853–1928 savaşlarında şehit olan ve kaydında bu köyün adı geçen askerlerimiz. Kaynak: MSB Şehit Bilgi Kapısı.</p>'
+                  f'<ul class="mh-seh">{li}</ul><p class="links-row"><a href="/sehit-bilgi-kapisi/?q={quote(q)}">Bütün kayıtlar ve ayrıntılar →</a></p></section>')
+    return html_
+
 def build_mahalleler():
     ms = mahalleler()
     b = bana
@@ -1028,6 +1095,7 @@ def build_mahalleler():
       <a class="btn btn-wa koy-wa" href="{WA_URL}" target="_blank" rel="noopener">{WA_IC}<span>WhatsApp’tan yazın</span></a></div></div>
   </div>
   {f'<h2>Videolar</h2><ul class="videos">{vv}</ul>' if vv else ""}
+  {koy_ekleri(m["pin"]["name"]) if m["pin"] else ""}
   <nav class="pager" aria-label="Mahalleler arasında gezin"><a class="pager-prev" href="/mahalle/{onceki["slug"]}/"><small>Önceki mahalle</small>{E(onceki["ad"])}</a>
     <a class="pager-next" href="/mahalle/{sonraki["slug"]}/"><small>Sonraki mahalle</small>{E(sonraki["ad"])}</a></nav>
   <p class="links-row"><a href="/sabit/#koyler">Bütün mahalleler</a><a href="/#koyler">Köy haritası</a></p>
@@ -1062,6 +1130,7 @@ def build_pasif_mahalleler():
       <a class="btn btn-wa koy-wa" href="{WA_URL}" target="_blank" rel="noopener">{WA_IC}<span>WhatsApp’tan anlatın</span></a></div>
     {f'<p class="mh-bas" style="margin-top:1.6rem">Yakındaki görüşmeli mahalleler</p><ul class="mh-yakin">{yk}</ul>' if yk else ""}</div>
   </div>
+  {koy_ekleri(p["name"])}
   <nav class="pager" aria-label="Mahalleler arasında gezin"><a class="pager-prev" href="/mahalle/{slugify(onceki["name"])}/"><small>Önceki</small>{E(onceki["name"])}</a>
     <a class="pager-next" href="/mahalle/{slugify(sonraki["name"])}/"><small>Sonraki</small>{E(sonraki["name"])}</a></nav>
   <p class="links-row"><a href="/sabit/#koyler">Bütün mahalleler</a><a href="/#koyler">Köy haritası</a></p>

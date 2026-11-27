@@ -1345,3 +1345,20 @@ details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
 .devam-ana { margin: 0 0 1rem; }
 .devam-yer-mu { max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto; padding: 1.4rem var(--gutter) 0; }
 @media print { .reader, .yazi { border: 0 !important; border-radius: 0 !important; outline: 0 !important; } .chap-num { color: #000 !important; } }
+
+/* mahalle sayfası: kitaplar ve şehitler */
+.mh-ek { margin: 2.4rem 0 0; }
+.mh-ek h2 { margin: 0 0 .3rem; }
+.mh-ek h2 small { font-size: .7em; color: var(--soluk); }
+.mh-ek-not { margin: 0 0 1rem; color: var(--soluk); font-size: .95rem; }
+.mh-kit { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+.mh-kit a { display: grid; gap: .15rem; height: 100%; padding: .8rem 1rem; border-radius: 12px; text-decoration: none; color: var(--murekkep); background: var(--sn-bg); box-shadow: 0 0 0 1px var(--sn-line); }
+.mh-kit a:hover { box-shadow: 0 0 0 1.5px var(--vurgu); }
+.mh-kit b { font: 800 1.02rem var(--sans); }
+.mh-kit span { font-size: .88rem; color: var(--vurgu); font-weight: 700; }
+.mh-seh { list-style: none; margin: 0; padding: 0; columns: 2 280px; column-gap: 1.6rem; }
+.mh-seh li { break-inside: avoid; padding: .55rem 0; border-top: 1px solid var(--cizgi); display: grid; }
+.mh-seh b { font: 700 1rem var(--sans); }
+.mh-seh span { font-size: .88rem; color: var(--soluk); }
+:root[data-theme="dark"] .mh-kit a { color: #f3ecf8; }
+:root[data-theme="dark"] .mh-kit span { color: #cfa6f0; }

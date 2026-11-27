@@ -217,7 +217,11 @@
     const restart = () => { shown = PAGE; render(); };
     fetch("/veri/sehitler.json").then((r) => r.json()).then((d) => {
       H = d.h; R = d.r;
-      fill(war, "HARP"); fill(ilce, "İLÇE"); render();
+      fill(war, "HARP"); fill(ilce, "İLÇE");
+      const u = new URLSearchParams(location.search);
+      if (u.get("q")) q.value = u.get("q");
+      if (u.get("ilce")) ilce.value = u.get("ilce");
+      render();
     }).catch(() => { count.textContent = "Kayıtlar yüklenemedi. Sayfayı yenileyin."; });
     q.addEventListener("input", restart); war.addEventListener("change", restart); ilce.addEventListener("change", restart);
     count.addEventListener("click", (e) => {
