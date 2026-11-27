@@ -194,8 +194,10 @@
     };
     const render = () => {
       const t = trLower(q.value.trim());
+      const ES = { gaysar: ["kayser"], "yeşilyuva": ["kayser"], kayser: ["yeşilyuva", "gaysar"], "karahöyük": ["karahüyük"], "karahüyük": ["karahöyük"], corum: ["çorum"], "çorum": ["corum"], dodurga: ["dodurgalar"] };
+      const ts = t ? [t].concat(ES[t] || []) : [];
       hits = R.filter((r) => (!war.value || v(r, "HARP") === war.value) && (!ilce.value || v(r, "İLÇE") === ilce.value)
-        && (!t || trLower(r.join(" ")).includes(t)));
+        && (!t || ts.some((x) => trLower(r.join(" ")).includes(x))));
       const fields = ["BABA ADI", "LAKABI", "DOĞUM TARİHİ", "İLÇE", "MAHALLE - KÖY", "SINIF", "RÜTBE", "CEPHE", "ŞEHADET TARİHİ", "ŞEHADET YERİ", "BİRLİK", "KOLORDU", "FIRKA", "ALAY", "TABUR", "BÖLÜK"];
       list.innerHTML = hits.slice(0, shown).map((r) => {
         const place = [v(r, "MAHALLE - KÖY"), v(r, "İLÇE")].filter(Boolean).join(", ") || "Denizli";
@@ -203,7 +205,13 @@
         return `<li><details><summary><b>${esc(v(r, "AD SOYAD"))}</b><span>${esc(place)}</span><span class="war">${esc(v(r, "HARP"))}${v(r, "ŞEHADET TARİHİ") ? " · " + esc(v(r, "ŞEHADET TARİHİ")) : ""}</span></summary><dl>${dl}</dl></details></li>`;
       }).join("");
       count.textContent = hits.length === R.length ? `${R.length.toLocaleString("tr-TR")} kaydın tamamı` :
-        hits.length ? `${hits.length.toLocaleString("tr-TR")} kayıt bulundu` : "Bu aramayla eşleşen kayıt yok. Yazımı değiştirmeyi ya da süzgeçleri kaldırmayı deneyin.";
+        hits.length ? `${hits.length.toLocaleString("tr-TR")} kayıt bulundu` + (ts.length > 1 ? ` (eski yazımı “${ts.slice(1).join(", ")}” da arandı)` : "") : "";
+      if (!hits.length) {
+        const acp = R.filter((r) => v(r, "İLÇE") === "ACIPAYAM").length;
+        count.innerHTML = `“${esc(q.value.trim())}” ile eşleşen kayıt bulunamadı. Arşivde köy adları dönemin yazımıyla geçer; kaydın olmadığı anlamına gelmeyebilir.` +
+          `<span class="yok-adim">${ilce.value !== "ACIPAYAM" ? `<button type="button" data-ilce="ACIPAYAM" class="btn">Acıpayam ilçesindeki kayıtları göster (${acp.toLocaleString("tr-TR")})</button>` : ""}` +
+          `${ilce.value || war.value ? `<button type="button" data-temizle class="btn btn-line">Süzgeçleri kaldır</button>` : ""}</span>`;
+      }
       more.hidden = hits.length <= shown;
     };
     const restart = () => { shown = PAGE; render(); };
@@ -212,6 +220,12 @@
       fill(war, "HARP"); fill(ilce, "İLÇE"); render();
     }).catch(() => { count.textContent = "Kayıtlar yüklenemedi. Sayfayı yenileyin."; });
     q.addEventListener("input", restart); war.addEventListener("change", restart); ilce.addEventListener("change", restart);
+    count.addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      if (b.dataset.ilce) { ilce.value = b.dataset.ilce; q.value = ""; }
+      if (b.hasAttribute("data-temizle")) { ilce.value = ""; war.value = ""; }
+      restart(); q.focus();
+    });
     more.addEventListener("click", () => { shown += PAGE; render(); });
   }
 })();
