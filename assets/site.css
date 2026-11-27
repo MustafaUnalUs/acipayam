@@ -1299,3 +1299,20 @@ details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
   #koyler .map { grid-row: 1 / span 3; }
   #koyler .map-lejant { grid-row: 4; } #koyler .map-sayim { grid-row: 5; }
 }
+
+/* görüşme sayfası: üç yol */
+.uc-yol { display: grid; gap: .6rem; margin: 1.2rem 0 .4rem; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.uy { display: flex; align-items: center; gap: .7rem; padding: .8rem .95rem; border-radius: 14px; text-decoration: none; color: var(--murekkep); background: var(--sn-bg); box-shadow: 0 0 0 1px var(--sn-line); }
+.uy:hover { box-shadow: 0 0 0 1.5px var(--vurgu); }
+.uy svg { width: 2.2rem; height: 2.2rem; flex: none; padding: .45rem; border-radius: 10px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.uy span { display: flex; flex-direction: column; line-height: 1.25; }
+.uy b { font: 800 1rem var(--sans); }
+.uy small { font: 500 .82rem var(--sans); color: var(--soluk); }
+.uy-v svg { background: #c4302b; color: #fff; fill: #fff; stroke: none; }
+.uy-s svg { background: rgba(79,31,117,.12); color: var(--vurgu); }
+.uy-o svg { background: rgba(231,196,110,.3); color: #7a5a10; }
+.uy-blok { margin: 1.6rem 0 1rem; }
+.uy-b { font: 800 1.3rem var(--sans); margin: 0 0 .6rem; }
+.uy-b small { display: block; font: 500 .9rem var(--sans); color: var(--soluk); margin-top: .15rem; }
+:root[data-theme="dark"] .uy { color: #f3ecf8; }
+:root[data-theme="dark"] .uy-o svg { color: #e7c46e; }

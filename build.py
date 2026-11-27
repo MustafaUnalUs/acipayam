@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "111"
+ASSET_V = "112"
 
 
 MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
@@ -614,6 +614,18 @@ def ayni_koy(iv):
     li = "".join(f'<li><a href="/sabit/{x["slug"]}/"><b>{E(x["title"])}</b><span>{E(x["people"])}</span></a></li>' for x in digerleri)
     return f'<aside class="ayni-koy"><h2>Aynı yerden diğer görüşme{"ler" if len(digerleri) > 1 else ""} <small>· {E(kok(iv["village"]))}</small></h2><ul>{li}</ul>{mlink}</aside>'
 
+
+def uc_yol(video, ses):
+    """Görüşme sayfası: özgün video, sesli kitap ve yazılı anlatı için açık adlı düğmeler."""
+    d = []
+    if video:
+        d.append('<a class="uy uy-v" href="#ozgun"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span><b>Özgün görüşmeyi izle</b><small>Anlatıcının kendi sesi</small></span></a>')
+    if ses:
+        d.append('<a class="uy uy-s" href="#sesli"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg><span><b>Sesli kitap bölümünü dinle</b><small>Kitap metninin seslendirmesi</small></span></a>')
+    d.append('<a class="uy uy-o" href="#anlati"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h7a2 2 0 0 1 2 2v12a2 2 0 0 0-2-2H4z"/><path d="M20 5h-7a2 2 0 0 0-2 2v12a2 2 0 0 1 2-2h7z"/></svg><span><b>Anlatıyı oku</b><small>Kitaptaki yazılı metin</small></span></a>')
+    ses = ses.replace('<figure class="dinle-kutu">', '<figure class="dinle-kutu" id="sesli">').replace('<span>Bu bölümü dinleyin</span>', '<span>Sesli kitap bölümü</span>') if ses else ""
+    return f'<nav class="uc-yol" aria-label="Bu görüşmeyi nasıl takip etmek istersiniz?">{"".join(d)}</nav>{ses}'
+
 def build_chapter(book, i):
     ch = book["data"]["chapters"]
     c = ch[i]
@@ -659,11 +671,11 @@ def build_chapter(book, i):
       <a href="{book['base']}#icindekiler">İçindekiler</a>
     </div>
     {share_mini()}
-    {listen_box(book, c['title'])}
+    {uc_yol(video, listen_box(book, c['title'])) if iv else listen_box(book, c['title'])}
   </header>
-  {video}
+  {(f'<section class="uy-blok" id="ozgun"><h2 class="uy-b">Özgün görüşme <small>Anlatıcının kendi sesi ve görüntüsü</small></h2>{video}</section>') if (iv and video) else video}
   {inpage}
-  <div class="text">
+  <div class="text" id="anlati">
 {render_blocks(c["blocks"], book["slug"])}
   </div>
   {extra}
