@@ -1325,3 +1325,23 @@ details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
 .es-acik i { font-style: normal; color: var(--soluk); }
 :root[data-theme="dark"] .es-acik { color: #f3ecf8; }
 .rec.rec-vurgu { padding-left: .8rem; padding-right: .8rem; }
+
+/* yazdırma: yalnız metin, kitap düzeni */
+@media print {
+  @page { margin: 2cm 2.2cm; @bottom-center { content: counter(page); font-size: 10pt; } }
+  html, body { background: #fff !important; color: #000 !important; }
+  body * { box-shadow: none !important; text-shadow: none !important; }
+  .bar, header.bar, .foot, footer, .tools, .pager, .progress, .chap-band, .r-band, .gecis, .yan-ok, .share, .share-mini, .share-bar, .wa-yuzen, .dinle-kutu, .uc-yol, .yt, .uy-blok, details.inpage, .devam, .ara-btn, .tema, .koy-dlg, .torch, .skip, .bk-actions, nav { display: none !important; }
+  .reader, .yazi, .text, .yazi-metin { max-width: none !important; margin: 0 !important; padding: 0 !important; background: #fff !important; color: #000 !important; }
+  h1 { font-size: 22pt !important; color: #000 !important; margin: 0 0 .3cm !important; }
+  .chap-lead, .yazi-konu { color: #333 !important; }
+  p, li { font-size: 11.5pt !important; line-height: 1.55 !important; color: #000 !important; orphans: 3; widows: 3; }
+  h2, h3 { color: #000 !important; break-after: avoid; }
+  figure, img { break-inside: avoid; max-width: 100% !important; }
+  a { color: #000 !important; text-decoration: none !important; }
+  .reader::after, .yazi::after { content: "Kaynak: " attr(data-kaynak); display: block; margin-top: .8cm; font-size: 9pt; color: #555; }
+}
+.devam-yer:empty { display: none; }
+.devam-ana { margin: 0 0 1rem; }
+.devam-yer-mu { max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto; padding: 1.4rem var(--gutter) 0; }
+@media print { .reader, .yazi { border: 0 !important; border-radius: 0 !important; outline: 0 !important; } .chap-num { color: #000 !important; } }

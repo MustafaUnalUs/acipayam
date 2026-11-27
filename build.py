@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "115"
+ASSET_V = "117"
 
 
 MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
@@ -658,7 +658,7 @@ def build_chapter(book, i):
   <a href="{book['base']}"><img src="{book['cover']}" alt="" width="40" height="62">{E(book['title'])}</a>
   <span>{i + 1} / {len(ch)}</span>
 </div></div>
-<article class="reader" data-book="{book['slug']}">
+<article data-kaynak="acipayam.com" class="reader" data-book="{book['slug']}">
   <header class="chap-head">
     <p class="chap-num" aria-hidden="true">{i + 1:02d}</p>
     {part}
@@ -794,6 +794,7 @@ def build_home():
 
 <div class="signs-wrap">
   <div class="signs-in">
+    <div class="devam-yer" data-devam-yer></div>
     <nav aria-label="Bölümler"><ul class="signs">{signs}</ul></nav>
   </div>
 </div>
@@ -1124,7 +1125,7 @@ def build_sabit():
             continue
         vid = yt(iv["video"], iv["title"]) if iv.get("video") else ""
         body = f"""<div class="chap-band"><div class="chap-band-in"><a href="/sabit/"><img src="{b['cover']}" alt="" width="40" height="62">Bana Köyünü Anlat</a><span>Kitap dışı görüşme</span></div></div>
-<article class="reader"><header class="chap-head"><h1>{E(iv['title'])}</h1><p class="chap-lead">{E(iv['subtitle'])}</p>{share_mini()}</header>{vid}
+<article data-kaynak="acipayam.com" class="reader"><header class="chap-head"><h1>{E(iv['title'])}</h1><p class="chap-lead">{E(iv['subtitle'])}</p>{share_mini()}</header>{vid}
   <div class="text">{fix_yt(iv['html'])}</div>
   {('<section class="chap-extra">' + "".join(fix_yt(x) for x in iv['extra']) + '</section>') if iv['extra'] else ''}
   {ayni_koy(iv)}
@@ -1280,7 +1281,7 @@ def write_search_index():
         title = _strip(h1.group(1)) if h1 else ""
         band = re.search(r'class="chap-band-in">\s*<a [^>]*>.*?>([^<]+)</a>', t, re.S)
         book = band.group(1).strip() if band else ""
-        art = re.search(r'<article class="reader".*?</article>', t, re.S)
+        art = re.search(r'<article data-kaynak="acipayam.com" class="reader".*?</article>', t, re.S)
         if art:
             body = art.group(0)
         else:
