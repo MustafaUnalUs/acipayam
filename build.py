@@ -199,15 +199,15 @@ def layout(path, title, body, desc="", cls="", style=""):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{E(full)}</title>
-<meta name="description" content="{E(desc or 'Eskiyi arşivliyoruz, yeniyi eskitiyoruz. Acıpayam’ın ortak hafızası: kitaplar, köyler, şehitler, radyo. Hepsi ücretsiz.')}">
+<meta name="description" content="{E(desc or 'Eskiyi arşivliyoruz, yeniyi eskitiyoruz. Acıpayam’ın ortak hafızası: kitaplar, köyler, sözlü tarih, radyo. Hepsi ücretsiz.')}">
 {"" if CANLI else NOINDEX}<link rel="canonical" href="{ORIGIN}{path}">
 <meta property="og:title" content="{E(full)}">
 <meta property="og:locale" content="tr_TR">
 <meta property="og:type" content="{'book' if og_slug(path) else 'website'}">
 <meta property="og:site_name" content="ACIPAYAM.com">
 <meta property="og:url" content="{ORIGIN}{path}">
-<meta property="og:description" content="{E(desc or 'Eskiyi arşivliyoruz, yeniyi eskitiyoruz. Acıpayam’ın ortak hafızası: kitaplar, köyler, şehitler, radyo. Hepsi ücretsiz.')}">
-<meta property="og:image" content="{ORIGIN}/img/paylas/{og_slug(path) or 'acipayam-v2'}.jpg">
+<meta property="og:description" content="{E(desc or 'Eskiyi arşivliyoruz, yeniyi eskitiyoruz. Acıpayam’ın ortak hafızası: kitaplar, köyler, sözlü tarih, radyo. Hepsi ücretsiz.')}">
+<meta property="og:image" content="{ORIGIN}/img/paylas/{og_slug(path) or 'acipayam-v3'}.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -719,7 +719,7 @@ def build_home():
   <p class="z-giris">ACIPAYAM.com, Acıpayam’ın ortak hafızası.</p>
   <ol class="zaman">
     <li><span class="z-k">2004–2014</span><b>Bir araya geldik</b><span>39.000 üyeli memleket sitesi olarak Acıpayamlıları buluşturduk.</span></li>
-    <li><span class="z-k">Bugün</span><b>Hafızamızı topluyoruz</b><span>Köy görüşmeleri, şehit kayıtları, eski radyo yayınları ve kitaplarımız burada. Hepsi ücretsiz.</span></li>
+    <li><span class="z-k">Bugün</span><b>Hafızamızı topluyoruz</b><span>Köy görüşmeleri, eski radyo yayınları, fotoğraflar ve kitaplarımız burada. Hepsi ücretsiz.</span></li>
     <li><span class="z-k">Yarın</span><b>Gelecek kuşaklara bırakıyoruz</b><span>Bugünün fotoğrafları, sesleri ve kitapları da yarının arşivi olacak.</span></li>
   </ol>
 </div>

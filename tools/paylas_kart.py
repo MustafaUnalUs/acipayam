@@ -129,11 +129,11 @@ def acp_default():
     d.text((x + wa, bh + 34), b, font=f1, fill=GOLD)
     d.line((W / 2 - 30, bh + 108, W / 2 + 30, bh + 108), fill=GOLD, width=3)
     f2 = F(INTER + "Inter-Medium.otf", 28)
-    t = "ACIPAYAM.com · Kitaplar, köyler, şehitler, radyo · Ücretsiz"
+    t = "ACIPAYAM.com · Kitaplar, köyler, fotoğraflar, radyo · Ücretsiz"
     d.text(((W - d.textlength(t, font=f2)) / 2, bh + 128), t, font=f2, fill=(225, 214, 235))
     out = ACP / "static/img/paylas"
     out.mkdir(parents=True, exist_ok=True)
-    img.save(out / "acipayam-v2.jpg", quality=88, optimize=True)
+    img.save(out / "acipayam-v3.jpg", quality=88, optimize=True)
 
 
 def mu_default():
