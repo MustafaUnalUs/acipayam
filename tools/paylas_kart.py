@@ -145,10 +145,21 @@ def mu_default():
     d.text((70, 120), "YAZAR · FOTOĞRAFÇI · YEREL HAFIZA", font=F(INTER + "Inter-Bold.otf", 24), fill=(217, 189, 133))
     d.text((66, 170), "Mustafa", font=F(SERIF + "Caladea-Regular.ttf", 120), fill=(246, 236, 214))
     d.text((66, 290), "Ünal", font=F(SERIF + "Caladea-Regular.ttf", 120), fill=(246, 236, 214))
-    d.text((70, 440), "Bir ömür, birçok iz.", font=F(SERIF + "Caladea-Italic.ttf", 46), fill=(217, 189, 133))
+    d.text((70, 425), "Bir ömür, birçok iz.", font=F(SERIF + "Caladea-Italic.ttf", 46), fill=(217, 189, 133))
+    # yayımlanmış kitapların küçük kapakları
+    x = 70
+    for slug in ("icimde-kalan-cocuk", "karanlik-odada-yedi-ay", "uslu-dusler", "bana-koyunu-anlat", "kelekcide-yasamak"):
+        f = MU / "static/img/kapak" / f"{slug}.webp"
+        if not f.exists():
+            continue
+        c = Image.open(f).convert("RGB").resize((58, 90), Image.LANCZOS)
+        img.paste(c, (x, 505)); d.rectangle((x, 505, x + 57, 594), outline=(217, 189, 133))
+        x += 70
+    d.text((x + 14, 520), "Kitaplar ücretsiz okunur", font=F(INTER + "Inter-Bold.otf", 24), fill=(246, 236, 214))
+    d.text((x + 14, 556), "mustafaunal.tr", font=F(INTER + "Inter-Medium.otf", 24), fill=(217, 189, 133))
     out = MU / "static/img/paylas"
     out.mkdir(parents=True, exist_ok=True)
-    img.save(out / "mustafaunal.jpg", quality=86, optimize=True)
+    img.save(out / "mustafaunal-v2.jpg", quality=86, optimize=True)
 
 
 if __name__ == "__main__":
