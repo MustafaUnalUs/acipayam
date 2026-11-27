@@ -1369,3 +1369,8 @@ details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
 .okurlar img { width: 100%; max-width: 420px; border-radius: 8px; margin-bottom: .6rem; }
 .okurlar blockquote { margin: 0; font-style: italic; }
 .ok-ad { margin: .5rem 0 0; font: 700 .9rem var(--sans); color: var(--vurgu); }
+/* mor şeritteki devam kutusu */
+.signs-wrap .devam-ana { background: rgba(255,255,255,.07); border-color: rgba(231,196,110,.55) !important; box-shadow: none; max-width: none; }
+.signs-wrap .devam-ana b { color: #fff !important; }
+.signs-wrap .devam-ana .devam-k { color: #e7c46e !important; }
+.signs-wrap .devam-ana .devam-go { background: #e7c46e !important; color: #2a0f3f !important; }
