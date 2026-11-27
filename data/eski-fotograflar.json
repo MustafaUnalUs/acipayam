@@ -1,0 +1,69 @@
+{
+ "title": "Eski Acıpayam",
+ "lead": "Okurlarımızın gönderdiği eski fotoğraflar. Açıklaması olmayanlar için bildiklerinizi yazın: kim, nerede, hangi yıl?",
+ "photos": [
+  {
+   "no": 1,
+   "src": "/img/eski-foto/01.webp",
+   "w": 1195,
+   "h": 771,
+   "aciklama": ""
+  },
+  {
+   "no": 2,
+   "src": "/img/eski-foto/02.webp",
+   "w": 567,
+   "h": 720,
+   "aciklama": ""
+  },
+  {
+   "no": 3,
+   "src": "/img/eski-foto/03.webp",
+   "w": 991,
+   "h": 1521,
+   "aciklama": ""
+  },
+  {
+   "no": 4,
+   "src": "/img/eski-foto/04.webp",
+   "w": 997,
+   "h": 1600,
+   "aciklama": ""
+  },
+  {
+   "no": 5,
+   "src": "/img/eski-foto/05.webp",
+   "w": 974,
+   "h": 743,
+   "aciklama": "Emin Gençoğlu düğünü · Çerçi Dayı’nın evi"
+  },
+  {
+   "no": 6,
+   "src": "/img/eski-foto/06.webp",
+   "w": 974,
+   "h": 662,
+   "aciklama": "Hakkı Uysal evi · 1970’li yıllar"
+  },
+  {
+   "no": 7,
+   "src": "/img/eski-foto/07.webp",
+   "w": 843,
+   "h": 1192,
+   "aciklama": "1962 · Musa Hoca Uysal’ın eşi Arife Uysal"
+  },
+  {
+   "no": 8,
+   "src": "/img/eski-foto/08.webp",
+   "w": 960,
+   "h": 879,
+   "aciklama": "1940’lı yıllar · Kelekçi, Dalaman Çayı"
+  },
+  {
+   "no": 9,
+   "src": "/img/eski-foto/09.webp",
+   "w": 1360,
+   "h": 888,
+   "aciklama": "Nevzat Gençoğlu arşivi"
+  }
+ ]
+}

@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "85"
+ASSET_V = "87"
 
 
 def J(name):
@@ -965,7 +965,19 @@ def build_foto():
         f'<span>{E(x["title"])}</span></button>'
         f'<p class="foto-meta">{E(x["place"])}{" · " + E(x["note"]) if x.get("note") else ""}{" · Fotoğraf: " + E(x["by"]) if x.get("by") else ""}</p></li>'
         for x in f["photos"])
+    ek = J("eski-fotograflar.json")
+    def eski(x):
+        no = f'{x["no"]:02d}'
+        acik = E(x["aciklama"]) if x["aciklama"] else '<i>Açıklama bekleniyor</i>'
+        etiket = f'Eski Acıpayam · No. {no}' + (f' · {x["aciklama"]}' if x["aciklama"] else "")
+        return (f'<li id="eski-{no}"><button type="button" class="zoom" data-full="{x["src"]}" data-label="{E(etiket)}" aria-label="Fotoğraf {no}: büyüt">'
+                f'<img src="{x["src"]}" alt="{E(etiket)}" width="{x["w"]}" height="{x["h"]}" loading="lazy"><span class="eski-no">No. {no}</span></button>'
+                f'<p class="eski-acik">{acik}</p></li>')
+    eski_html = (f'<section class="eski-album" aria-labelledby="eski-b"><h2 id="eski-b">{E(ek["title"])}</h2><p class="eski-lead">{E(ek["lead"])}</p>'
+                 f'<ol class="eski-grid" data-zoom-group>{"".join(eski(x) for x in ek["photos"])}</ol></section>')
     body = page_hero(f["kicker"], f["title"], f["lead"]) + f"""<div class="page-body">
+  {eski_html}
+  <h2 class="foto-alt-b">Bugünün Acıpayam’ı</h2>
   <ul class="foto-grid" data-zoom-group>{items}</ul>
   <div class="foto-cta"><h2>Albüme fotoğraf ekleyin</h2>
     <p>Elinizde Acıpayam’a dair eski ya da yeni bir fotoğraf varsa gönderin. Nerede, hangi yıl ve kimin çektiğini de yazarsanız altına ekleriz.</p>
