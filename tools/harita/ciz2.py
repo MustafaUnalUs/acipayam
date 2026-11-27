@@ -48,7 +48,7 @@ f'''<defs>
 <filter id="golge" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#3a1458" flood-opacity=".22"/></filter>
 <style>
 .ky{{font-size:{FS}px;font-weight:600;fill:#33263f;paint-order:stroke;stroke:#f4ecf9;stroke-width:8px;stroke-linejoin:round}}
-.ko{{fill:#fff;stroke:#a3326f;stroke-width:4.5}}
+.ko{{fill:#f2c230;stroke:#8a6a0a;stroke-width:3}}
 .kom{{font-size:36px;font-weight:800;letter-spacing:.1em;fill:#8a7d9b}}
 .il{{font-size:72px;font-weight:800;letter-spacing:.34em;fill:#b3a6c2}}
 .ilm{{fill:#8a7d9b}}
