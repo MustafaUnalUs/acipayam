@@ -208,6 +208,11 @@
  },
  "contacts": [
   {
+   "label": "WhatsApp",
+   "value": "@mustafaunal_tr",
+   "href": "#wa"
+  },
+  {
    "label": "E-posta",
    "value": "acipayam.com@gmail.com",
    "href": "mailto:acipayam.com@gmail.com"

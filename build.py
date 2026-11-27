@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "89"
+ASSET_V = "91"
 
 
 def J(name):
@@ -188,6 +188,26 @@ def og_slug(path):
     return ""
 
 
+
+WA_USER = "mustafaunal_tr"
+WA_IC = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.6-2-1-1 1c-1.2-.5-2.4-1.7-2.9-2.9l1-1-1-2z"/></svg>'
+
+
+def wa_btn(label="WhatsApp’tan yazın", konu="", cls="btn btn-wa"):
+    return f'<button type="button" class="{cls}" data-wa="{E(konu)}">{WA_IC}<span>{E(label)}</span></button>'
+
+
+def wa_dialog():
+    return f"""<dialog class="wa-dlg" id="wa-dlg" aria-labelledby="wa-dlg-b">
+  <form method="dialog"><button class="wa-kapat" aria-label="Kapat">✕</button></form>
+  <div class="wa-ic">{WA_IC}</div>
+  <h2 id="wa-dlg-b">WhatsApp’tan bize yazın</h2>
+  <p>Fotoğraf, belge, bilgi ya da her türlü soru için site yönetimine doğrudan WhatsApp’tan yazabilirsiniz. Telefon numarası gerekmez; kullanıcı adımız:</p>
+  <p class="wa-ad"><b>@{WA_USER}</b><button type="button" class="btn btn-line wa-kopya">Kopyala</button></p>
+  <ol class="wa-adim"><li>WhatsApp’ı açın, <b>yeni sohbet</b> düğmesine dokunun.</li><li>Arama kutusuna <b>@{WA_USER}</b> yazın.</li><li>Çıkan kişiye mesajınızı, fotoğrafınızı ya da belgenizi gönderin.</li></ol>
+  <p class="wa-not" hidden></p>
+</dialog>"""
+
 def layout(path, title, body, desc="", cls="", style=""):
     full = title if "ACIPAYAM" in title else f"{title} · ACIPAYAM.com"
     nav = "".join(
@@ -240,6 +260,8 @@ def layout(path, title, body, desc="", cls="", style=""):
 {share_bar(path, full)}
 </main>
 {footer()}
+<button type="button" class="wa-yuzen" data-wa="" aria-label="WhatsApp’tan bize yazın">{WA_IC}<span>Bize yazın</span></button>
+{wa_dialog()}
 <script src="/assets/site.js?v={ASSET_V}" defer></script>
 </body>
 </html>
@@ -750,7 +772,7 @@ def build_home():
   <header class="blok-head"><p class="koy-k">Fotoğraf albümü</p><h2 id="eski-ana-b">Eski Acıpayam</h2>
     <p>Okurlarımızın gönderdiği eski fotoğraflar. Tanıdığınız bir yüz, bir ev, bir yer varsa yazın.</p></header>
   <ol class="eski-serit">{"".join(f'<li><a href="/fotograflar/#eski-{x["no"]:02d}"><img src="{x["src"]}" alt="Eski Acıpayam fotoğrafı {x["no"]:02d}" width="{x["w"]}" height="{x["h"]}" loading="lazy"><span>No. {x["no"]:02d}</span></a></li>' for x in J("eski-fotograflar.json")["photos"])}</ol>
-  <p class="blok-links"><a class="btn" href="/fotograflar/">Bütün fotoğraflar</a><a class="btn btn-line" href="mailto:acipayam.com@gmail.com?subject=Eski%20foto%C4%9Fraf">Fotoğraf gönderin</a></p>
+  <p class="blok-links"><a class="btn" href="/fotograflar/">Bütün fotoğraflar</a>{wa_btn("Fotoğraf gönderin", "Eski fotoğraf", "btn btn-line btn-wa")}</p>
 </section>
 
 <section class="hikaye hikaye-tek" id="hikaye">
@@ -790,7 +812,7 @@ def build_home():
       <p class="hikaye-k">Siz de katkıda bulunun</p>
       <h2 id="katki-b">Sizin de anlatacak bir hikâyeniz var mı?</h2>
       <p>Eski bir fotoğraf, bir mektup, köyünüzün unutulmuş bir hatırası, bir şiir ya da bir ses kaydı… ACIPAYAM.com herkesin katkısına açık. Gönderdikleriniz incelenir; uygun görülenler gönderenin adıyla birlikte arşive eklenir.</p>
-      <p class="actions"><a class="btn btn-gold" href="mailto:acipayam.com@gmail.com?subject=ACIPAYAM.com%20i%C3%A7in%20katk%C4%B1">E-postayla gönderin</a><a class="btn btn-ghost" href="https://www.facebook.com/acipayamcom" rel="noopener">Facebook’tan yazın</a></p>
+      <p class="actions">{wa_btn("WhatsApp’tan gönderin", "Katkı", "btn btn-gold btn-wa")}<a class="btn btn-ghost" href="mailto:acipayam.com@gmail.com?subject=ACIPAYAM.com%20i%C3%A7in%20katk%C4%B1">E-postayla</a><a class="btn btn-ghost" href="https://www.facebook.com/acipayamcom" rel="noopener">Facebook’tan yazın</a></p>
     </div>
     <ul class="katki-list">
       <li><b>Fotoğraf</b><span>Nerede, hangi yıl, kimin çektiği</span></li>
@@ -988,7 +1010,7 @@ def build_foto():
   <ul class="foto-grid" data-zoom-group>{items}</ul>
   <div class="foto-cta"><h2>Albüme fotoğraf ekleyin</h2>
     <p>Elinizde Acıpayam’a dair eski ya da yeni bir fotoğraf varsa gönderin. Nerede, hangi yıl ve kimin çektiğini de yazarsanız altına ekleriz.</p>
-    <p class="actions"><a class="btn" href="mailto:acipayam.com@gmail.com?subject=Foto%C4%9Fraf%20alb%C3%BCm%C3%BC">Fotoğraf gönderin</a></p></div>
+    <p class="actions">{wa_btn("WhatsApp’tan gönderin", "Fotoğraf albümü")}</p></div>
 </div>"""
     write("/fotograflar/", layout("/fotograflar/", f["title"], body, desc=f["lead"], style="--book:#4f1f75"))
 
