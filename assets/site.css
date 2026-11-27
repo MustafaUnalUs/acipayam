@@ -1226,3 +1226,21 @@ details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
 .eski-tani { margin: .25rem .1rem 0; }
 .eski-tani button { all: unset; cursor: pointer; font: 700 .88rem var(--sans); color: var(--vurgu); border-bottom: 1px solid currentColor; }
 :root[data-theme="dark"] .eski-tani button { color: #cfa6f0; }
+
+/* mahalle sayfaları */
+.mh-ust { display: grid; gap: 2rem; align-items: start; }
+@media (min-width: 860px) { .mh-ust { grid-template-columns: minmax(0, 420px) 1fr; } }
+.mh-harita { position: relative; }
+.mh-harita img { width: 100%; height: auto; }
+.mh-pin { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: var(--bugday); border: 4px solid var(--tabela); box-shadow: 0 0 0 6px rgba(79,31,117,.25), 0 0 0 12px rgba(79,31,117,.12); }
+.mh h2 { margin-top: 0; }
+.mh-list { list-style: none; margin: 0 0 1.4rem; padding: 0; display: grid; gap: .8rem; }
+.mh-list a { display: grid; gap: .2rem; padding: 1rem 1.1rem; border-radius: 14px; text-decoration: none; color: var(--murekkep); background: var(--sn-bg); box-shadow: 0 0 0 1px var(--sn-line); }
+.mh-list a:hover { box-shadow: 0 0 0 1.5px var(--vurgu); }
+.mh-list b { font: 800 1.2rem var(--sans); }
+.mh-list span { color: var(--soluk); }
+.mh-list .mh-oku { color: var(--vurgu); font: 700 .9rem var(--sans); }
+.mh-cagri { padding: 1rem 1.1rem; border-radius: 14px; background: rgba(37,211,102,.08); box-shadow: inset 0 0 0 1px rgba(37,211,102,.3); }
+.mh-cagri p { margin: 0 0 .8rem; }
+.mh-link { margin: .6rem 0 0; font-weight: 700; }
+:root[data-theme="dark"] .mh-list a { color: #f3ecf8; }

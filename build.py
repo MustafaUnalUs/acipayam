@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "102"
+ASSET_V = "103"
 
 
 MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
@@ -607,10 +607,12 @@ def ayni_koy(iv):
     """Aynı köyden yapılmış diğer görüşmelere bağlantı (ör. Acıpayam Merkez'in iki görüşmesi, Eskiköy'deki Kınteş Şükür)."""
     kok = lambda v: re.sub(r"\s*\(.*\)", "", v).strip()
     digerleri = [x for x in SABIT["interviews"] if x["slug"] != iv["slug"] and kok(x["village"]) == kok(iv["village"])]
+    mh = next((m for m in mahalleler() if any(x["slug"] == iv["slug"] for x in m["ivs"])), None)
+    mlink = (f'<p class="mh-link"><a href="/mahalle/{mh["slug"]}/">{E(mh["ad"])} mahallesinin sayfası →</a></p>') if mh else ""
     if not digerleri:
-        return ""
+        return f'<aside class="ayni-koy">{mlink}</aside>' if mlink else ""
     li = "".join(f'<li><a href="/sabit/{x["slug"]}/"><b>{E(x["title"])}</b><span>{E(x["people"])}</span></a></li>' for x in digerleri)
-    return f'<aside class="ayni-koy"><h2>Aynı yerden diğer görüşme{"ler" if len(digerleri) > 1 else ""} <small>· {E(kok(iv["village"]))}</small></h2><ul>{li}</ul></aside>'
+    return f'<aside class="ayni-koy"><h2>Aynı yerden diğer görüşme{"ler" if len(digerleri) > 1 else ""} <small>· {E(kok(iv["village"]))}</small></h2><ul>{li}</ul>{mlink}</aside>'
 
 def build_chapter(book, i):
     ch = book["data"]["chapters"]
@@ -898,10 +900,9 @@ _PIN_AD = {"Acıpayam Merkez": "Acıpayam", "Yeşilyuva (Gaysar)": "Yeşilyuva",
 _PIN_KAY = {}
 
 
-def map_pins():
+def pin_pos(p):
     x0, y0, W, H = _MAP_CROP
-
-    def pos(p):
+    if True:
         xy = MAP_XY.get(_PIN_AD.get(p["name"], p["name"]))
         if xy:
             dx, dy = _PIN_KAY.get(p["href"] or "", (0, 0))
@@ -910,6 +911,10 @@ def map_pins():
             x = float(p["left"].rstrip("%")) / 100 * W - x0
             y = float(p["top"].rstrip("%")) / 100 * H - y0
         return f"left:{x / MAP_W * 100:.2f}%;top:{y / MAP_H * 100:.2f}%"
+
+
+def map_pins():
+    pos = pin_pos
     yok = "".join(
         f'<button type="button" class="pin pin-yok" style="{pos(p)}" data-koy="{E(p["name"])}" aria-label="{E(p["name"])}: görüşme yok, siz anlatın"><span>{E(p["name"])} · siz anlatın</span></button>'
         for p in SABIT["pins"] if not p["href"])
@@ -939,15 +944,62 @@ def map_legend():
             f'<span><i class="lj lj-yok"></i>Görüşme yapılmayan mahalle ({n_yok}) · dokunun, siz anlatın</span></p>'
             f'<p class="map-sayim">{MAP_SAYIM}</p>')
 
+
+def _kok(v):
+    return re.sub(r"\s*\(.*\)", "", v).strip()
+
+
+def mahalleler():
+    """Görüşme yapılan her yer için: ad, adres, görüşmeler, harita konumu."""
+    ivs = {i["slug"]: i for i in SABIT["interviews"]}
+    out = []
+    for v in SABIT["villages"]:
+        if not v["href"]:
+            continue
+        ilk = ivs[v["href"].strip("/").split("/")[-1]]
+        grup = [i for i in SABIT["interviews"] if _kok(i["village"]) == _kok(ilk["village"])]
+        pin = next((p for p in SABIT["pins"] if p["href"] == v["href"]), None)
+        out.append({"ad": v["name"], "slug": slugify(v["name"]), "ivs": grup, "pin": pin})
+    return out
+
+
+def build_mahalleler():
+    ms = mahalleler()
+    b = bana
+    vids = {"Alaattin": ["tkt3x3Ekrq0"], "Eskiköy": ["q4WJcFYq-Bo", "pJVlcCIfNic"]}
+    hv = {v["id"]: v["title"] for v in HOME["videos"]}
+    for n, m in enumerate(ms):
+        harita = (f'<div class="mh-harita"><img src="{MAP_IMG}" alt="Acıpayam haritasında {E(m["ad"])}" width="{MAP_W}" height="{MAP_H}" loading="lazy">'
+                  + (f'<span class="mh-pin" style="{pin_pos(m["pin"])}"></span>' if m["pin"] else "") + "</div>")
+        gor = "".join(
+            f'<li><a href="/sabit/{i["slug"]}/"><b>{E(i["title"])}</b><span>{E(i["people"])}</span>'
+            f'<span class="mh-oku">Görüşmeyi oku ve izle →</span></a></li>' for i in m["ivs"])
+        vv = "".join(f"<li>{yt(x, hv.get(x, ''))}</li>" for x in vids.get(_kok(m["ivs"][0]["village"]).split(" /")[0], []) if x in hv)
+        onceki, sonraki = ms[n - 1], ms[(n + 1) % len(ms)]
+        body = page_hero(f"Bana Köyünü Anlat · Mahalle", m["ad"], f"Sabit Kızılhan’ın {m['ad']} için derlediği {len(m['ivs'])} görüşme" if len(m["ivs"]) > 1 else f"Sabit Kızılhan’ın {m['ad']} görüşmesi") + f"""<div class="page-body mh">
+  <div class="mh-ust">{harita}
+    <div><h2>Görüşme{"ler" if len(m["ivs"]) > 1 else ""}</h2><ul class="mh-list">{gor}</ul>
+    <div class="mh-cagri"><p><b>{E(m["ad"])} için anlatacaklarınız var mı?</b> Bir hatıra, eski bir fotoğraf, bir türkü… WhatsApp’tan gönderin, buraya ekleyelim.</p>
+      <a class="btn btn-wa koy-wa" href="{WA_URL}" target="_blank" rel="noopener">{WA_IC}<span>WhatsApp’tan yazın</span></a></div></div>
+  </div>
+  {f'<h2>Videolar</h2><ul class="videos">{vv}</ul>' if vv else ""}
+  <nav class="pager" aria-label="Mahalleler arasında gezin"><a class="pager-prev" href="/mahalle/{onceki["slug"]}/"><small>Önceki mahalle</small>{E(onceki["ad"])}</a>
+    <a class="pager-next" href="/mahalle/{sonraki["slug"]}/"><small>Sonraki mahalle</small>{E(sonraki["ad"])}</a></nav>
+  <p class="links-row"><a href="/sabit/#koyler">Bütün mahalleler</a><a href="/#koyler">Köy haritası</a></p>
+</div>"""
+        write(f"/mahalle/{m['slug']}/", layout(f"/mahalle/{m['slug']}/", f"{m['ad']} · Bana Köyünü Anlat", body,
+              desc=f"Acıpayam {m['ad']}: Sabit Kızılhan’ın sözlü tarih görüşmeleri, metin ve video.", style=f"--book:{b['color']}"))
+    return len(ms)
+
 def build_sabit():
     b = bana
     ch = b["data"]["chapters"]
     pins = map_pins()
-    chip = lambda v: (f'<li><a href="{v["href"]}">{E(v["name"])}</a></li>' if v["href"] else f'<li class="todo"><button type="button" data-koy="{E(v["name"])}">{E(v["name"])}</button></li>')
+    chip = lambda v: (f'<li><a href="/mahalle/{slugify(v["name"])}/">{E(v["name"])}</a></li>' if v["href"] else f'<li class="todo"><button type="button" data-koy="{E(v["name"])}">{E(v["name"])}</button></li>')
     merkez_gor = [v for v in SABIT["villages"] if v["name"] == "Acıpayam Merkez"]
     MAH = J("mahalleler.json")
     villages = ('<li class="chips-baslik">Merkez mahalleler</li>' + "".join(f'<li class="todo">{E(m)}</li>' for m in MAH["merkez"]) +
-                "".join(f'<li><a href="{v["href"]}">Merkezde yapılan görüşmeler</a></li>' for v in merkez_gor if v["href"]) +
+                "".join(f'<li><a href="/mahalle/{slugify(v["name"])}/">Merkezde yapılan görüşmeler</a></li>' for v in merkez_gor if v["href"]) +
                 '<li class="chips-baslik">Kırsal mahalleler <small>(eski köyler)</small></li>' +
                 "".join(chip(v) for v in SABIT["villages"] if v["name"] != "Acıpayam Merkez"))
     themes = "".join(f'<li><h3>{E(t["title"])}</h3><p>{E(t["text"])}</p></li>' for t in SABIT["themes"])
@@ -1233,6 +1285,7 @@ def main():
         for i in range(len(b["data"]["chapters"])):
             write(chapter_url(b, i, b["data"]["chapters"][i]), build_chapter(b, i))
     build_sabit()
+    build_mahalleler()
     build_soon()
     build_dunu()
     build_radyo()
