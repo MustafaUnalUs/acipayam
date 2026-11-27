@@ -1223,3 +1223,6 @@ details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
 .koy-kapat { position: absolute; right: .8rem; top: .7rem; border: 0; background: none; font-size: 1.1rem; cursor: pointer; color: var(--soluk); }
 .koy-wa { background: #25d366 !important; border-color: #25d366 !important; color: #fff !important; }
 :root[data-theme="dark"] .koy-dlg { background: #221b2b; color: #f3ecf8; }
+.eski-tani { margin: .25rem .1rem 0; }
+.eski-tani button { all: unset; cursor: pointer; font: 700 .88rem var(--sans); color: var(--vurgu); border-bottom: 1px solid currentColor; }
+:root[data-theme="dark"] .eski-tani button { color: #cfa6f0; }

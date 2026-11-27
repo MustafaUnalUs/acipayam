@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "101"
+ASSET_V = "102"
 
 
 MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
@@ -258,6 +258,12 @@ def layout(path, title, body, desc="", cls="", style=""):
 {share_bar(path, full)}
 </main>
 {footer()}
+<dialog class="koy-dlg" id="foto-dlg" aria-labelledby="foto-dlg-b"><form method="dialog"><button class="koy-kapat" aria-label="Kapat">✕</button></form>
+  <p class="koy-k">Eski Acıpayam</p><h2 id="foto-dlg-b">Fotoğraf No. <span data-foto-no></span></h2>
+  <p>Bu fotoğraftaki kişileri, yeri ya da yılı biliyor musunuz? Bildiklerinizi yazın; fotoğrafın altına sizin adınızla ekleyelim.</p>
+  <p class="koy-not">WhatsApp’tan yazarken mesajın başına “Fotoğraf No. <span data-foto-no></span>” yazmanız yeterli.</p>
+  <a class="btn btn-wa koy-wa" href="{WA_URL}" target="_blank" rel="noopener">{WA_IC}<span>WhatsApp’tan yazın</span></a>
+</dialog>
 <dialog class="koy-dlg" id="koy-dlg" aria-labelledby="koy-dlg-b"><form method="dialog"><button class="koy-kapat" aria-label="Kapat">✕</button></form>
   <p class="koy-k">Bana Köyünü Anlat</p><h2 id="koy-dlg-b"><span data-koy-ad></span></h2>
   <p>Bu köyde henüz görüşme yok. Köyünüzü siz anlatın: bir hatıra, eski bir fotoğraf, bir türkü, büyüklerinizden dinledikleriniz…</p>
@@ -1043,7 +1049,8 @@ def build_foto():
         etiket = f'Eski Acıpayam · No. {no}' + (f' · {x["aciklama"]}' if x["aciklama"] else "")
         return (f'<li id="eski-{no}"><button type="button" class="zoom" data-full="{x["src"]}" data-label="{E(etiket)}" aria-label="Fotoğraf {no}: büyüt">'
                 f'<img src="{x["src"]}" alt="{E(etiket)}" width="{x["w"]}" height="{x["h"]}" loading="lazy"><span class="eski-no">No. {no}</span></button>'
-                f'<p class="eski-acik">{acik}</p></li>')
+                f'<p class="eski-acik">{acik}</p>'
+                f'<p class="eski-tani"><button type="button" data-foto="{no}">{"Bu fotoğrafı tanıyor musunuz?" if not x["aciklama"] else "Ekleyeceğiniz bir bilgi var mı?"}</button></p></li>')
     eski_html = (f'<section class="eski-album" aria-labelledby="eski-b"><h2 id="eski-b">{E(ek["title"])}</h2><p class="eski-lead">{E(ek["lead"])}</p>'
                  f'<ol class="eski-grid" data-zoom-group>{"".join(eski(x) for x in ek["photos"])}</ol></section>')
     body = page_hero(f["kicker"], f["title"], f["lead"]) + f"""<div class="page-body">

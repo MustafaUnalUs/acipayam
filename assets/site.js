@@ -609,3 +609,17 @@ if ("serviceWorker" in navigator && location.protocol === "https:") navigator.se
   }, true);
   d.addEventListener("click", (e) => { if (e.target === d) d.close(); });
 })();
+
+/* "Bu fotoğrafı tanıyor musunuz?" */
+(() => {
+  const d = document.getElementById("foto-dlg");
+  if (!d) return;
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest("[data-foto]");
+    if (!t) return;
+    e.preventDefault();
+    d.querySelectorAll("[data-foto-no]").forEach((x) => (x.textContent = t.dataset.foto));
+    d.showModal ? d.showModal() : d.setAttribute("open", "");
+  });
+  d.addEventListener("click", (e) => { if (e.target === d) d.close(); });
+})();
