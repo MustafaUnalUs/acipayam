@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "103"
+ASSET_V = "104"
 
 
 MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
@@ -893,7 +893,7 @@ def page_hero(kicker, title, lead="", img=""):
 
 # Harita: HGM Denizli il haritasından (1:250.000) yeniden çizilmiş vektör (tools/harita/). Köy noktaları data/harita-koyler.json
 # (SVG koordinatları); pinler isimle bu noktalara oturur.
-MAP_IMG, MAP_W, MAP_H = "/img/acipayam-harita.svg?v=10", 2290, 2700
+MAP_IMG, MAP_W, MAP_H = "/img/acipayam-harita.svg?v=11", 2290, 2700
 _MAP_CROP = (137, 107, 1376, 1600)
 MAP_XY = J("harita-koyler.json")
 _PIN_AD = {"Acıpayam Merkez": "Acıpayam", "Yeşilyuva (Gaysar)": "Yeşilyuva", "Ucarı": "Uçarı"}
