@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "96"
+ASSET_V = "97"
 
 
 def J(name):
@@ -225,9 +225,9 @@ def layout(path, title, body, desc="", cls="", style=""):
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#4f1f75">
 <script>(function(){{var t;try{{t=localStorage.getItem("tema")}}catch(e){{}}if(t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t)}})()</script>
-<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/img/favicon.svg?v=2" type="image/svg+xml">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="apple-touch-icon" href="/img/uygulama-180.png">
+<link rel="apple-touch-icon" href="/img/uygulama2-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
