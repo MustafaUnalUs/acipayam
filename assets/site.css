@@ -1147,3 +1147,13 @@ details.acil.yol { margin-bottom: 0; }
 .foto-alt-b { margin-top: 0; }
 .eski-grid .zoom { display: block; }
 .eski-grid .zoom img { aspect-ratio: auto; object-fit: contain; height: auto; }
+
+/* ana sayfa: eski Acıpayam şeridi */
+.eski-serit { list-style: none; margin: 0; padding: 0 0 .6rem; display: flex; gap: .8rem; overflow-x: auto; scroll-snap-type: x mandatory; }
+.eski-serit li { flex: none; scroll-snap-align: start; }
+.eski-serit a { position: relative; display: block; }
+.eski-serit img { display: block; height: clamp(180px, 24vw, 260px); width: auto; border-radius: 6px; filter: sepia(.12); box-shadow: 0 10px 22px -14px rgba(0,0,0,.6); transition: transform .2s; }
+.eski-serit a:hover img { transform: translateY(-3px); }
+.eski-serit span { position: absolute; left: .5rem; top: .5rem; padding: .2rem .55rem; border-radius: 999px; background: rgba(42,15,63,.85); color: #e7c46e; font: 800 .78rem var(--sans); }
+.eski-ana .blok-links { margin-top: 1.2rem; }
+.eski-ana .koy-k { color: var(--vurgu); } :root[data-theme="dark"] .eski-ana .koy-k { color: #cfa6f0; }

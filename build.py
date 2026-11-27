@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "87"
+ASSET_V = "89"
 
 
 def J(name):
@@ -744,6 +744,13 @@ def build_home():
     <p>{len(SABIT['interviews'])} sözlü tarih görüşmesi. Haritada bir mahalleye dokunun; anlatının metni ve videosu açılır.</p></header>
   <div class="map"><img src="{MAP_IMG}" alt="Acıpayam ve köylerinin haritası" width="{MAP_W}" height="{MAP_H}" loading="lazy">{pins}</div>{map_legend()}
   <p class="blok-links"><a class="btn" href="/sabit/">Bana Köyünü Anlat</a><a class="btn btn-line" href="/sabit/kizilhan/">Bütün görüşmeler</a><a class="btn btn-line" href="/sabit/sozluk/">Yerel ağız sözlüğü</a></p>
+</section>
+
+<section class="blok eski-ana" id="eski-fotograflar" aria-labelledby="eski-ana-b">
+  <header class="blok-head"><p class="koy-k">Fotoğraf albümü</p><h2 id="eski-ana-b">Eski Acıpayam</h2>
+    <p>Okurlarımızın gönderdiği eski fotoğraflar. Tanıdığınız bir yüz, bir ev, bir yer varsa yazın.</p></header>
+  <ol class="eski-serit">{"".join(f'<li><a href="/fotograflar/#eski-{x["no"]:02d}"><img src="{x["src"]}" alt="Eski Acıpayam fotoğrafı {x["no"]:02d}" width="{x["w"]}" height="{x["h"]}" loading="lazy"><span>No. {x["no"]:02d}</span></a></li>' for x in J("eski-fotograflar.json")["photos"])}</ol>
+  <p class="blok-links"><a class="btn" href="/fotograflar/">Bütün fotoğraflar</a><a class="btn btn-line" href="mailto:acipayam.com@gmail.com?subject=Eski%20foto%C4%9Fraf">Fotoğraf gönderin</a></p>
 </section>
 
 <section class="hikaye hikaye-tek" id="hikaye">
