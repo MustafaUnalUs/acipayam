@@ -1279,3 +1279,23 @@ details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
 .mh-yakin span { color: var(--soluk); font-size: .95rem; }
 :root[data-theme="dark"] .mh-yakin a { color: #f3ecf8; }
 .chips li.todo a { color: inherit; }
+
+/* Mahalleni bul */
+.mh-bul { margin: 0 0 1rem; max-width: 580px; }
+.mh-bul label { display: block; font: 800 .8rem var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: .4rem; }
+.mh-bul div { display: flex; gap: .5rem; }
+.mh-bul input { flex: 1; min-width: 0; font: 600 1.05rem var(--sans); padding: .75rem 1rem; border-radius: 12px; border: 1.5px solid var(--sn-line); background: var(--sn-bg); color: var(--murekkep); }
+.mh-bul input:focus { outline: none; border-color: var(--vurgu); }
+.mh-bul .btn { padding: .75rem 1.2rem; }
+.mh-bul-not { margin: .4rem 0 0; font-size: .9rem; color: var(--soluk); }
+:root[data-theme="dark"] .mh-bul input { color: #f3ecf8; }
+:root[data-theme="dark"] .mh-bul label { color: #cfa6f0; }
+@media (min-width: 900px) { #koyler .mh-bul { grid-column: 1; grid-row: 3; align-self: start; margin-top: 1.4rem; } }
+@media (min-width: 900px) {
+  #koyler { grid-template-rows: auto auto auto auto auto; }
+  #koyler .blok-head { grid-row: 1; align-self: end; }
+  #koyler .mh-bul { grid-column: 1; grid-row: 2; margin: .4rem 0 1.2rem; }
+  #koyler .blok-links { grid-row: 3; align-self: start; }
+  #koyler .map { grid-row: 1 / span 3; }
+  #koyler .map-lejant { grid-row: 4; } #koyler .map-sayim { grid-row: 5; }
+}

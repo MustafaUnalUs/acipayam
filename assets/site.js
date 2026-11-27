@@ -623,3 +623,19 @@ if ("serviceWorker" in navigator && location.protocol === "https:") navigator.se
   });
   d.addEventListener("click", (e) => { if (e.target === d) d.close(); });
 })();
+
+/* Mahalleni bul */
+document.querySelectorAll(".mh-bul").forEach((f) => {
+  let map = {}; try { map = JSON.parse(f.dataset.mahalle); } catch (e) {}
+  const N = (s) => s.toLocaleLowerCase("tr").replace(/[ıİ]/g, "i").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
+  const idx = Object.entries(map).map(([k, v]) => [N(k), v, k]);
+  const q = f.querySelector("input"), not = f.querySelector(".mh-bul-not");
+  const bul = (t) => { const n = N(t); if (!n) return null; return (idx.find((x) => x[0] === n) || idx.find((x) => x[0].startsWith(n)) || idx.find((x) => x[0].includes(n)) || [])[1]; };
+  f.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const h = bul(q.value);
+    if (h) location.href = "/mahalle/" + h + "/";
+    else { not.hidden = false; not.textContent = "“" + q.value + "” adında bir mahalle bulamadık. Listeden seçmeyi deneyin."; }
+  });
+  q.addEventListener("change", () => { const h = map[q.value]; if (h) location.href = "/mahalle/" + h + "/"; });
+});

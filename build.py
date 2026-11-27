@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "109"
+ASSET_V = "111"
 
 
 MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
@@ -798,6 +798,7 @@ def build_home():
     <h2 id="koyler-b">Bana Köyünü Anlat</h2>
     <p class="koy-yazar"><span>Derleyen</span><b>Sabit Kızılhan</b></p>
     <p>{len(SABIT['interviews'])} sözlü tarih görüşmesi. Haritada bir mahalleye dokunun; mahallenin sayfası, görüşmeleri ve videoları açılır.</p></header>
+  {mahalle_bul()}
   <div class="map"><img src="{MAP_IMG}" alt="Acıpayam ve köylerinin haritası" width="{MAP_W}" height="{MAP_H}" loading="lazy">{pins}</div>{map_legend()}
   <p class="blok-links"><a class="btn" href="/sabit/">Bana Köyünü Anlat</a><a class="btn btn-line" href="/sabit/kizilhan/">Bütün görüşmeler</a><a class="btn btn-line" href="/sabit/sozluk/">Yerel ağız sözlüğü</a></p>
 </section>
@@ -941,6 +942,33 @@ def _map_sayim():
 MAP_SAYIM = _map_sayim()
 
 
+
+def mahalle_bul():
+    """Mahalleni bul: eski ve yeni adlarla bütün mahalle sayfaları."""
+    secenek = {}
+    for m in mahalleler():
+        secenek[m["ad"]] = m["slug"]
+        for i in m["ivs"]:
+            for parca in re.split(r"[/()]", i["village"]):
+                parca = parca.strip()
+                if parca and parca not in secenek:
+                    secenek[parca] = m["slug"]
+    for p in SABIT["pins"]:
+        if not p["href"]:
+            secenek.setdefault(p["name"], slugify(p["name"]))
+    for ek, hedef in {"Gaysar": "yesilyuva-gaysar", "Yeşilyuva": "yesilyuva-gaysar", "Dedebağ": "dedebagi", "Çakır": "cakirkoy",
+                      "Ören": "orenkoy", "Güney": "guneykoy", "Ucarı": "ucari", "Karahöyük": "karahuyuk", "Dodurgalar": "dodurga",
+                      "Aşağı": "acipayam-merkez", "Çamlık": "acipayam-merkez", "Yeni": "acipayam-merkez", "Yukarı": "acipayam-merkez",
+                      "Karaağaç Baba": "kumafsari", "Kınteş": "eskikoy", "Çubukçular": "cubukcular"}.items():
+        if (OUT / "mahalle" / hedef).exists() or hedef in {m["slug"] for m in mahalleler()} or hedef in {slugify(p["name"]) for p in SABIT["pins"]}:
+            secenek.setdefault(ek, hedef)
+    ops = "".join(f'<option value="{E(k)}"></option>' for k in sorted(secenek, key=lambda x: x.replace("Ç", "C").replace("Ş", "S").replace("Ö", "O").replace("Ü", "U").replace("İ", "I")))
+    veri = json.dumps(secenek, ensure_ascii=False).replace("<", "\\u003c")
+    return (f'<form class="mh-bul" role="search" data-mahalle=\'{E(veri)}\'><label for="mh-q">Mahalleni bul</label>'
+            f'<div><input id="mh-q" list="mh-liste" placeholder="Ör. Gaysar, Kelekçi, Yeşilyuva" autocomplete="off" enterkeyhint="go">'
+            f'<button type="submit" class="btn">Git</button></div><datalist id="mh-liste">{ops}</datalist><p class="mh-bul-not" hidden></p></form>')
+
+
 def map_legend():
     n_var = len({p["name"] for p in SABIT["pins"] if p["href"]})
     n_yok = sum(1 for p in SABIT["pins"] if not p["href"])
@@ -1044,6 +1072,7 @@ def build_sabit():
     body = f"""{book_hero(b, f'<div><dt>Görüşme</dt><dd>{len(INTERVIEWS)}</dd></div>')}
 <section class="sheet"><div class="sheet-in">
   <header class="sec-head"><h2>{E(' '.join(SABIT['map_title']))}</h2><p>Görüşmesi yapılan köyler işaretli. Bir köye dokunun; anlatının metni ve videosu açılır.</p></header>
+  {mahalle_bul()}
   <div class="map"><img src="{MAP_IMG}" alt="Acıpayam ve köylerinin haritası" width="{MAP_W}" height="{MAP_H}" loading="lazy">{pins}</div>{map_legend()}
 </div></section>
 <div class="book-body">
