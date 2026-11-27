@@ -1205,3 +1205,5 @@ details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
   .zaman .z-k { font-size: .66rem; }
   .signs-in { padding-top: .6rem; }
 }
+.map-sayim { margin: .5rem auto 0; max-width: 540px; text-align: center; font: 500 .85rem/1.5 var(--sans); color: var(--soluk); }
+@media (min-width: 900px) { #koyler .map-sayim { grid-column: 2; grid-row: 4; justify-self: end; width: 580px; margin: .3rem 0 0; } }

@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "99"
+ASSET_V = "100"
 
 
 MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
@@ -887,11 +887,25 @@ def map_pins():
     return yok + var
 
 
+def _map_sayim():
+    pins = SABIT["pins"]; ivs = SABIT["interviews"]
+    yer = len({p["name"] for p in pins if p["href"]})
+    from collections import Counter
+    kok = Counter(re.sub(r"\s*\(.*\)", "", i["village"]).strip() for i in ivs)
+    cift = [k for k, n in kok.items() if n > 1]
+    return (f"İlçede 56 mahalle var: 4’ü merkezde, 52’si kırsalda. Haritada 52 kırsal mahalle ve tek nokta olarak merkez gösteriliyor. "
+            f"{len(ivs)} görüşme {yer} yerde yapıldı; " + " ve ".join(cift) + " için ikişer görüşme var.")
+
+
+MAP_SAYIM = _map_sayim()
+
+
 def map_legend():
     n_var = len({p["name"] for p in SABIT["pins"] if p["href"]})
     n_yok = sum(1 for p in SABIT["pins"] if not p["href"])
     return (f'<p class="map-lejant"><span><i class="lj lj-var"></i>Görüşme yapılan mahalle ({n_var})</span>'
-            f'<span><i class="lj lj-yok"></i>Görüşme yapılmayan mahalle ({n_yok})</span></p>')
+            f'<span><i class="lj lj-yok"></i>Görüşme yapılmayan mahalle ({n_yok})</span></p>'
+            f'<p class="map-sayim">{MAP_SAYIM}</p>')
 
 def build_sabit():
     b = bana
