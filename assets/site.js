@@ -595,3 +595,17 @@ document.querySelectorAll(".map").forEach((map) => {
 
 /* çevrimdışı okuma */
 if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("/sw.js").catch(() => {});
+
+/* "Bu köyü siz anlatın" */
+(() => {
+  const d = document.getElementById("koy-dlg");
+  if (!d) return;
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest("[data-koy]");
+    if (!t) return;
+    e.preventDefault(); e.stopPropagation();
+    d.querySelector("[data-koy-ad]").textContent = t.dataset.koy;
+    d.showModal ? d.showModal() : d.setAttribute("open", "");
+  }, true);
+  d.addEventListener("click", (e) => { if (e.target === d) d.close(); });
+})();

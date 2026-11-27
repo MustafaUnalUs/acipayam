@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "100"
+ASSET_V = "101"
 
 
 MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
@@ -258,6 +258,12 @@ def layout(path, title, body, desc="", cls="", style=""):
 {share_bar(path, full)}
 </main>
 {footer()}
+<dialog class="koy-dlg" id="koy-dlg" aria-labelledby="koy-dlg-b"><form method="dialog"><button class="koy-kapat" aria-label="Kapat">✕</button></form>
+  <p class="koy-k">Bana Köyünü Anlat</p><h2 id="koy-dlg-b"><span data-koy-ad></span></h2>
+  <p>Bu köyde henüz görüşme yok. Köyünüzü siz anlatın: bir hatıra, eski bir fotoğraf, bir türkü, büyüklerinizden dinledikleriniz…</p>
+  <p class="koy-not">WhatsApp’tan yazarken mesajın başına köyün adını yazmanız yeterli.</p>
+  <a class="btn btn-wa koy-wa" href="{WA_URL}" target="_blank" rel="noopener">{WA_IC}<span>WhatsApp’tan anlatın</span></a>
+</dialog>
 <a class="wa-yuzen" href="{WA_URL}" target="_blank" rel="noopener" aria-label="WhatsApp’tan bize yazın">{WA_IC}<span>Bize yazın</span></a>
 <script src="/assets/site.js?v={ASSET_V}" defer></script>
 </body>
@@ -899,7 +905,7 @@ def map_pins():
             y = float(p["top"].rstrip("%")) / 100 * H - y0
         return f"left:{x / MAP_W * 100:.2f}%;top:{y / MAP_H * 100:.2f}%"
     yok = "".join(
-        f'<span class="pin pin-yok" style="{pos(p)}" tabindex="0" aria-label="{E(p["name"])}: görüşme yapılmadı"><span>{E(p["name"])} · görüşme yok</span></span>'
+        f'<button type="button" class="pin pin-yok" style="{pos(p)}" data-koy="{E(p["name"])}" aria-label="{E(p["name"])}: görüşme yok, siz anlatın"><span>{E(p["name"])} · siz anlatın</span></button>'
         for p in SABIT["pins"] if not p["href"])
     var = "".join(
         f'<a class="pin" href="{p["href"]}" style="{pos(p)}"><span>{E(p["name"])}</span></a>'
@@ -924,14 +930,14 @@ def map_legend():
     n_var = len({p["name"] for p in SABIT["pins"] if p["href"]})
     n_yok = sum(1 for p in SABIT["pins"] if not p["href"])
     return (f'<p class="map-lejant"><span><i class="lj lj-var"></i>Görüşme yapılan mahalle ({n_var})</span>'
-            f'<span><i class="lj lj-yok"></i>Görüşme yapılmayan mahalle ({n_yok})</span></p>'
+            f'<span><i class="lj lj-yok"></i>Görüşme yapılmayan mahalle ({n_yok}) · dokunun, siz anlatın</span></p>'
             f'<p class="map-sayim">{MAP_SAYIM}</p>')
 
 def build_sabit():
     b = bana
     ch = b["data"]["chapters"]
     pins = map_pins()
-    chip = lambda v: (f'<li><a href="{v["href"]}">{E(v["name"])}</a></li>' if v["href"] else f'<li class="todo">{E(v["name"])}</li>')
+    chip = lambda v: (f'<li><a href="{v["href"]}">{E(v["name"])}</a></li>' if v["href"] else f'<li class="todo"><button type="button" data-koy="{E(v["name"])}">{E(v["name"])}</button></li>')
     merkez_gor = [v for v in SABIT["villages"] if v["name"] == "Acıpayam Merkez"]
     MAH = J("mahalleler.json")
     villages = ('<li class="chips-baslik">Merkez mahalleler</li>' + "".join(f'<li class="todo">{E(m)}</li>' for m in MAH["merkez"]) +

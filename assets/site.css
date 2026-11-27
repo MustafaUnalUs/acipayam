@@ -1207,3 +1207,19 @@ details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
 }
 .map-sayim { margin: .5rem auto 0; max-width: 540px; text-align: center; font: 500 .85rem/1.5 var(--sans); color: var(--soluk); }
 @media (min-width: 900px) { #koyler .map-sayim { grid-column: 2; grid-row: 4; justify-self: end; width: 580px; margin: .3rem 0 0; } }
+
+/* görüşme yapılmayan köy: siz anlatın */
+.pin-yok { opacity: 1 !important; cursor: pointer !important; width: 12px; height: 12px; margin: -6px 0 0 -6px; padding: 0; border-radius: 50%; background: rgba(255,255,255,.01); border: 0; }
+.pin-yok > span { opacity: 0; }
+.pin-yok:hover > span, .pin-yok:focus-visible > span { opacity: 1; }
+.chips li.todo button { all: unset; cursor: pointer; }
+.chips li.todo button:hover, .chips li.todo button:focus-visible { text-decoration: underline; }
+.koy-dlg { width: min(28rem, calc(100% - 2rem)); padding: 1.5rem 1.4rem 1.3rem; border: 0; border-radius: 18px; background: var(--kagit, #fff); color: var(--murekkep); box-shadow: 0 30px 80px -20px rgba(0,0,0,.6); }
+.koy-dlg::backdrop { background: rgba(20,8,30,.55); }
+.koy-dlg h2 { font-size: 1.7rem; margin: .1rem 0 .6rem; }
+.koy-dlg p { margin: 0 0 .8rem; line-height: 1.55; }
+.koy-dlg .koy-k { font: 700 .75rem var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--vurgu); margin: 0; }
+.koy-not { font-size: .92rem; color: var(--soluk); }
+.koy-kapat { position: absolute; right: .8rem; top: .7rem; border: 0; background: none; font-size: 1.1rem; cursor: pointer; color: var(--soluk); }
+.koy-wa { background: #25d366 !important; border-color: #25d366 !important; color: #fff !important; }
+:root[data-theme="dark"] .koy-dlg { background: #221b2b; color: #f3ecf8; }
