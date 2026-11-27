@@ -21,7 +21,10 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "97"
+ASSET_V = "98"
+
+
+MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
 
 
 def J(name):
@@ -238,7 +241,7 @@ def layout(path, title, body, desc="", cls="", style=""):
 <a class="skip" href="#icerik">İçeriğe geç</a>
 <header class="bar">
   <div class="bar-in">
-    <a class="mark" href="/">{MARK}<span>ACIPAYAM<em>.com</em></span></a>
+    <a class="mark" href="/">{MARK_LOGO}<span>ACIPAYAM<em>.com</em></span></a>
     <a class="tema ara-btn" href="/ara/" aria-label="Sitede ara" title="Sitede ara"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></a>
     <button type="button" class="tema" id="tema" aria-label="Koyu ya da açık görünüme geç" title="Koyu / açık görünüm">
       <svg class="gunes" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
@@ -311,7 +314,7 @@ def footer():
     return f"""<footer class="foot">
   <div class="foot-in">
     <div class="foot-brand">
-      <a class="mark" href="/">{MARK}<span>ACIPAYAM<em>.com</em></span></a>
+      <a class="mark" href="/">{MARK_LOGO}<span>ACIPAYAM<em>.com</em></span></a>
       <p class="foot-motto">Ortak paydamız memleketimiz.</p>
       <p>2004’ten beri Acıpayam’ın kitapları, sözlü tarihi ve sesleri. Ticari amacı olmayan bağımsız bir kültür hizmeti.</p>
     </div>
