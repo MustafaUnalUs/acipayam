@@ -653,3 +653,14 @@ document.querySelectorAll(".mh-bul").forEach((f) => {
   });
   q.addEventListener("change", () => { const h = map[q.value]; if (h) location.href = "/mahalle/" + h + "/"; });
 });
+
+/* radyo: kayıt bağlantısını kopyala; adresle gelinen kaydı vurgula */
+(() => {
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-kopya]"); if (!b) return;
+    const ok = () => { const t = b.textContent; b.textContent = "Kopyalandı ✓"; setTimeout(() => (b.textContent = t), 1800); };
+    (navigator.clipboard ? navigator.clipboard.writeText(b.dataset.kopya) : Promise.reject()).then(ok).catch(() => prompt("Bağlantı:", b.dataset.kopya));
+  });
+  const h = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if (h && h.classList.contains("rec")) { h.classList.add("rec-vurgu"); setTimeout(() => h.scrollIntoView({ block: "center" }), 200); }
+})();

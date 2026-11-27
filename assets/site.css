@@ -1317,3 +1317,11 @@ details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
 :root[data-theme="dark"] .uy { color: #f3ecf8; }
 :root[data-theme="dark"] .uy-o svg { color: #e7c46e; }
 .yok-adim { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .8rem; } .finder-count .btn { font-size: .95rem; padding: .65rem 1rem; }
+.rec-pay { display: flex; flex-wrap: wrap; gap: .4rem 1rem; margin: .5rem 0 0; font: 700 .85rem var(--sans); }
+.rec-pay a, .rec-pay button { all: unset; cursor: pointer; color: var(--vurgu); border-bottom: 1px solid currentColor; }
+:root[data-theme="dark"] .rec-pay a, :root[data-theme="dark"] .rec-pay button { color: #cfa6f0; }
+.rec-vurgu { box-shadow: 0 0 0 3px #e7c46e; border-radius: 12px; background: rgba(231,196,110,.12); }
+.es-acik { margin: .4rem .1rem 0; max-width: 16rem; font: 600 .85rem/1.35 var(--sans); color: var(--murekkep); }
+.es-acik i { font-style: normal; color: var(--soluk); }
+:root[data-theme="dark"] .es-acik { color: #f3ecf8; }
+.rec.rec-vurgu { padding-left: .8rem; padding-right: .8rem; }

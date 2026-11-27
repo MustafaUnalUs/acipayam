@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "113"
+ASSET_V = "115"
 
 
 MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
@@ -818,7 +818,7 @@ def build_home():
 <section class="blok eski-ana" id="eski-fotograflar" aria-labelledby="eski-ana-b">
   <header class="blok-head"><p class="koy-k">Fotoğraf albümü</p><h2 id="eski-ana-b">Eski Acıpayam</h2>
     <p>Okurlarımızın gönderdiği eski fotoğraflar. Tanıdığınız bir yüz, bir ev, bir yer varsa yazın.</p></header>
-  <ol class="eski-serit">{"".join(f'<li><a href="/fotograflar/#eski-{x["no"]:02d}"><img src="{x["src"]}" alt="Eski Acıpayam fotoğrafı {x["no"]:02d}" width="{x["w"]}" height="{x["h"]}" loading="lazy"><span>No. {x["no"]:02d}</span></a></li>' for x in J("eski-fotograflar.json")["photos"])}</ol>
+  <ol class="eski-serit">{"".join(f'<li><a href="/fotograflar/#eski-{x["no"]:02d}"><img src="{x["src"]}" alt="Eski Acıpayam fotoğrafı {x["no"]:02d}{(": " + E(x["aciklama"])) if x["aciklama"] else ""}" width="{x["w"]}" height="{x["h"]}" loading="lazy"><span>No. {x["no"]:02d}</span></a><p class="es-acik">{E(x["aciklama"]) if x["aciklama"] else "<i>Tanıyor musunuz?</i>"}</p></li>' for x in J("eski-fotograflar.json")["photos"])}</ol>
   <p class="blok-links"><a class="btn" href="/fotograflar/">Bütün fotoğraflar</a>{wa_btn("Fotoğraf gönderin", "Eski fotoğraf", "btn btn-line btn-wa")}</p>
 </section>
 
@@ -1154,10 +1154,13 @@ def build_dunu():
 
 
 def build_radyo():
+    from urllib.parse import quote
     r = J("radyo.json")
     items = "".join(
-        f'<li class="rec"><span class="rec-n">{i + 1:02d}</span><div><h2>{E(x["title"])}</h2><p>{E(x["person"])}</p>'
-        f'<audio controls preload="none" src="{E(x["file"])}"></audio></div><time>{E(x["duration"])}</time></li>'
+        f'<li class="rec" id="{slugify(x["title"])}"><span class="rec-n">{i + 1:02d}</span><div><h2>{E(x["title"])}</h2><p>{E(x["person"])}</p>'
+        f'<audio controls preload="none" src="{E(x["file"])}"></audio>'
+        f'<p class="rec-pay"><a href="https://wa.me/?text={quote(x["title"] + " · Radyo ACIPAYAM.com arşivi " + ORIGIN + "/radyo-arsivi/#" + slugify(x["title"]))}" target="_blank" rel="noopener">WhatsApp’ta paylaş</a>'
+        f'<button type="button" data-kopya="{ORIGIN}/radyo-arsivi/#{slugify(x["title"])}">Bağlantıyı kopyala</button></p></div><time>{E(x["duration"])}</time></li>'
         for i, x in enumerate(r["records"]))
     body = page_hero(r["eyebrow"], r["title"], " ".join(r["intro"])) + f"""<div class="page-body narrow">
   <label class="search"><span>Kayıtlarda ara</span><input type="search" data-filter-list="#kayitlar" placeholder="Şiir, türkü, isim…"></label>
