@@ -1108,3 +1108,14 @@ details.acil.yol { margin-bottom: 0; }
   .afis-paylas .share-mini { background: none; box-shadow: none; }
 }
 @media (max-width: 640px) { .afis-paylas { display: none; } }
+
+/* bölüm kartları: mor şeridin devamı */
+.signs-wrap, :root[data-theme="dark"] .signs-wrap { background: #2a0f3f; border-bottom: 0; }
+.signs-in { padding-top: .4rem; padding-bottom: clamp(2rem, 4vw, 2.8rem); }
+.signs-wrap .sign, .signs-wrap .signs-in .sign, :root[data-theme="dark"] .signs-wrap .sign {
+  --sn-bg: rgba(255,255,255,.06); --sn-bg-h: rgba(255,255,255,.11); --sn-line: rgba(255,255,255,.16);
+  --sn-ink: #fff; --sn-soft: rgba(255,255,255,.72); --sn-acc: #e7c46e; --sn-tile: rgba(231,196,110,.14);
+  box-shadow: 0 0 0 1px var(--sn-line);
+}
+.signs-wrap .sign:hover, .signs-wrap .sign:focus-visible { box-shadow: 0 0 0 1.5px #e7c46e, 0 14px 28px -16px rgba(0,0,0,.6); }
+.afis-alt { border-bottom: 0; padding-bottom: 1.4rem; }
