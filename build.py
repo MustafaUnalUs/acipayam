@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "92"
+ASSET_V = "94"
 
 
 def J(name):
@@ -297,7 +297,10 @@ def share_bar(path, title):
 
 def footer():
     books = "".join(f'<li><a href="{b["base"]}">{E(b["title"])}</a></li>' for b in BOOKS)
-    contacts = "".join(f'<li><a href="{E(c["href"])}">{E(c["value"])}</a></li>' for c in HOME["contacts"])
+    contacts = "".join(
+        (f'<li><a class="foot-wa" href="{E(c["href"])}" target="_blank" rel="noopener">{WA_IC}<span><b>WhatsApp’tan yazın</b>{E(c["value"])}</span></a></li>'
+         if c["label"] == "WhatsApp" else f'<li><a href="{E(c["href"])}">{E(c["value"])}</a></li>')
+        for c in HOME["contacts"])
     sisters = "".join(
         f'<div><h4>{E(g["group"])}</h4><ul>' +
         "".join(f'<li><a href="{E(l["href"])}" rel="noopener">{E(l["label"])}</a></li>' for l in g["links"]) +

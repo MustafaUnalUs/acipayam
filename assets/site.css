@@ -1178,3 +1178,8 @@ details.acil.yol { margin-bottom: 0; }
 .wa-adim { margin: .2rem 0 .4rem; padding-left: 1.2rem; line-height: 1.55; }
 .wa-not { font: 700 .9rem var(--sans); color: #128c4a; }
 :root[data-theme="dark"] .wa-dlg { background: #221b2b; color: #f3ecf8; }
+.foot-wa { display: inline-flex !important; align-items: center; gap: .65rem; padding: .55rem .95rem .55rem .7rem; border-radius: 12px; background: #25d366; color: #fff !important; text-decoration: none; }
+.foot-wa svg { width: 1.6rem; height: 1.6rem; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.foot-wa span { display: flex; flex-direction: column; line-height: 1.2; font-size: .85rem; }
+.foot-wa b { font-size: 1rem; }
+.foot-wa { margin-bottom: .6rem; }
