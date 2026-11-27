@@ -1036,7 +1036,7 @@ def build_sabit():
     chip = lambda v: (f'<li><a href="/mahalle/{slugify(v["name"])}/">{E(v["name"])}</a></li>' if v["href"] else f'<li class="todo"><a href="/mahalle/{slugify(v["name"])}/">{E(v["name"])}</a></li>')
     merkez_gor = [v for v in SABIT["villages"] if v["name"] == "Acıpayam Merkez"]
     MAH = J("mahalleler.json")
-    villages = ('<li class="chips-baslik">Merkez mahalleler</li>' + "".join(f'<li class="todo">{E(m)}</li>' for m in MAH["merkez"]) +
+    villages = ('<li class="chips-baslik">Merkez mahalleler</li>' + "".join(f'<li><a href="/mahalle/acipayam-merkez/">{E(m)}</a></li>' for m in MAH["merkez"]) +
                 "".join(f'<li><a href="/mahalle/{slugify(v["name"])}/">Merkezde yapılan görüşmeler</a></li>' for v in merkez_gor if v["href"]) +
                 '<li class="chips-baslik">Kırsal mahalleler <small>(eski köyler)</small></li>' +
                 "".join(chip(v) for v in SABIT["villages"] if v["name"] != "Acıpayam Merkez"))
