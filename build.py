@@ -797,7 +797,7 @@ def build_home():
     <p class="koy-k">Sözlü tarih çalışması · Köy köy Acıpayam</p>
     <h2 id="koyler-b">Bana Köyünü Anlat</h2>
     <p class="koy-yazar"><span>Derleyen</span><b>Sabit Kızılhan</b></p>
-    <p>{len(SABIT['interviews'])} sözlü tarih görüşmesi. Haritada bir mahalleye dokunun; anlatının metni ve videosu açılır.</p></header>
+    <p>{len(SABIT['interviews'])} sözlü tarih görüşmesi. Haritada bir mahalleye dokunun; mahallenin sayfası, görüşmeleri ve videoları açılır.</p></header>
   <div class="map"><img src="{MAP_IMG}" alt="Acıpayam ve köylerinin haritası" width="{MAP_W}" height="{MAP_H}" loading="lazy">{pins}</div>{map_legend()}
   <p class="blok-links"><a class="btn" href="/sabit/">Bana Köyünü Anlat</a><a class="btn btn-line" href="/sabit/kizilhan/">Bütün görüşmeler</a><a class="btn btn-line" href="/sabit/sozluk/">Yerel ağız sözlüğü</a></p>
 </section>
@@ -918,8 +918,12 @@ def map_pins():
     yok = "".join(
         f'<button type="button" class="pin pin-yok" style="{pos(p)}" data-koy="{E(p["name"])}" aria-label="{E(p["name"])}: görüşme yok, siz anlatın"><span>{E(p["name"])} · siz anlatın</span></button>'
         for p in SABIT["pins"] if not p["href"])
+    _mh = {}
+    for m in mahalleler():
+        for i in m["ivs"]:
+            _mh[f"/sabit/{i['slug']}/"] = f"/mahalle/{m['slug']}/"
     var = "".join(
-        f'<a class="pin" href="{p["href"]}" style="{pos(p)}"><span>{E(p["name"])}</span></a>'
+        f'<a class="pin" href="{_mh.get(p["href"], p["href"])}" style="{pos(p)}"><span>{E(p["name"])}</span></a>'
         for p in SABIT["pins"] if p["href"])
     return yok + var
 
