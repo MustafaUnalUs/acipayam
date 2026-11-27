@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "94"
+ASSET_V = "95"
 
 
 def J(name):
@@ -226,6 +226,9 @@ def layout(path, title, body, desc="", cls="", style=""):
 <meta name="theme-color" content="#4f1f75">
 <script>(function(){{var t;try{{t=localStorage.getItem("tema")}}catch(e){{}}if(t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t)}})()</script>
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="apple-touch-icon" href="/img/uygulama-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&display=swap">
@@ -1153,6 +1156,9 @@ def main():
     (OUT / "veri").mkdir()
     shutil.copytree(ROOT / "static", OUT, dirs_exist_ok=True)
     shutil.copytree(ROOT / "assets", OUT / "assets", dirs_exist_ok=True)
+    sw = (ROOT / "static" / "sw.tmpl.js").read_text().replace("__A__", ASSET_V).replace("__V__", "v" + ASSET_V)
+    (OUT / "sw.js").write_text(sw)
+    (OUT / "sw.tmpl.js").unlink(missing_ok=True)
     if not CANLI:
         (OUT / "CNAME").write_text("acipayam.gunerunal.com.tr\n")
     (OUT / ".nojekyll").write_text("")

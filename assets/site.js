@@ -592,3 +592,6 @@ document.querySelectorAll(".map").forEach((map) => {
   };
   ac(); addEventListener("hashchange", ac);
 })();
+
+/* çevrimdışı okuma */
+if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("/sw.js").catch(() => {});
