@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "81"
+ASSET_V = "83"
 
 
 def J(name):
@@ -736,8 +736,11 @@ def build_home():
 </section>
 
 <section class="blok blok-alt" id="koyler" aria-labelledby="koyler-b">
-  <header class="blok-head"><h2 id="koyler-b">Köy köy Acıpayam</h2>
-    <p>Sabit Kızılhan’ın kaydettiği {len(SABIT['interviews'])} sözlü tarih görüşmesi. Haritada bir köye dokunun; anlatının metni ve videosu açılır.</p></header>
+  <header class="blok-head">
+    <p class="koy-k">Sözlü tarih çalışması · Köy köy Acıpayam</p>
+    <h2 id="koyler-b">Bana Köyünü Anlat</h2>
+    <p class="koy-yazar"><span>Derleyen</span><b>Sabit Kızılhan</b></p>
+    <p>{len(SABIT['interviews'])} sözlü tarih görüşmesi. Haritada bir mahalleye dokunun; anlatının metni ve videosu açılır.</p></header>
   <div class="map"><img src="{MAP_IMG}" alt="Acıpayam ve köylerinin haritası" width="{MAP_W}" height="{MAP_H}" loading="lazy">{pins}</div>{map_legend()}
   <p class="blok-links"><a class="btn" href="/sabit/">Bana Köyünü Anlat</a><a class="btn btn-line" href="/sabit/kizilhan/">Bütün görüşmeler</a><a class="btn btn-line" href="/sabit/sozluk/">Yerel ağız sözlüğü</a></p>
 </section>

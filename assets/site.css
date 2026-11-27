@@ -1119,3 +1119,14 @@ details.acil.yol { margin-bottom: 0; }
 }
 .signs-wrap .sign:hover, .signs-wrap .sign:focus-visible { box-shadow: 0 0 0 1.5px #e7c46e, 0 14px 28px -16px rgba(0,0,0,.6); }
 .afis-alt { border-bottom: 0; padding-bottom: 1.4rem; }
+
+/* köy bölümü: çalışmanın adı ve derleyen */
+.koy-k { margin: 0 0 .5rem; font: 700 .78rem var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--vurgu); }
+#koyler .blok-head h2 { font-size: clamp(2.2rem, 4.6vw, 3.4rem); line-height: 1.05; margin-bottom: .8rem; }
+.koy-yazar { display: inline-flex; align-items: baseline; gap: .55rem; margin: 0 0 1rem; padding: .45rem .9rem; border-radius: 999px; background: rgba(79,31,117,.09); box-shadow: inset 0 0 0 1px rgba(79,31,117,.2); }
+.koy-yazar span { font: 600 .8rem var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--soluk); }
+.koy-yazar b { font: 800 1.25rem var(--sans); color: var(--murekkep); }
+:root[data-theme="dark"] .koy-yazar { background: rgba(207,166,240,.1); box-shadow: inset 0 0 0 1px rgba(207,166,240,.28); }
+#koyler .blok-head .koy-k { color: var(--vurgu); margin-bottom: .7rem; }
+:root[data-theme="dark"] #koyler .blok-head .koy-k { color: #cfa6f0; }
+#koyler .blok-head .koy-yazar { margin: .2rem 0 1.1rem; }
