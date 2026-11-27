@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "108"
+ASSET_V = "109"
 
 
 MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
@@ -916,7 +916,7 @@ def pin_pos(p):
 def map_pins():
     pos = pin_pos
     yok = "".join(
-        f'<button type="button" class="pin pin-yok" style="{pos(p)}" data-koy="{E(p["name"])}" aria-label="{E(p["name"])}: görüşme yok, siz anlatın"><span>{E(p["name"])} · siz anlatın</span></button>'
+        f'<a class="pin pin-yok" href="/mahalle/{slugify(p["name"])}/" style="{pos(p)}" aria-label="{E(p["name"])}: görüşme yok, siz anlatın"><span>{E(p["name"])} · siz anlatın</span></a>'
         for p in SABIT["pins"] if not p["href"])
     _mh = {}
     for m in mahalleler():
@@ -995,11 +995,45 @@ def build_mahalleler():
               desc=f"Acıpayam {m['ad']}: Sabit Kızılhan’ın sözlü tarih görüşmeleri, metin ve video.", style=f"--book:{b['color']}"))
     return len(ms)
 
+
+def _xy(p):
+    xy = MAP_XY.get(_PIN_AD.get(p["name"], p["name"]))
+    return xy
+
+
+def build_pasif_mahalleler():
+    aktif = mahalleler()
+    akt_xy = [(m, _xy(m["pin"])) for m in aktif if m["pin"] and _xy(m["pin"])]
+    pasif = sorted([p for p in SABIT["pins"] if not p["href"]], key=lambda p: p["name"])
+    for n, p in enumerate(pasif):
+        ad = p["name"]; slug = slugify(ad); xy = _xy(p)
+        yakin = sorted(akt_xy, key=lambda t: (t[1][0] - xy[0]) ** 2 + (t[1][1] - xy[1]) ** 2)[:3] if xy else []
+        yk = "".join(f'<li><a href="/mahalle/{m["slug"]}/"><b>{E(m["ad"])}</b><span>{E(m["ivs"][0]["people"])}</span></a></li>' for m, _ in yakin)
+        harita = (f'<div class="mh-harita"><img src="{MAP_IMG}" alt="Acıpayam haritasında {E(ad)}" width="{MAP_W}" height="{MAP_H}" loading="lazy">'
+                  f'<span class="mh-pin mh-pin-yok" style="{pin_pos(p)}"></span></div>')
+        onceki, sonraki = pasif[n - 1], pasif[(n + 1) % len(pasif)]
+        body = page_hero("Bana Köyünü Anlat · Mahalle", ad, "Bu mahallede henüz sözlü tarih görüşmesi yapılmadı.") + f"""<div class="page-body mh">
+  <div class="mh-ust">{harita}
+    <div><div class="mh-cagri mh-cagri-buyuk"><p class="mh-bas">Bu sayfa sizi bekliyor</p>
+      <h2>Köyünüzü siz anlatın</h2>
+      <p>{E(ad)} için henüz bir görüşme yok. Köyünüzün hikâyesini, eski fotoğraflarını, türkülerini, büyüklerinizden dinlediklerinizi gönderin; bu sayfa sizin anlattıklarınızla dolsun.</p>
+      <p class="koy-not">WhatsApp’tan yazarken mesajın başına “{E(ad)}” yazmanız yeterli.</p>
+      <a class="btn btn-wa koy-wa" href="{WA_URL}" target="_blank" rel="noopener">{WA_IC}<span>WhatsApp’tan anlatın</span></a></div>
+    {f'<p class="mh-bas" style="margin-top:1.6rem">Yakındaki görüşmeli mahalleler</p><ul class="mh-yakin">{yk}</ul>' if yk else ""}</div>
+  </div>
+  <nav class="pager" aria-label="Mahalleler arasında gezin"><a class="pager-prev" href="/mahalle/{slugify(onceki["name"])}/"><small>Önceki</small>{E(onceki["name"])}</a>
+    <a class="pager-next" href="/mahalle/{slugify(sonraki["name"])}/"><small>Sonraki</small>{E(sonraki["name"])}</a></nav>
+  <p class="links-row"><a href="/sabit/#koyler">Bütün mahalleler</a><a href="/#koyler">Köy haritası</a></p>
+</div>"""
+        write(f"/mahalle/{slug}/", layout(f"/mahalle/{slug}/", f"{ad} · Bana Köyünü Anlat", body,
+              desc=f"Acıpayam {ad}: henüz sözlü tarih görüşmesi yok. Köyünüzü siz anlatın.", style=f"--book:{bana['color']}"))
+    return len(pasif)
+
 def build_sabit():
     b = bana
     ch = b["data"]["chapters"]
     pins = map_pins()
-    chip = lambda v: (f'<li><a href="/mahalle/{slugify(v["name"])}/">{E(v["name"])}</a></li>' if v["href"] else f'<li class="todo"><button type="button" data-koy="{E(v["name"])}">{E(v["name"])}</button></li>')
+    chip = lambda v: (f'<li><a href="/mahalle/{slugify(v["name"])}/">{E(v["name"])}</a></li>' if v["href"] else f'<li class="todo"><a href="/mahalle/{slugify(v["name"])}/">{E(v["name"])}</a></li>')
     merkez_gor = [v for v in SABIT["villages"] if v["name"] == "Acıpayam Merkez"]
     MAH = J("mahalleler.json")
     villages = ('<li class="chips-baslik">Merkez mahalleler</li>' + "".join(f'<li class="todo">{E(m)}</li>' for m in MAH["merkez"]) +
@@ -1290,6 +1324,7 @@ def main():
             write(chapter_url(b, i, b["data"]["chapters"][i]), build_chapter(b, i))
     build_sabit()
     build_mahalleler()
+    build_pasif_mahalleler()
     build_soon()
     build_dunu()
     build_radyo()
