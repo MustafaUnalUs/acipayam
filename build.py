@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "95"
+ASSET_V = "96"
 
 
 def J(name):
@@ -822,7 +822,9 @@ def build_home():
 
 <section class="blok" id="videolar" aria-labelledby="video-b">
   <header class="blok-head"><h2 id="video-b">Eski videolar ve etkinlikler</h2><p>ACIPAYAM.com arşivinden görüntüler.</p></header>
-  <ul class="videos">{videos}</ul>
+  <ul class="videos">{"".join(f"<li>{yt(v['id'], v['title'])}</li>" for v in h["videos"][:8])}</ul>
+  {f'<details class="acil vid-daha"><summary><span class="acil-b">Diğer videolar</span><span class="acil-s">{len(h["videos"]) - 8} video daha</span></summary><ul class="videos">' + "".join(f"<li>{yt(v['id'], v['title'])}</li>" for v in h["videos"][8:]) + '</ul></details>' if len(h["videos"]) > 8 else ""}
+  <p class="blok-links"><a class="btn btn-line" href="https://www.youtube.com/@memleketkokusu" rel="noopener">Memleket Kokusu YouTube kanalı</a></p>
 </section>
 
 <section class="blok tek" aria-label="Acıpayam Dünü Bugünü söyleşileri">

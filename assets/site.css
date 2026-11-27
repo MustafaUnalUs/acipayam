@@ -1183,3 +1183,8 @@ details.acil.yol { margin-bottom: 0; }
 .foot-wa span { display: flex; flex-direction: column; line-height: 1.2; font-size: .85rem; }
 .foot-wa b { font-size: 1rem; }
 .foot-wa { margin-bottom: .6rem; }
+details.vid-daha { background: var(--kagit-2); box-shadow: 0 0 0 1px var(--cizgi); margin-top: 1.4rem; }
+details.vid-daha .acil-b { color: var(--murekkep); } details.vid-daha .acil-s { color: var(--soluk); }
+details.vid-daha > summary::after { border-color: var(--vurgu); }
+details.vid-daha > summary:hover { background: transparent; }
+details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
