@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "83"
+ASSET_V = "85"
 
 
 def J(name):
@@ -716,10 +716,11 @@ def build_home():
 </section>
 <div class="afis-alt">
   <p class="payda">Eskiyi Arşivliyoruz, <em>Yeniyi Eskitiyoruz.</em></p>
+  <p class="z-giris">ACIPAYAM.com, Acıpayam’ın ortak hafızası.</p>
   <ol class="zaman">
-    <li><span class="z-k">2004–2014</span><b>Buluştuk</b><span>Acıpayamlıları on yıl bir araya getirdik.</span></li>
-    <li><span class="z-k">Bugün</span><b>Kaydediyoruz</b><span>Köyleri, şehitleri, sesleri ve kitapları.</span></li>
-    <li><span class="z-k">Yarın</span><b>Bırakıyoruz</b><span>Hepsini, ücretsiz, gelecek kuşaklara.</span></li>
+    <li><span class="z-k">2004–2014</span><b>Bir araya geldik</b><span>39.000 üyeli memleket sitesi olarak Acıpayamlıları buluşturduk.</span></li>
+    <li><span class="z-k">Bugün</span><b>Hafızamızı topluyoruz</b><span>Köy görüşmeleri, şehit kayıtları, eski radyo yayınları ve kitaplarımız burada. Hepsi ücretsiz.</span></li>
+    <li><span class="z-k">Yarın</span><b>Gelecek kuşaklara bırakıyoruz</b><span>Bugünün fotoğrafları, sesleri ve kitapları da yarının arşivi olacak.</span></li>
   </ol>
 </div>
 

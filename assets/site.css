@@ -1130,3 +1130,6 @@ details.acil.yol { margin-bottom: 0; }
 #koyler .blok-head .koy-k { color: var(--vurgu); margin-bottom: .7rem; }
 :root[data-theme="dark"] #koyler .blok-head .koy-k { color: #cfa6f0; }
 #koyler .blok-head .koy-yazar { margin: .2rem 0 1.1rem; }
+.afis-alt > p.z-giris { margin: -.3rem 0 0; font: 400 1.1rem/1.5 var(--serif); color: rgba(255,255,255,.85); display: block; }
+.zaman { grid-template-columns: repeat(3, minmax(0, 17rem)); }
+@media (max-width: 640px) { .zaman { grid-template-columns: 1fr; } }
