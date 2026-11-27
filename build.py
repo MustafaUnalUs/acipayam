@@ -381,7 +381,27 @@ def book_actions(book, light=True):
     return f'<div class="bk-actions ba-n{len(a) - 1}">' + "".join(a) + "</div>" + share_mini()
 
 
+_IDS = {}
+
+
+def _sub_ids(subs):
+    seen = {}
+    out = []
+    for b in subs:
+        k = slugify(plain(b["h"])); seen[k] = seen.get(k, 0) + 1
+        out.append(k if seen[k] == 1 else f"{k}-{seen[k]}")
+    return out
+
+
+def uniq_id(base):
+    """Aynı sayfada aynı başlık birden çok kez geçerse -2, -3 eki."""
+    n = _IDS.get(base, 0) + 1
+    _IDS[base] = n
+    return base if n == 1 else f"{base}-{n}"
+
+
 def render_blocks(blocks, book_slug=""):
+    _IDS.clear()
     out = []
     first_p = True
     for b in blocks:
@@ -395,7 +415,7 @@ def render_blocks(blocks, book_slug=""):
         elif k == "orn":
             out.append('<div class="orn" aria-hidden="true">' + MARK + "</div>")
         elif k == "h3":
-            out.append(f'<h2 class="sub" id="{slugify(t)}">{h}</h2>')
+            out.append(f'<h2 class="sub" id="{uniq_id(slugify(t))}">{h}</h2>')
         elif k == "verse":
             out.append(f'<p class="verse">{h}</p>')
         elif k == "small":
@@ -596,7 +616,7 @@ def build_chapter(book, i):
     inpage = ""
     if len(subs) >= 4:
         inpage = ('<details class="inpage"><summary>Bu bölümde ' + str(len(subs)) + ' başlık var</summary><ol>' +
-                  "".join(f'<li><a href="#{slugify(plain(b["h"]))}">{E(plain(b["h"]))}</a></li>' for b in subs) +
+                  "".join(f'<li><a href="#{x}">{E(plain(b["h"]))}</a></li>' for b, x in zip(subs, _sub_ids(subs))) +
                   "</ol></details>")
     extra = ('<section class="chap-extra">' + "".join(fix_yt(x) for x in iv["extra"]) + "</section>") if iv and iv.get("extra") else ""
     if iv:
