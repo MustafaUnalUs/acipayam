@@ -1253,3 +1253,9 @@ details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
 .lj-var { background: #1f9d55 !important; border: 3px solid #fff !important; box-shadow: 0 0 0 2px #14663a; }
 .lj-yok { background: #f2c230 !important; border: 1.5px solid #8a6a0a !important; }
 .mh-pin { background: #1f9d55 !important; border-color: #fff !important; box-shadow: 0 0 0 3px #14663a, 0 0 0 10px rgba(31,157,85,.25) !important; }
+/* görüşmesiz: gri, daha büyük */
+.map .pin-yok { width: 1.7% !important; min-width: 10px; margin: -.85% 0 0 -.85% !important; background: #8d8796 !important; border: 2px solid #fff !important; box-shadow: 0 0 0 1px #5e5868, 0 1px 3px rgba(0,0,0,.3) !important; }
+.map .pin-yok > span { background: #5e5868 !important; }
+.lj-yok { width: 13px !important; height: 13px !important; background: #8d8796 !important; border: 2px solid #fff !important; box-shadow: 0 0 0 1px #5e5868; }
+@media (max-width: 640px) { .map .pin-yok { width: 1.5% !important; min-width: 9px; margin: -.75% 0 0 -.75% !important; border-width: 1.5px !important; } .map .pin:not(.pin-yok) { min-width: 11px; } }
+@media (max-width: 640px) { .map .pin:not(.pin-yok) { width: 1.7% !important; min-width: 9px !important; margin: -.85% 0 0 -.85% !important; border-width: 2px !important; box-shadow: 0 0 0 1.5px #14663a !important; } .map .pin-yok { width: 1.3% !important; min-width: 8px !important; margin: -.65% 0 0 -.65% !important; } }
