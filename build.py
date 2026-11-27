@@ -199,15 +199,15 @@ def layout(path, title, body, desc="", cls="", style=""):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{E(full)}</title>
-<meta name="description" content="{E(desc or 'Ortak paydamız memleketimiz: Acıpayam’ın kitapları, köyleri, şehitleri ve sözlü tarihi. 2004’ten beri memleket kokusu.')}">
+<meta name="description" content="{E(desc or 'Eskiyi arşivliyoruz, yeniyi eskitiyoruz. Acıpayam’ın ortak hafızası: kitaplar, köyler, şehitler, radyo. Hepsi ücretsiz.')}">
 {"" if CANLI else NOINDEX}<link rel="canonical" href="{ORIGIN}{path}">
 <meta property="og:title" content="{E(full)}">
 <meta property="og:locale" content="tr_TR">
 <meta property="og:type" content="{'book' if og_slug(path) else 'website'}">
 <meta property="og:site_name" content="ACIPAYAM.com">
 <meta property="og:url" content="{ORIGIN}{path}">
-<meta property="og:description" content="{E(desc or 'Ortak paydamız memleketimiz: Acıpayam’ın kitapları, köyleri, şehitleri ve sözlü tarihi. 2004’ten beri memleket kokusu.')}">
-<meta property="og:image" content="{ORIGIN}/img/paylas/{og_slug(path) or 'acipayam'}.jpg">
+<meta property="og:description" content="{E(desc or 'Eskiyi arşivliyoruz, yeniyi eskitiyoruz. Acıpayam’ın ortak hafızası: kitaplar, köyler, şehitler, radyo. Hepsi ücretsiz.')}">
+<meta property="og:image" content="{ORIGIN}/img/paylas/{og_slug(path) or 'acipayam-v2'}.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">

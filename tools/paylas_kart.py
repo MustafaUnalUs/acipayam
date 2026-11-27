@@ -111,16 +111,29 @@ def book_card(slug, title, author, kicker, soon, site):
 
 
 def acp_default():
-    img = Image.new("RGB", (W, H), (79, 31, 117))
+    """Ana kart: üstte eski ikonik afiş, altta slogan şeridi (sitenin açılışıyla aynı)."""
+    BG, GOLD = (42, 15, 63), (231, 196, 110)
+    img = Image.new("RGB", (W, H), BG)
     ban = Image.open(ACP / "static/img/acipayam-cicekli-hatirasi-opt.webp").convert("RGB")
     ban = ban.resize((W, round(ban.height * W / ban.width)), Image.LANCZOS)
-    img.paste(ban, (0, 0))
+    bh = 430
+    top = (ban.height - bh) // 2
+    img.paste(ban.crop((0, top, W, top + bh)), (0, 0))
     d = ImageDraw.Draw(img)
-    d.rectangle((0, ban.height, W, H), fill=(63, 22, 96))
-    d.text((60, ban.height + 30), "Memleket kokusu · Kitaplar, köyler, şehitler, radyo", font=F(INTER + "Inter-Bold.otf", 34), fill=(255, 255, 255))
+    d.line((0, bh, W, bh), fill=GOLD, width=3)
+    f1 = F(INTER + "Inter-ExtraBold.otf", 50)
+    a, b = "Eskiyi Arşivliyoruz, ", "Yeniyi Eskitiyoruz."
+    wa, wb = d.textlength(a, font=f1), d.textlength(b, font=f1)
+    x = (W - wa - wb) / 2
+    d.text((x, bh + 34), a, font=f1, fill=(255, 255, 255))
+    d.text((x + wa, bh + 34), b, font=f1, fill=GOLD)
+    d.line((W / 2 - 30, bh + 108, W / 2 + 30, bh + 108), fill=GOLD, width=3)
+    f2 = F(INTER + "Inter-Medium.otf", 28)
+    t = "ACIPAYAM.com · Kitaplar, köyler, şehitler, radyo · Ücretsiz"
+    d.text(((W - d.textlength(t, font=f2)) / 2, bh + 128), t, font=f2, fill=(225, 214, 235))
     out = ACP / "static/img/paylas"
     out.mkdir(parents=True, exist_ok=True)
-    img.save(out / "acipayam.jpg", quality=86, optimize=True)
+    img.save(out / "acipayam-v2.jpg", quality=88, optimize=True)
 
 
 def mu_default():
