@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "118"
+ASSET_V = "119"
 
 
 MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
@@ -334,7 +334,7 @@ def footer():
     <div><h3>Arşivler</h3><ul>
       <li><a href="/sabit/">Köy haritası</a></li><li><a href="/sabit/kizilhan/">Görüşme dizini</a></li>
       <li><a href="/sabit/sozluk/">Yerel ağız sözlüğü</a></li><li><a href="/acipayam-dunu-bugunu/">Acıpayam Dünü Bugünü</a></li>
-      <li><a href="/sehit-bilgi-kapisi/">Şehit Bilgi Kapısı</a></li><li><a href="/radyo-arsivi/">Radyo arşivi</a></li></ul></div>
+      <li><a href="/sehit-bilgi-kapisi/">Şehit Bilgi Kapısı</a></li><li><a href="/radyo-arsivi/">Radyo arşivi</a></li><li><a href="/kunye/">Künye ve kaynaklar</a></li></ul></div>
     <div><h3>İletişim</h3><ul>{contacts}</ul></div>
   </div>
   <details class="foot-sisters"><summary>Kardeş bağlantılar</summary><div class="sisters">{sisters}</div></details>
@@ -1095,6 +1095,7 @@ def build_mahalleler():
       <a class="btn btn-wa koy-wa" href="{WA_URL}" target="_blank" rel="noopener">{WA_IC}<span>WhatsApp’tan yazın</span></a></div></div>
   </div>
   {f'<h2>Videolar</h2><ul class="videos">{vv}</ul>' if vv else ""}
+  {okurlardan(m["slug"])}
   {koy_ekleri(m["pin"]["name"]) if m["pin"] else ""}
   <nav class="pager" aria-label="Mahalleler arasında gezin"><a class="pager-prev" href="/mahalle/{onceki["slug"]}/"><small>Önceki mahalle</small>{E(onceki["ad"])}</a>
     <a class="pager-next" href="/mahalle/{sonraki["slug"]}/"><small>Sonraki mahalle</small>{E(sonraki["ad"])}</a></nav>
@@ -1130,6 +1131,7 @@ def build_pasif_mahalleler():
       <a class="btn btn-wa koy-wa" href="{WA_URL}" target="_blank" rel="noopener">{WA_IC}<span>WhatsApp’tan anlatın</span></a></div>
     {f'<p class="mh-bas" style="margin-top:1.6rem">Yakındaki görüşmeli mahalleler</p><ul class="mh-yakin">{yk}</ul>' if yk else ""}</div>
   </div>
+  {okurlardan(slug)}
   {koy_ekleri(p["name"])}
   <nav class="pager" aria-label="Mahalleler arasında gezin"><a class="pager-prev" href="/mahalle/{slugify(onceki["name"])}/"><small>Önceki</small>{E(onceki["name"])}</a>
     <a class="pager-next" href="/mahalle/{slugify(sonraki["name"])}/"><small>Sonraki</small>{E(sonraki["name"])}</a></nav>
@@ -1204,6 +1206,45 @@ def build_sabit():
 
 
 # ------------------------------------------------------------------ diğer sayfalar
+
+def build_kunye():
+    n_iv = len(SABIT["interviews"])
+    kit = [b for b in BOOKS if not b.get("soon")]
+    body = page_hero("ACIPAYAM.com", "Künye ve kaynaklar", "Bu siteyi kim, neden ve hangi kaynaklarla hazırlıyor.") + f"""<div class="page-body narrow kunye">
+  <h2>Yayımlayan</h2>
+  <p><b>ACIPAYAM.com</b> · 3 Nisan 2004’te kuruldu. 2004–2014 arasında Acıpayamlıların buluştuğu bir memleket sitesiydi; bugün Acıpayam’ın kitaplarını, sözlü tarihini, fotoğraflarını ve seslerini bir arada tutan bağımsız bir kültür ve hafıza arşividir.</p>
+  <p><b>Kurucu ve editör:</b> Mustafa Ünal · <a href="https://mustafaunal.tr">mustafaunal.tr</a></p>
+  <p>Sitenin ticari bir amacı yoktur; reklam almaz, üyelik ve ücret istemez. Bütün kitaplar ve kayıtlar ücretsizdir.</p>
+
+  <h2>İçerik ve kaynaklar</h2>
+  <ul>
+    <li><b>Kitaplar:</b> {len(kit)} kitap, Acıpayam Kültür Yayınları. Metinler yazarların izniyle ve yazarların gözden geçirdiği hâliyle yayımlanır. Sesli kitaplar yapay seslendirmedir.</li>
+    <li><b>Bana Köyünü Anlat:</b> Sabit Kızılhan’ın Acıpayam köylerinde yaptığı {n_iv} sözlü tarih görüşmesi. Anlatılanlar anlatıcıların hatıralarıdır; görüşme videoları özgün kayıtlardır.</li>
+    <li><b>Denizli şehitleri:</b> T.C. Millî Savunma Bakanlığı <a href="https://www.msb.gov.tr/SehitBilgileri" rel="noopener">Şehit Bilgi Kapısı</a> kayıtları. Adlar ve yer adları arşivdeki özgün yazımıyla korunmuştur.</li>
+    <li><b>Köy haritası:</b> Harita Genel Müdürlüğü’nün Denizli il haritasından (1:250.000) yeniden çizilmiştir. Mahalle listesi 2014 büyükşehir düzenlemesine göredir.</li>
+    <li><b>Fotoğraflar ve radyo kayıtları:</b> ACIPAYAM.com arşivinden ve okurlarımızın gönderdiklerinden. Gönderenin adı biliniyorsa fotoğrafın altında yazar.</li>
+    <li><b>Söyleşiler ve videolar:</b> Memleket Kokusu YouTube kanalından.</li>
+  </ul>
+
+  <h2>Düzeltme ve katkı</h2>
+  <p>Bir yanlış, eksik ya da tanıdığınız bir fotoğraf mı gördünüz? Köyünüzün hikâyesini mi anlatmak istiyorsunuz? Bize yazın; düzeltmeleri ve katkıları gönderenin adıyla ekliyoruz.</p>
+  <p class="actions"><a class="btn btn-wa koy-wa" href="{WA_URL}" target="_blank" rel="noopener">{WA_IC}<span>WhatsApp’tan yazın</span></a><a class="btn btn-line" href="mailto:acipayam.com@gmail.com">acipayam.com@gmail.com</a></p>
+
+  <h2>Kullanım</h2>
+  <p>Metinlerden ve fotoğraflardan kısa alıntılar, kaynak olarak ACIPAYAM.com ve yazar adı belirtilerek paylaşılabilir. Kitapların tamamının çoğaltılması ve ticari kullanımı için izin alınız.</p>
+</div>"""
+    write("/kunye/", layout("/kunye/", "Künye ve kaynaklar · ACIPAYAM.com", body, desc="ACIPAYAM.com’u kim, neden ve hangi kaynaklarla hazırlıyor.", style="--book:#4f1f75"))
+
+
+def okurlardan(slug):
+    """data/okurlar.json: {mahalle-slug: [{"ad": "...", "metin": "...", "tarih": "...", "foto": "/img/..."}]}"""
+    xs = J("okurlar.json").get(slug, [])
+    if not xs:
+        return ""
+    li = "".join(f'<li>{("<img src=" + chr(34) + E(x["foto"]) + chr(34) + " alt=" + chr(34) + chr(34) + " loading=lazy>") if x.get("foto") else ""}'
+                 f'<blockquote>{E(x["metin"])}</blockquote><p class="ok-ad">{E(x["ad"])}{(" · " + E(x["tarih"])) if x.get("tarih") else ""}</p></li>' for x in xs)
+    return f'<section class="mh-ek okurlar"><h2>Okurlardan</h2><ul>{li}</ul></section>'
+
 def build_dunu():
     d = J("acipayam-dunu-bugunu.json")
     eps = ""
@@ -1438,6 +1479,7 @@ def main():
             write(chapter_url(b, i, b["data"]["chapters"][i]), build_chapter(b, i))
     build_sabit()
     build_mahalleler()
+    build_kunye()
     build_pasif_mahalleler()
     build_soon()
     build_dunu()

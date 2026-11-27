@@ -1362,3 +1362,10 @@ details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
 .mh-seh span { font-size: .88rem; color: var(--soluk); }
 :root[data-theme="dark"] .mh-kit a { color: #f3ecf8; }
 :root[data-theme="dark"] .mh-kit span { color: #cfa6f0; }
+.kunye h2 { margin-top: 2rem; }
+.kunye ul { padding-left: 1.2rem; } .kunye li { margin: .5rem 0; }
+.okurlar ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+.okurlar li { padding: 1rem 1.2rem; border-radius: 14px; background: var(--sn-bg); box-shadow: 0 0 0 1px var(--sn-line); }
+.okurlar img { width: 100%; max-width: 420px; border-radius: 8px; margin-bottom: .6rem; }
+.okurlar blockquote { margin: 0; font-style: italic; }
+.ok-ad { margin: .5rem 0 0; font: 700 .9rem var(--sans); color: var(--vurgu); }
