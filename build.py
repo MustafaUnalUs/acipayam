@@ -21,7 +21,7 @@ CANLI = os.environ.get("SITE_MODE", "test") == "canli"
 # Büyük ses dosyaları eski Worker’dan gelir. MEDIA_BASE ile adresi değiştirilebilir.
 MEDIA_BASE = os.environ.get("MEDIA_BASE", "https://acipayam.com/")
 MEDIA_RE = re.compile(r"https://acipayam\.com/([^\"\s<>]*?(?:\.mp3|/bolumler/))")
-ASSET_V = "120"
+ASSET_V = "121"
 
 
 MARK_LOGO = ('<svg class="mark-badem" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(0 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(72 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(144 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(216 12 12)" fill="#fff"/><ellipse cx="12" cy="6.2" rx="4.3" ry="5.4" transform="rotate(288 12 12)" fill="#fff"/><circle cx="12" cy="12" r="2.6" fill="#cd5f8c"/><circle cx="15.95" cy="13.44" r=".7" fill="#e7c46e"/><circle cx="13.77" cy="15.81" r=".7" fill="#e7c46e"/><circle cx="10.56" cy="15.95" r=".7" fill="#e7c46e"/><circle cx="8.19" cy="13.77" r=".7" fill="#e7c46e"/><circle cx="8.05" cy="10.56" r=".7" fill="#e7c46e"/><circle cx="10.23" cy="8.19" r=".7" fill="#e7c46e"/><circle cx="13.44" cy="8.05" r=".7" fill="#e7c46e"/><circle cx="15.81" cy="10.23" r=".7" fill="#e7c46e"/></svg>')
@@ -334,7 +334,7 @@ def footer():
     <div><h3>Arşivler</h3><ul>
       <li><a href="/sabit/">Köy haritası</a></li><li><a href="/sabit/kizilhan/">Görüşme dizini</a></li>
       <li><a href="/sabit/sozluk/">Yerel ağız sözlüğü</a></li><li><a href="/acipayam-dunu-bugunu/">Acıpayam Dünü Bugünü</a></li>
-      <li><a href="/sehit-bilgi-kapisi/">Şehit Bilgi Kapısı</a></li><li><a href="/radyo-arsivi/">Radyo arşivi</a></li><li><a href="/kunye/">Künye ve kaynaklar</a></li></ul></div>
+      <li><a href="/sehit-bilgi-kapisi/">Şehit Bilgi Kapısı</a></li><li><a href="/radyo-arsivi/">Radyo arşivi</a></li><li><a href="/kunye/">Künye ve kaynaklar</a></li><li><a href="https://eskidenizli.com/" rel="noopener">Eski Denizli fotoğraf arşivi</a></li></ul></div>
     <div><h3>İletişim</h3><ul>{contacts}</ul></div>
   </div>
   <details class="foot-sisters"><summary>Kardeş bağlantılar</summary><div class="sisters">{sisters}</div></details>
@@ -1054,6 +1054,7 @@ def _koy_kitaplari():
 
 
 KOY_SEH = None
+ED_KOY = json.loads((DATA / "eskidenizli-koyler.json").read_text(encoding="utf-8")) if (DATA / "eskidenizli-koyler.json").exists() else {}
 KOY_KIT = None
 
 
@@ -1067,6 +1068,13 @@ def koy_ekleri(pin_ad):
     if kit:
         li = "".join(f'<li><a href="{chapter_url(bk, i, c)}"><b>{E(tr_title(c["title"]))}</b><span>{E(bk["title"])}</span></a></li>' for n, bk, i, c in kit[:8])
         html_ += f'<section class="mh-ek"><h2>Kitaplarda {E(pin_ad)}</h2><p class="mh-ek-not">Bu köyün adının geçtiği bölümler.</p><ul class="mh-kit">{li}</ul></section>'
+    ed = ED_KOY.get(pin_ad, [])
+    if ed:
+        li = "".join(f'<li><a href="https://eskidenizli.com/foto/{no}/" rel="noopener"><img src="https://eskidenizli.com/medya/k/{fid}.webp" alt="{E(a[:120])}" loading="lazy">'
+                     f'<span>{E(a[:90] + ("…" if len(a) > 90 else ""))}</span></a></li>' for no, fid, a in ed[:8])
+        html_ += (f'<section class="mh-ek"><h2>Eski Denizli arşivinde {E(pin_ad)} <small>({len(ed)})</small></h2>'
+                  f'<p class="mh-ek-not">Eski Denizli fotoğraf arşivinde açıklamasında bu köyün adı geçen fotoğraflar.</p><ul class="mh-ed">{li}</ul>'
+                  f'<p class="links-row"><a href="https://eskidenizli.com/ara/?q={quote(pin_ad)}" rel="noopener">eskidenizli.com’da ara →</a></p></section>')
     seh = KOY_SEH.get(pin_ad, [])
     if seh:
         li = "".join(f'<li><b>{E(x["AD SOYAD"].title())}</b><span>{("Baba adı: " + E(x["BABA ADI"].title()) + " · ") if x["BABA ADI"] else ""}{E(x["HARP"])}{(" · " + E(x["ŞEHADET TARİHİ"])) if x["ŞEHADET TARİHİ"] else ""}</span></li>' for x in seh[:24])
@@ -1214,6 +1222,7 @@ def build_kunye():
   <h2>Yayımlayan</h2>
   <p><b>ACIPAYAM.com</b> · 3 Nisan 2004’te kuruldu. 2004–2014 arasında Acıpayamlıların buluştuğu bir memleket sitesiydi; bugün Acıpayam’ın kitaplarını, sözlü tarihini, fotoğraflarını ve seslerini bir arada tutan bağımsız bir kültür ve hafıza arşividir.</p>
   <p><b>Kurucu ve editör:</b> Mustafa Ünal · <a href="https://mustafaunal.tr">mustafaunal.tr</a></p>
+  <p><b>Kardeş site:</b> <a href="https://eskidenizli.com">eskidenizli.com</a>, Denizli’nin 3.000’i aşkın eski fotoğrafıyla topluluk arşivi.</p>
   <p>Sitenin ticari bir amacı yoktur; reklam almaz, üyelik ve ücret istemez. Bütün kitaplar ve kayıtlar ücretsizdir.</p>
 
   <h2>İçerik ve kaynaklar</h2>

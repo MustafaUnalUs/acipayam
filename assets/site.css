@@ -1374,3 +1374,8 @@ details.vid-daha[open] > summary { border-bottom-color: var(--cizgi); }
 .signs-wrap .devam-ana b { color: #fff !important; }
 .signs-wrap .devam-ana .devam-k { color: #e7c46e !important; }
 .signs-wrap .devam-ana .devam-go { background: #e7c46e !important; color: #2a0f3f !important; }
+
+/* köy sayfası: Eski Denizli arşivinden */
+.mh-ed { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .9rem; }
+.mh-ed a { display: grid; gap: .35rem; text-decoration: none; color: inherit; font-size: .85rem; line-height: 1.35; }
+.mh-ed img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; background: #eee; }
